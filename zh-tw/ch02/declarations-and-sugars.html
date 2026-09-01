@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW" xml:lang="zh-TW"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -76,10 +79,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-7a0a15f832ccafbbdcdbb43d1bed5561.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -342,18 +345,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="sec-2-1">2.1 使用 <code>var</code> 宣告隱含型別</h2>
 <p>C# 3.0 引入了 <code>var</code> 關鍵字，讓編譯器自動推斷變數型別。</p>
 <p>這就像是一個<strong>透明的收納箱</strong>。你不需要在箱子外面貼上「蘋果」的標籤（明確宣告型別），因為一眼就能看到裡面裝的是蘋果（編譯器能從右邊的初始值推斷出來）。先看一個最基本的例子：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="dt">var</span> j <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">// 編譯器推斷為 int</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="dt">var</span> j <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">// 編譯器推斷為 int</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這兩行程式碼完全等價，連編譯出來的 IL 代碼都一模一樣。</p>
 <section id="型別推斷的運作方式" class="level3">
 <h3 class="anchored" data-anchor-id="型別推斷的運作方式">型別推斷的運作方式</h3>
 <p>編譯器是透過等號右側的初始運算式（initialization expression）來推斷型別。下面的範例也示範了 <code>foreach</code> 中的 <code>var</code> 如何跟著陣列元素型別一起被推斷：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1"></a><span class="dt">var</span> numbers <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span> <span class="op">};</span>  <span class="co">// 推斷為 int[]</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> x <span class="kw">in</span> numbers<span class="op">)</span>  <span class="co">// x 推斷為 int</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="op">{</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>x<span class="op">);</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="dt">var</span> numbers <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span> <span class="op">};</span>  <span class="co">// 推斷為 int[]</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-label="2"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> x <span class="kw">in</span> numbers<span class="op">)</span>  <span class="co">// x 推斷為 int</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-label="4"></a><span class="op">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-label="5"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-label="6"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡的 <code>new[]</code> 寫法稱為<strong>隱含型別陣列建立</strong>（implicitly typed array creation），其原理是：編譯器會檢查所有元素的型別，以推斷出陣列的型別（詳見稍後的「型別推斷的陷阱」一節）。</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
@@ -382,17 +385,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="型別推斷的陷阱" class="level3">
 <h3 class="anchored" data-anchor-id="型別推斷的陷阱">型別推斷的陷阱</h3>
 <p>使用 <code>var</code> 時要特別注意陣列型別的推斷。編譯器會尋找所有元素都能隱含轉換的<strong>最佳共同型別</strong>：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">// ✓ 推斷為 int[]</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="dt">var</span> numbers <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">// ✓ 推斷為 long[]（所有元素都能轉為 long）</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="dt">var</span> mixed <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10000000000L</span> <span class="op">};</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">// ✓ 推斷為 double[]（int 可隱含轉為 double）</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="dt">var</span> doubles <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="fl">2.5</span> <span class="op">};</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">// ✗ 編譯錯誤：無法推斷共同型別</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="dt">var</span> invalid <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="st">"text"</span> <span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="co">// ✓ 推斷為 int[]</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a><span class="dt">var</span> numbers <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a><span class="co">// ✓ 推斷為 long[]（所有元素都能轉為 long）</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-label="5"></a><span class="dt">var</span> mixed <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10000000000L</span> <span class="op">};</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-label="6"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-label="7"></a><span class="co">// ✓ 推斷為 double[]（int 可隱含轉為 double）</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-label="8"></a><span class="dt">var</span> doubles <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="fl">2.5</span> <span class="op">};</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-label="9"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-label="10"></a><span class="co">// ✗ 編譯錯誤：無法推斷共同型別</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-label="11"></a><span class="dt">var</span> invalid <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="st">"text"</span> <span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="最佳實務" class="level4">
 <h4 class="anchored" data-anchor-id="最佳實務">最佳實務</h4>
 <ol type="1">
@@ -403,14 +406,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="2" type="1">
 <li>對於複雜的 LINQ 查詢結果，<code>var</code> 幾乎是必須的：</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">// ✓ 型別太長了，使用 var</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="dt">var</span> grouped <span class="op">=</span> students</span>
-<span id="cb7-3"><a href="#cb7-3"></a>    <span class="op">.</span><span class="fu">GroupBy</span><span class="op">(</span>s <span class="op">=&gt;</span> s<span class="op">.</span><span class="fu">City</span><span class="op">)</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>    <span class="op">.</span><span class="fu">Select</span><span class="op">(</span>g <span class="op">=&gt;</span> <span class="kw">new</span> <span class="op">{</span> City <span class="op">=</span> g<span class="op">.</span><span class="fu">Key</span><span class="op">,</span> Count <span class="op">=</span> g<span class="op">.</span><span class="fu">Count</span><span class="op">()</span> <span class="op">});</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="co">// ✗ 型別冗長且無益</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">// （以下型別名稱僅為示意，因為匿名型別的名稱無法在原始碼中使用）</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a>IEnumerable<span class="op">&lt;</span>AnonymousType<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;&gt;</span> grouped <span class="op">=</span> <span class="op">...</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="co">// ✓ 型別太長了，使用 var</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-label="2"></a><span class="dt">var</span> grouped <span class="op">=</span> students</span>
+<span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>    <span class="op">.</span><span class="fu">GroupBy</span><span class="op">(</span>s <span class="op">=&gt;</span> s<span class="op">.</span><span class="fu">City</span><span class="op">)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>    <span class="op">.</span><span class="fu">Select</span><span class="op">(</span>g <span class="op">=&gt;</span> <span class="kw">new</span> <span class="op">{</span> City <span class="op">=</span> g<span class="op">.</span><span class="fu">Key</span><span class="op">,</span> Count <span class="op">=</span> g<span class="op">.</span><span class="fu">Count</span><span class="op">()</span> <span class="op">});</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-label="5"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-label="6"></a><span class="co">// ✗ 型別冗長且無益</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-label="7"></a><span class="co">// （以下型別名稱僅為示意，因為匿名型別的名稱無法在原始碼中使用）</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-label="8"></a>IEnumerable<span class="op">&lt;</span>AnonymousType<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;&gt;</span> grouped <span class="op">=</span> <span class="op">...</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="何時該用-var何時不該用" class="level3">
@@ -420,8 +423,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li><strong>右側型別顯而易見</strong>：</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1"></a><span class="dt">var</span> dict <span class="op">=</span> <span class="kw">new</span> Dictionary<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;();</span>  <span class="co">// 重複寫型別很冗餘</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="dt">var</span> builder <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">();</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="dt">var</span> dict <span class="op">=</span> <span class="kw">new</span> Dictionary<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;();</span>  <span class="co">// 重複寫型別很冗餘</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="dt">var</span> builder <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">();</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="2" type="1">
 <li><p><strong>匿名型別</strong>：非用不可（稍後會介紹）</p></li>
 <li><p><strong>複雜的泛型</strong>：</p></li>
@@ -432,11 +435,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="不建議使用的場景" class="level4">
 <h4 class="anchored" data-anchor-id="不建議使用的場景">✗ 不建議使用的場景</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">// ✗ 不明確</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="dt">var</span> result <span class="op">=</span> <span class="fu">GetData</span><span class="op">();</span>  <span class="co">// result 是什麼型別？</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co">// ✓ 明確</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>Customer result <span class="op">=</span> <span class="fu">GetData</span><span class="op">();</span>  <span class="co">// 一眼就知道</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="co">// ✗ 不明確</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-label="2"></a><span class="dt">var</span> result <span class="op">=</span> <span class="fu">GetData</span><span class="op">();</span>  <span class="co">// result 是什麼型別？</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-label="3"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-label="4"></a><span class="co">// ✓ 明確</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-label="5"></a>Customer result <span class="op">=</span> <span class="fu">GetData</span><span class="op">();</span>  <span class="co">// 一眼就知道</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoVar">DemoVar</a></p>
 </blockquote>
@@ -449,10 +452,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="var-vs.-dynamic" class="level3">
 <h3 class="anchored" data-anchor-id="var-vs.-dynamic">var vs.&nbsp;dynamic</h3>
 <p>以下是使用 <code>var</code> 和 <code>dynamic</code> 的對比範例：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1"></a><span class="dt">var</span> s1 <span class="op">=</span> <span class="st">"hello"</span><span class="op">;</span>      <span class="co">// (1)</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>dynamic s2 <span class="op">=</span> <span class="st">"hello"</span><span class="op">;</span>  <span class="co">// (2)</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="dt">int</span> i <span class="op">=</span> s1<span class="op">;</span>            <span class="co">// (3)</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="dt">int</span> j <span class="op">=</span> s2<span class="op">;</span>            <span class="co">// (4)</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="dt">var</span> s1 <span class="op">=</span> <span class="st">"hello"</span><span class="op">;</span>      <span class="co">// (1)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>dynamic s2 <span class="op">=</span> <span class="st">"hello"</span><span class="op">;</span>  <span class="co">// (2)</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-label="3"></a><span class="dt">int</span> i <span class="op">=</span> s1<span class="op">;</span>            <span class="co">// (3)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-label="4"></a><span class="dt">int</span> j <span class="op">=</span> s2<span class="op">;</span>            <span class="co">// (4)</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>說明：</p>
 <ol type="1">
 <li>編譯時期的型別為 <code>string</code>，執行時期的型別也是 <code>string</code>。</li>
@@ -461,13 +464,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>執行時才會拋錯：Cannot implicitly convert type <code>string</code> to <code>int</code>。</li>
 </ol>
 <p>你可以把一個宣告為 <code>dynamic</code> 的變數指定給另一個宣告為 <code>var</code> 的變數。不過，混合使用 <code>dynamic</code> 和 <code>var</code> 變數時，有幾個細節值得留意：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1"></a>dynamic s1 <span class="op">=</span> <span class="st">"hello"</span><span class="op">;</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="dt">var</span> v <span class="op">=</span> s1<span class="op">;</span>            <span class="co">// 編譯時期的型別為 dynamic</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="dt">int</span> i <span class="op">=</span> v<span class="op">;</span>             <span class="co">// 執行時會出錯！</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a></span>
-<span id="cb12-5"><a href="#cb12-5"></a>dynamic x <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="dt">var</span> y <span class="op">=</span> x <span class="op">*</span> <span class="dv">10</span><span class="op">;</span>        <span class="co">// 編譯時期的型別為 dynamic</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="dt">var</span> z <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> x<span class="op">;</span>       <span class="co">// 編譯時期的型別為 int</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a>dynamic s1 <span class="op">=</span> <span class="st">"hello"</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-label="2"></a><span class="dt">var</span> v <span class="op">=</span> s1<span class="op">;</span>            <span class="co">// 編譯時期的型別為 dynamic</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-label="3"></a><span class="dt">int</span> i <span class="op">=</span> v<span class="op">;</span>             <span class="co">// 執行時會出錯！</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-label="4"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-label="5"></a>dynamic x <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-label="6"></a><span class="dt">var</span> y <span class="op">=</span> x <span class="op">*</span> <span class="dv">10</span><span class="op">;</span>        <span class="co">// 編譯時期的型別為 dynamic</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-label="7"></a><span class="dt">var</span> z <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> x<span class="op">;</span>       <span class="co">// 編譯時期的型別為 int</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/var-dynamic.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
@@ -478,26 +481,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="dynamic-與-expandoobject">dynamic 與 ExpandoObject</h3>
 <p>實務上，<code>dynamic</code> 經常會搭配 <code>System.Dynamic.ExpandoObject</code> 類別使用。<code>ExpandoObject</code> 的主要目的是提供一個動態的物件，你可以在執行時（runtime）加入、修改或刪除成員（屬性、方法、事件），而不需要在編譯時（compile-time）定義其結構。簡言之，它讓 C# 物件具備了類似 JavaScript 物件的靈活性。</p>
 <p>以下範例示範如何在執行時替物件加入屬性，並把它傳給接受 <code>dynamic</code> 參數的方法：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">public</span> <span class="dt">string</span> <span class="fu">GetFullName</span><span class="op">(</span>dynamic obj<span class="op">)</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="op">{</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a>    <span class="kw">return</span> obj<span class="op">.</span><span class="fu">FirstName</span> <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> obj<span class="op">.</span><span class="fu">LastName</span><span class="op">;</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="op">}</span></span>
-<span id="cb13-5"><a href="#cb13-5"></a></span>
-<span id="cb13-6"><a href="#cb13-6"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">Test</span><span class="op">()</span></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="op">{</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a>    dynamic obj <span class="op">=</span> <span class="kw">new</span> <span class="fu">ExpandoObject</span><span class="op">();</span></span>
-<span id="cb13-9"><a href="#cb13-9"></a>    obj<span class="op">.</span><span class="fu">FirstName</span> <span class="op">=</span> <span class="st">"Bruce"</span><span class="op">;</span></span>
-<span id="cb13-10"><a href="#cb13-10"></a>    obj<span class="op">.</span><span class="fu">LastName</span> <span class="op">=</span> <span class="st">"Wayne"</span><span class="op">;</span></span>
-<span id="cb13-11"><a href="#cb13-11"></a>    <span class="dt">var</span> fullName <span class="op">=</span> <span class="fu">GetFullName</span><span class="op">(</span>obj<span class="op">);</span> <span class="co">// "Bruce Wayne"</span></span>
-<span id="cb13-12"><a href="#cb13-12"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="kw">public</span> <span class="dt">string</span> <span class="fu">GetFullName</span><span class="op">(</span>dynamic obj<span class="op">)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-label="3"></a>    <span class="kw">return</span> obj<span class="op">.</span><span class="fu">FirstName</span> <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> obj<span class="op">.</span><span class="fu">LastName</span><span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-label="4"></a><span class="op">}</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-label="5"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-label="6"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">Test</span><span class="op">()</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-label="7"></a><span class="op">{</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-label="8"></a>    dynamic obj <span class="op">=</span> <span class="kw">new</span> <span class="fu">ExpandoObject</span><span class="op">();</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-label="9"></a>    obj<span class="op">.</span><span class="fu">FirstName</span> <span class="op">=</span> <span class="st">"Bruce"</span><span class="op">;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-label="10"></a>    obj<span class="op">.</span><span class="fu">LastName</span> <span class="op">=</span> <span class="st">"Wayne"</span><span class="op">;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-label="11"></a>    <span class="dt">var</span> fullName <span class="op">=</span> <span class="fu">GetFullName</span><span class="op">(</span>obj<span class="op">);</span> <span class="co">// "Bruce Wayne"</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-label="12"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>說明：</p>
 <ul>
 <li><code>dynamic obj = new ExpandoObject();</code>：若後續要用 <code>obj.FirstName = ...</code> 這種動態成員語法，變數的<strong>編譯時期型別</strong>就必須是 <code>dynamic</code>。如果改成 <code>var obj = new ExpandoObject();</code>，雖然仍能編譯，但 <code>obj</code> 的編譯時期型別會變成 <code>ExpandoObject</code>，後面的動態成員存取便無法通過編譯。</li>
 <li><code>obj.FirstName = "Bruce";</code> 和 <code>obj.LastName = "Wayne";</code>：動態型別的物件，可加入任意屬性。</li>
 </ul>
 <p>如果把建立 <code>ExpandoObject</code> 並設定屬性的那幾行改用匿名型別來寫，會變成這樣：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1"></a><span class="dt">var</span> obj <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> FirstName<span class="op">=</span><span class="st">"Bruce"</span><span class="op">,</span> LastName<span class="op">=</span><span class="st">"Wayne"</span> <span class="op">};</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="dt">var</span> fullName <span class="op">=</span> <span class="fu">GetFullName</span><span class="op">(</span>obj<span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="dt">var</span> obj <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> FirstName<span class="op">=</span><span class="st">"Bruce"</span><span class="op">,</span> LastName<span class="op">=</span><span class="st">"Wayne"</span> <span class="op">};</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-label="2"></a><span class="dt">var</span> fullName <span class="op">=</span> <span class="fu">GetFullName</span><span class="op">(</span>obj<span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>以上兩個範例在這個特定情境下都能得到相同的結果，因為 <code>GetFullName</code> 的參數型別是 <code>dynamic</code>，執行時期只要能找到 <code>FirstName</code> 和 <code>LastName</code> 成員即可。不過，匿名型別和 <code>ExpandoObject</code> 的能力並不相同：匿名型別的成員在建立後就固定了，而 <code>ExpandoObject</code> 則可以在執行時期自由增刪成員。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoDynamic">DemoDynamic</a></p>
@@ -536,11 +539,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="初始化集合">初始化集合</h4>
 <p>這是最直觀、也最常見的使用時機。過去初始化不同集合型別時，語法風格差很多；集合運算式把它們統一成同一種寫法。</p>
 <p>以前：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> strings <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> <span class="op">{</span> <span class="st">"A"</span><span class="op">,</span> <span class="st">"B"</span><span class="op">,</span> <span class="st">"C"</span> <span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a>List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> strings <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> <span class="op">{</span> <span class="st">"A"</span><span class="op">,</span> <span class="st">"B"</span><span class="op">,</span> <span class="st">"C"</span> <span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>使用集合運算式後，可以改成同一種形式：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb16-1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> strings <span class="op">=</span> <span class="op">[</span><span class="st">"A"</span><span class="op">,</span> <span class="st">"B"</span><span class="op">,</span> <span class="st">"C"</span><span class="op">];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-label="2"></a>List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> strings <span class="op">=</span> <span class="op">[</span><span class="st">"A"</span><span class="op">,</span> <span class="st">"B"</span><span class="op">,</span> <span class="st">"C"</span><span class="op">];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>你可以看到，使用集合運算式的時候，程式碼右邊的寫法相當一致。編譯器會依據左邊的<strong>目標型別</strong>決定要建立什麼集合。這也是集合運算式最大的價值之一：<strong>語法一致，但結果型別仍然保有型別安全與語意清楚的特性。</strong></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -551,11 +554,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="合併多個集合" class="level4">
 <h4 class="anchored" data-anchor-id="合併多個集合">合併多個集合</h4>
 <p>如果你需要把多個集合拼成一個新的集合，集合運算式搭配 <code>..</code> 展開（spread）語法很好用。它通常比 <code>AddRange</code>、<code>Concat(...).ToArray()</code> 或手動複製更直觀。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1"></a><span class="dt">int</span><span class="op">[]</span> section1 <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">];</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="dt">int</span><span class="op">[]</span> section2 <span class="op">=</span> <span class="op">[</span><span class="dv">5</span><span class="op">,</span> <span class="dv">6</span><span class="op">];</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a></span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="dt">int</span><span class="op">[]</span> allLevels <span class="op">=</span> <span class="op">[</span><span class="dv">0</span><span class="op">,</span> <span class="op">..</span> section1<span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="op">..</span> section2<span class="op">,</span> <span class="dv">7</span><span class="op">];</span></span>
-<span id="cb17-5"><a href="#cb17-5"></a><span class="co">// 結果: [0, 1, 2, 3, 4, 5, 6, 7]</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="dt">int</span><span class="op">[]</span> section1 <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">];</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-label="2"></a><span class="dt">int</span><span class="op">[]</span> section2 <span class="op">=</span> <span class="op">[</span><span class="dv">5</span><span class="op">,</span> <span class="dv">6</span><span class="op">];</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-label="3"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-label="4"></a><span class="dt">int</span><span class="op">[]</span> allLevels <span class="op">=</span> <span class="op">[</span><span class="dv">0</span><span class="op">,</span> <span class="op">..</span> section1<span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="op">..</span> section2<span class="op">,</span> <span class="dv">7</span><span class="op">];</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-label="5"></a><span class="co">// 結果: [0, 1, 2, 3, 4, 5, 6, 7]</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡的 <code>.. section1</code> 表示把 <code>section1</code> 內的元素逐一展開後放進新的集合運算式中。</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
@@ -565,39 +568,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="傳遞參數給方法" class="level4">
 <h4 class="anchored" data-anchor-id="傳遞參數給方法">傳遞參數給方法</h4>
 <p>集合運算式不只出現在變數宣告，也很適合直接出現在方法呼叫處。只要方法參數型別明確，呼叫端通常就可以直接用 <code>[]</code>。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb18-1"><a href="#cb18-1"></a><span class="dt">void</span> <span class="fu">PrintTags</span><span class="op">(</span>ReadOnlySpan<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> tags<span class="op">)</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="op">{</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a>    <span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> tag <span class="kw">in</span> tags<span class="op">)</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>tag<span class="op">);</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="op">}</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a></span>
-<span id="cb18-7"><a href="#cb18-7"></a><span class="fu">PrintTags</span><span class="op">([</span><span class="st">"C#"</span><span class="op">,</span> <span class="st">".NET"</span><span class="op">,</span> <span class="st">"Coding"</span><span class="op">]);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="dt">void</span> <span class="fu">PrintTags</span><span class="op">(</span>ReadOnlySpan<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> tags<span class="op">)</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-label="3"></a>    <span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> tag <span class="kw">in</span> tags<span class="op">)</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-label="4"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>tag<span class="op">);</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-label="5"></a><span class="op">}</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-label="6"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-label="7"></a><span class="fu">PrintTags</span><span class="op">([</span><span class="st">"C#"</span><span class="op">,</span> <span class="st">".NET"</span><span class="op">,</span> <span class="st">"Coding"</span><span class="op">]);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這種寫法讓呼叫端只描述「我要哪些元素」，不必暴露中間集合的建構細節。</p>
 <p>此外，從 C# 13／.NET 9 開始，<code>params</code> 參數不再侷限於陣列，而可以使用更多種集合，例如 <code>IList&lt;T&gt;</code>、<code>Span&lt;T&gt;</code>、<code>ReadOnlySpan&lt;T&gt;</code> 等等。因此，集合運算式也可以搭配 <code>params</code> 集合參數，讓呼叫端的寫法更有彈性：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb19-1"><a href="#cb19-1"></a><span class="dt">void</span> <span class="fu">PrintNumbers</span><span class="op">(</span><span class="kw">params</span> IList<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="co">// 需要 C# 13 / .NET 9+</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="op">{</span></span>
-<span id="cb19-3"><a href="#cb19-3"></a>    <span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> n <span class="kw">in</span> numbers<span class="op">)</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>n<span class="op">);</span></span>
-<span id="cb19-5"><a href="#cb19-5"></a><span class="op">}</span></span>
-<span id="cb19-6"><a href="#cb19-6"></a></span>
-<span id="cb19-7"><a href="#cb19-7"></a><span class="co">// 呼叫端用以下三種寫法都可以</span></span>
-<span id="cb19-8"><a href="#cb19-8"></a><span class="fu">PrintNumbers</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span>
-<span id="cb19-9"><a href="#cb19-9"></a><span class="fu">PrintNumbers</span><span class="op">([</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">]);</span></span>
-<span id="cb19-10"><a href="#cb19-10"></a><span class="fu">PrintNumbers</span><span class="op">(</span><span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">});</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a><span class="dt">void</span> <span class="fu">PrintNumbers</span><span class="op">(</span><span class="kw">params</span> IList<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span> <span class="co">// 需要 C# 13 / .NET 9+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-label="3"></a>    <span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> n <span class="kw">in</span> numbers<span class="op">)</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-label="4"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-label="5"></a><span class="op">}</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-label="6"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-label="7"></a><span class="co">// 呼叫端用以下三種寫法都可以</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-label="8"></a><span class="fu">PrintNumbers</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-label="9"></a><span class="fu">PrintNumbers</span><span class="op">([</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">]);</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-label="10"></a><span class="fu">PrintNumbers</span><span class="op">(</span><span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">});</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="需要空集合時" class="level4">
 <h4 class="anchored" data-anchor-id="需要空集合時">需要空集合時</h4>
 <p>空集合也是集合運算式很適合發揮的地方。和 <code>new string[0]</code>、<code>new List&lt;int&gt;()</code> 這些舊寫法相比，<code>[]</code> 更直接，也更容易閱讀。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb20-1"><a href="#cb20-1"></a><span class="dt">int</span><span class="op">[]</span> emptyArray <span class="op">=</span> <span class="op">[];</span></span>
-<span id="cb20-2"><a href="#cb20-2"></a>List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> tags <span class="op">=</span> <span class="op">[];</span></span>
-<span id="cb20-3"><a href="#cb20-3"></a>ReadOnlySpan<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values <span class="op">=</span> <span class="op">[];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a><span class="dt">int</span><span class="op">[]</span> emptyArray <span class="op">=</span> <span class="op">[];</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-label="2"></a>List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> tags <span class="op">=</span> <span class="op">[];</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-label="3"></a>ReadOnlySpan<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values <span class="op">=</span> <span class="op">[];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>當目標型別明確時，編譯器也可能為空集合選擇更有效率的實作方式；例如目標型別為 <code>T[]</code> 時，編譯器可能使用類似 <code>Array.Empty&lt;T&gt;()</code> 的共享空陣列，而不是每次都配置一個新的空陣列。</p>
 </section>
 <section id="寫-spant-或-readonlyspant-的程式時" class="level4">
 <h4 class="anchored" data-anchor-id="寫-spant-或-readonlyspant-的程式時">寫 <code>Span&lt;T&gt;</code> 或 <code>ReadOnlySpan&lt;T&gt;</code> 的程式時</h4>
 <p>集合運算式在 <code>Span&lt;T&gt;</code> 與 <code>ReadOnlySpan&lt;T&gt;</code> 的場景尤其常見。這類型別常用於剖析器（parser）、語彙分析器（tokenizer）、資料處理或其他重視效能的程式碼，而集合運算式讓它們的初始化寫法比 <code>stackalloc</code> 更一致、也更容易讀。</p>
 <p>例如：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1"></a>ReadOnlySpan<span class="op">&lt;</span><span class="dt">byte</span><span class="op">&gt;</span> header <span class="op">=</span> <span class="op">[</span><span class="bn">0xDE</span><span class="op">,</span> <span class="bn">0xAD</span><span class="op">,</span> <span class="bn">0xBE</span><span class="op">,</span> <span class="bn">0xEF</span><span class="op">];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a>ReadOnlySpan<span class="op">&lt;</span><span class="dt">byte</span><span class="op">&gt;</span> header <span class="op">=</span> <span class="op">[</span><span class="bn">0xDE</span><span class="op">,</span> <span class="bn">0xAD</span><span class="op">,</span> <span class="bn">0xBE</span><span class="op">,</span> <span class="bn">0xEF</span><span class="op">];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>當目標型別是 <code>Span&lt;T&gt;</code> 或 <code>ReadOnlySpan&lt;T&gt;</code> 時，編譯器在資料量夠小且不需要逃逸出當前堆疊框架的前提下，可能採用堆疊配置，但這不保證一定等同於你手寫的 <code>stackalloc</code>。針對此議題，本書第 13 章還會從高效能記憶體操作的角度進一步說明。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoCollectionExpressions">DemoCollectionExpressions</a></p>
@@ -619,13 +622,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="dictionary-初始化的限制" class="level4">
 <h4 class="anchored" data-anchor-id="dictionary-初始化的限制">Dictionary 初始化的限制</h4>
 <p>目前集合運算式主要針對「單一元素型別的序列」設計；對 <code>Dictionary&lt;TKey, TValue&gt;</code> 這種需要鍵值配對語意的型別，並沒有對應的鍵值項目語法。因此，如果你要建立<strong>帶初始內容</strong>的字典，通常仍要使用傳統的初始化寫法，例如：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb24-1"><a href="#cb24-1"></a><span class="dt">var</span> scores <span class="op">=</span> <span class="kw">new</span> Dictionary<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="op">{</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a>    <span class="op">[</span><span class="st">"Alice"</span><span class="op">]</span> <span class="op">=</span> <span class="dv">95</span><span class="op">,</span></span>
-<span id="cb24-4"><a href="#cb24-4"></a>    <span class="op">[</span><span class="st">"Bob"</span><span class="op">]</span> <span class="op">=</span> <span class="dv">87</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a><span class="dt">var</span> scores <span class="op">=</span> <span class="kw">new</span> Dictionary<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-label="3"></a>    <span class="op">[</span><span class="st">"Alice"</span><span class="op">]</span> <span class="op">=</span> <span class="dv">95</span><span class="op">,</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-label="4"></a>    <span class="op">[</span><span class="st">"Bob"</span><span class="op">]</span> <span class="op">=</span> <span class="dv">87</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-label="5"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>不過，如果你只是要表示<strong>空字典</strong>，則仍可寫成：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1"></a>Dictionary<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> emptyScores <span class="op">=</span> <span class="op">[];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a>Dictionary<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> emptyScores <span class="op">=</span> <span class="op">[];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 </section>
@@ -633,21 +636,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="sec-2-4">2.4 物件初始設定式</h2>
 <p>物件初始設定式（Object Initializers）能讓你在建立物件時，同時設定屬性值，語法更簡潔。</p>
 <p>舉例來說，假設有一個 <code>Student</code> 類別：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">public</span> <span class="kw">class</span> Student</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="op">{</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb26-4"><a href="#cb26-4"></a>    <span class="kw">public</span> DateTime Birthday <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb26-5"><a href="#cb26-5"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb26-1"><a href="#cb26-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">class</span> Student</span>
+<span id="cb26-2"><a href="#cb26-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-label="4"></a>    <span class="kw">public</span> DateTime Birthday <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-label="5"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>若以傳統寫法來建立和初始化物件：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1"></a><span class="dt">var</span> student <span class="op">=</span> <span class="kw">new</span> <span class="fu">Student</span><span class="op">();</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a>student<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"洪波"</span><span class="op">;</span></span>
-<span id="cb27-3"><a href="#cb27-3"></a>student<span class="op">.</span><span class="fu">Birthday</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">20</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a><span class="dt">var</span> student <span class="op">=</span> <span class="kw">new</span> <span class="fu">Student</span><span class="op">();</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-label="2"></a>student<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"洪波"</span><span class="op">;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-label="3"></a>student<span class="op">.</span><span class="fu">Birthday</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">20</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>使用物件初始設定式可以減少重複寫物件名稱 <code>student.</code>：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1"></a><span class="dt">var</span> student <span class="op">=</span> <span class="kw">new</span> Student</span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="op">{</span></span>
-<span id="cb28-3"><a href="#cb28-3"></a>    Name <span class="op">=</span> <span class="st">"洪波"</span><span class="op">,</span></span>
-<span id="cb28-4"><a href="#cb28-4"></a>    Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">20</span><span class="op">)</span></span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1" aria-label="1"></a><span class="dt">var</span> student <span class="op">=</span> <span class="kw">new</span> Student</span>
+<span id="cb28-2"><a href="#cb28-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-label="3"></a>    Name <span class="op">=</span> <span class="st">"洪波"</span><span class="op">,</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-label="4"></a>    Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">20</span><span class="op">)</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-label="5"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這樣寫不僅行數減少，語意也更連貫：我們是在「建立一個具有特定屬性值的 Student 物件」，而不是「建立物件，然後設定名字，然後設定生日」。</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
@@ -661,23 +664,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="搭配建構式" class="level3">
 <h3 class="anchored" data-anchor-id="搭配建構式">搭配建構式</h3>
 <p>你也可以同時呼叫建構式（constructor）：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">public</span> <span class="kw">class</span> Student</span>
-<span id="cb29-2"><a href="#cb29-2"></a><span class="op">{</span></span>
-<span id="cb29-3"><a href="#cb29-3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a>    <span class="kw">public</span> DateTime Birthday <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a></span>
-<span id="cb29-6"><a href="#cb29-6"></a>    <span class="kw">public</span> <span class="fu">Student</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span></span>
-<span id="cb29-7"><a href="#cb29-7"></a>    <span class="kw">public</span> <span class="fu">Student</span><span class="op">(</span><span class="dt">string</span> name<span class="op">)</span> <span class="op">{</span> Name <span class="op">=</span> name<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb29-8"><a href="#cb29-8"></a><span class="op">}</span></span>
-<span id="cb29-9"><a href="#cb29-9"></a></span>
-<span id="cb29-10"><a href="#cb29-10"></a><span class="co">// 用法示範</span></span>
-<span id="cb29-11"><a href="#cb29-11"></a><span class="dt">var</span> stud1 <span class="op">=</span></span>
-<span id="cb29-12"><a href="#cb29-12"></a>    <span class="kw">new</span> Student <span class="op">{</span></span>
-<span id="cb29-13"><a href="#cb29-13"></a>        Name <span class="op">=</span> <span class="st">"洪波"</span><span class="op">,</span></span>
-<span id="cb29-14"><a href="#cb29-14"></a>        Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">20</span><span class="op">)</span></span>
-<span id="cb29-15"><a href="#cb29-15"></a>    <span class="op">};</span></span>
-<span id="cb29-16"><a href="#cb29-16"></a><span class="dt">var</span> stud2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Student</span><span class="op">(</span><span class="st">"黃濤"</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb29-17"><a href="#cb29-17"></a>        Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1991</span><span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">17</span><span class="op">)</span> <span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb29-1"><a href="#cb29-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">class</span> Student</span>
+<span id="cb29-2"><a href="#cb29-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-label="4"></a>    <span class="kw">public</span> DateTime Birthday <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-label="5"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-label="6"></a>    <span class="kw">public</span> <span class="fu">Student</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-label="7"></a>    <span class="kw">public</span> <span class="fu">Student</span><span class="op">(</span><span class="dt">string</span> name<span class="op">)</span> <span class="op">{</span> Name <span class="op">=</span> name<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-label="8"></a><span class="op">}</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-label="9"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-label="10"></a><span class="co">// 用法示範</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-label="11"></a><span class="dt">var</span> stud1 <span class="op">=</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-label="12"></a>    <span class="kw">new</span> Student <span class="op">{</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-label="13"></a>        Name <span class="op">=</span> <span class="st">"洪波"</span><span class="op">,</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-label="14"></a>        Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">20</span><span class="op">)</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-label="15"></a>    <span class="op">};</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-label="16"></a><span class="dt">var</span> stud2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Student</span><span class="op">(</span><span class="st">"黃濤"</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-label="17"></a>        Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1991</span><span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">17</span><span class="op">)</span> <span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>注意</strong>：初始化動作發生在建構式<strong>執行完畢之後</strong>，所以初始設定式可能會覆寫建構式設定的值。例如：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 建構式把 Name 設為 "預設"，但初始設定式隨後覆蓋為 "Alice"</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> s <span class="op">=</span> <span class="kw">new</span> <span class="fu">Student</span><span class="op">(</span><span class="st">"預設"</span><span class="op">)</span> <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span> <span class="op">};</span></span>
@@ -689,11 +692,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="集合初始設定式" class="level3">
 <h3 class="anchored" data-anchor-id="集合初始設定式">集合初始設定式</h3>
 <p>集合類型（如 <code>List&lt;T&gt;</code>）也可以使用初始設定式：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb31-1"><a href="#cb31-1"></a><span class="dt">var</span> students <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span>Student<span class="op">&gt;</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a><span class="op">{</span></span>
-<span id="cb31-3"><a href="#cb31-3"></a>    <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"洪波"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">20</span><span class="op">)</span> <span class="op">},</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a>    <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"黃濤"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1991</span><span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">17</span><span class="op">)</span> <span class="op">}</span></span>
-<span id="cb31-5"><a href="#cb31-5"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb31-1"><a href="#cb31-1" aria-label="1"></a><span class="dt">var</span> students <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span>Student<span class="op">&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-label="3"></a>    <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"洪波"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">20</span><span class="op">)</span> <span class="op">},</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-label="4"></a>    <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"黃濤"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1991</span><span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">17</span><span class="op">)</span> <span class="op">}</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-label="5"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoCollectionInit">DemoCollectionInit</a></p>
 </blockquote>
@@ -701,19 +704,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="索引初始設定式c-6" class="level3">
 <h3 class="anchored" data-anchor-id="索引初始設定式c-6">索引初始設定式（C# 6+）</h3>
 <p><code>Dictionary</code> 等有索引子的集合可以使用更簡潔的語法：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1"></a><span class="co">// C# 5 寫法</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="dt">var</span> students <span class="op">=</span> <span class="kw">new</span> Dictionary<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> Student<span class="op">&gt;</span></span>
-<span id="cb32-3"><a href="#cb32-3"></a><span class="op">{</span></span>
-<span id="cb32-4"><a href="#cb32-4"></a>    <span class="op">{</span> <span class="dv">101</span><span class="op">,</span> <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"黃濤"</span> <span class="op">}</span> <span class="op">},</span></span>
-<span id="cb32-5"><a href="#cb32-5"></a>    <span class="op">{</span> <span class="dv">102</span><span class="op">,</span> <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"藍波"</span> <span class="op">}</span> <span class="op">}</span></span>
-<span id="cb32-6"><a href="#cb32-6"></a><span class="op">};</span></span>
-<span id="cb32-7"><a href="#cb32-7"></a></span>
-<span id="cb32-8"><a href="#cb32-8"></a><span class="co">// C# 6+ 索引初始設定式</span></span>
-<span id="cb32-9"><a href="#cb32-9"></a><span class="dt">var</span> students <span class="op">=</span> <span class="kw">new</span> Dictionary<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> Student<span class="op">&gt;</span></span>
-<span id="cb32-10"><a href="#cb32-10"></a><span class="op">{</span></span>
-<span id="cb32-11"><a href="#cb32-11"></a>    <span class="op">[</span><span class="dv">101</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"黃濤"</span> <span class="op">},</span></span>
-<span id="cb32-12"><a href="#cb32-12"></a>    <span class="op">[</span><span class="dv">102</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"藍波"</span> <span class="op">}</span></span>
-<span id="cb32-13"><a href="#cb32-13"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1" aria-label="1"></a><span class="co">// C# 5 寫法</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-label="2"></a><span class="dt">var</span> students <span class="op">=</span> <span class="kw">new</span> Dictionary<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> Student<span class="op">&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-label="3"></a><span class="op">{</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-label="4"></a>    <span class="op">{</span> <span class="dv">101</span><span class="op">,</span> <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"黃濤"</span> <span class="op">}</span> <span class="op">},</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-label="5"></a>    <span class="op">{</span> <span class="dv">102</span><span class="op">,</span> <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"藍波"</span> <span class="op">}</span> <span class="op">}</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-label="6"></a><span class="op">};</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-label="7"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-label="8"></a><span class="co">// C# 6+ 索引初始設定式</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-label="9"></a><span class="dt">var</span> students <span class="op">=</span> <span class="kw">new</span> Dictionary<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> Student<span class="op">&gt;</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-label="10"></a><span class="op">{</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-label="11"></a>    <span class="op">[</span><span class="dv">101</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"黃濤"</span> <span class="op">},</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-label="12"></a>    <span class="op">[</span><span class="dv">102</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"藍波"</span> <span class="op">}</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-label="13"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>注意：這兩種寫法在大多數情況下看起來差不多，但行為並不完全相同：舊式集合初始設定式（<code>{ key, value }</code>）在底層呼叫 <code>Add</code> 方法，若鍵已存在會拋出 <code>ArgumentException</code>；新式索引初始設定式（<code>[key] = value</code>）使用索引子，若鍵已存在則會靜默覆蓋。選擇哪一種寫法時，需留意這個差異。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoIndexInit">DemoIndexInit</a></p>
@@ -722,11 +725,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="物件初始設定式-vs.-選擇性參數" class="level3">
 <h3 class="anchored" data-anchor-id="物件初始設定式-vs.-選擇性參數">物件初始設定式 vs.&nbsp;選擇性參數</h3>
 <p>有些開發者會利用建構式的<strong>選擇性參數（optional parameters）</strong>來達到類似的效果：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb33-1"><a href="#cb33-1"></a><span class="co">// 建構式參數有預設值</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a><span class="kw">public</span> <span class="fu">Student</span><span class="op">(</span><span class="dt">string</span> name<span class="op">,</span> DateTime<span class="op">?</span> birthday <span class="op">=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
-<span id="cb33-3"><a href="#cb33-3"></a></span>
-<span id="cb33-4"><a href="#cb33-4"></a><span class="co">// 呼叫時省略 birthday</span></span>
-<span id="cb33-5"><a href="#cb33-5"></a><span class="dt">var</span> s <span class="op">=</span> <span class="kw">new</span> <span class="fu">Student</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb33-1"><a href="#cb33-1" aria-label="1"></a><span class="co">// 建構式參數有預設值</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-label="2"></a><span class="kw">public</span> <span class="fu">Student</span><span class="op">(</span><span class="dt">string</span> name<span class="op">,</span> DateTime<span class="op">?</span> birthday <span class="op">=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-label="3"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-label="4"></a><span class="co">// 呼叫時省略 birthday</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-label="5"></a><span class="dt">var</span> s <span class="op">=</span> <span class="kw">new</span> <span class="fu">Student</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>雖然寫法看起來很像，但在設計給第三方使用的類別庫（library）時，建議優先考慮使用物件初始設定式。</p>
 <p>這是因為選擇性參數的預設值（例如範例中的 <code>null</code>）是直接<strong>編譯進呼叫端（call site）的程式碼中</strong>。如果你在未來的版本修改了預設值（例如改成某個固定日期，或從 <code>null</code> 改成 <code>DateTime.UnixEpoch</code>），原本已經編譯好的用戶端程式因為已經將舊的預設值寫死在編譯結果中，所以雖然可以執行，但傳進去的依然是舊的預設值，除非重新編譯。這會導致版本相容性問題（binary compatibility issues）。</p>
 <p>物件初始設定式則沒有這個問題，因為它本質上就是「先呼叫你所選的建構式（可以是無參數，也可以是有參數）」再加上「屬性賦值」操作，不涉及把選擇性參數的預設值編譯進呼叫端，因此不會受到這類預設值變更的影響。</p>
@@ -742,25 +745,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="c-1.0傳統屬性" class="level3">
 <h3 class="anchored" data-anchor-id="c-1.0傳統屬性">C# 1.0：傳統屬性</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">public</span> <span class="kw">class</span> Employee</span>
-<span id="cb34-2"><a href="#cb34-2"></a><span class="op">{</span></span>
-<span id="cb34-3"><a href="#cb34-3"></a>    <span class="kw">private</span> <span class="dt">int</span> _age<span class="op">;</span>  <span class="co">// 屬性背後的欄位</span></span>
-<span id="cb34-4"><a href="#cb34-4"></a></span>
-<span id="cb34-5"><a href="#cb34-5"></a>    <span class="kw">public</span> <span class="dt">int</span> Age</span>
-<span id="cb34-6"><a href="#cb34-6"></a>    <span class="op">{</span></span>
-<span id="cb34-7"><a href="#cb34-7"></a>        <span class="kw">get</span> <span class="op">{</span> <span class="kw">return</span> _age<span class="op">;</span> <span class="op">}</span> <span class="co">// 屬性的取值方法（getter）</span></span>
-<span id="cb34-8"><a href="#cb34-8"></a>        set                  <span class="co">// 屬性的賦值方法（setter）</span></span>
-<span id="cb34-9"><a href="#cb34-9"></a>        <span class="op">{</span></span>
-<span id="cb34-10"><a href="#cb34-10"></a>            <span class="kw">if</span> <span class="op">(</span>value <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span>   <span class="co">// 識別字 value 即是外界傳入的值。</span></span>
-<span id="cb34-11"><a href="#cb34-11"></a>                <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentOutOfRangeException</span><span class="op">(</span></span>
-<span id="cb34-12"><a href="#cb34-12"></a>                    <span class="fu">nameof</span><span class="op">(</span>value<span class="op">),</span> <span class="st">"年齡不可為負數！"</span><span class="op">);</span></span>
-<span id="cb34-13"><a href="#cb34-13"></a>            _age <span class="op">=</span> value<span class="op">;</span></span>
-<span id="cb34-14"><a href="#cb34-14"></a>        <span class="op">}</span></span>
-<span id="cb34-15"><a href="#cb34-15"></a>    <span class="op">}</span></span>
-<span id="cb34-16"><a href="#cb34-16"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb34-1"><a href="#cb34-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">class</span> Employee</span>
+<span id="cb34-2"><a href="#cb34-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-label="3"></a>    <span class="kw">private</span> <span class="dt">int</span> _age<span class="op">;</span>  <span class="co">// 屬性背後的欄位</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-label="4"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-label="5"></a>    <span class="kw">public</span> <span class="dt">int</span> Age</span>
+<span id="cb34-6"><a href="#cb34-6" aria-label="6"></a>    <span class="op">{</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-label="7"></a>        <span class="kw">get</span> <span class="op">{</span> <span class="kw">return</span> _age<span class="op">;</span> <span class="op">}</span> <span class="co">// 屬性的取值方法（getter）</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-label="8"></a>        set                  <span class="co">// 屬性的賦值方法（setter）</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-label="9"></a>        <span class="op">{</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-label="10"></a>            <span class="kw">if</span> <span class="op">(</span>value <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span>   <span class="co">// 識別字 value 即是外界傳入的值。</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-label="11"></a>                <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentOutOfRangeException</span><span class="op">(</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-label="12"></a>                    <span class="fu">nameof</span><span class="op">(</span>value<span class="op">),</span> <span class="st">"年齡不可為負數！"</span><span class="op">);</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-label="13"></a>            _age <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-label="14"></a>        <span class="op">}</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-label="15"></a>    <span class="op">}</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-label="16"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>因此，當外界指派不合法的數值時，程式執行時便會發生錯誤：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb35-1"><a href="#cb35-1"></a><span class="dt">var</span> emp <span class="op">=</span> <span class="kw">new</span> <span class="fu">Employee</span><span class="op">();</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a>emp<span class="op">.</span><span class="fu">Age</span> <span class="op">=</span> <span class="op">-</span><span class="dv">5</span><span class="op">;</span>   <span class="co">// 執行時發生錯誤：年齡不可為負數！</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb35-1"><a href="#cb35-1" aria-label="1"></a><span class="dt">var</span> emp <span class="op">=</span> <span class="kw">new</span> <span class="fu">Employee</span><span class="op">();</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-label="2"></a>emp<span class="op">.</span><span class="fu">Age</span> <span class="op">=</span> <span class="op">-</span><span class="dv">5</span><span class="op">;</span>   <span class="co">// 執行時發生錯誤：年齡不可為負數！</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>此範例中的 <code>throw ...</code> 的作用是拋出一個執行時期的<strong>例外（exception）</strong>。這裡使用 <code>ArgumentOutOfRangeException</code>，是因為 setter 收到了一個不合法的參數值。這類常見例外型別，本書第 5 章會再介紹。</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
@@ -770,32 +773,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="c-2.0限定存取範圍" class="level3">
 <h3 class="anchored" data-anchor-id="c-2.0限定存取範圍">C# 2.0：限定存取範圍</h3>
 <p>到了 C# 2，getter 和 setter 可以限定存取範圍，例如 <code>protected</code> 和 <code>private</code>。其中一種很常見的用法，就是 getter 仍對外開放，同時搭配私有的 setter，讓外界只能讀取屬性值，而不能修改它。更精確地說，這是<strong>對外唯讀</strong>的屬性。像這樣：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">public</span> <span class="kw">class</span> Employee</span>
-<span id="cb36-2"><a href="#cb36-2"></a><span class="op">{</span></span>
-<span id="cb36-3"><a href="#cb36-3"></a>    <span class="kw">private</span> <span class="dt">string</span> _id<span class="op">;</span></span>
-<span id="cb36-4"><a href="#cb36-4"></a></span>
-<span id="cb36-5"><a href="#cb36-5"></a>    <span class="kw">public</span> <span class="dt">string</span> ID</span>
-<span id="cb36-6"><a href="#cb36-6"></a>    <span class="op">{</span></span>
-<span id="cb36-7"><a href="#cb36-7"></a>        <span class="kw">get</span> <span class="op">{</span> <span class="kw">return</span> _id<span class="op">;</span> <span class="op">}</span> <span class="co">// 公開的 getter 不必、也不可加上 public。</span></span>
-<span id="cb36-8"><a href="#cb36-8"></a>        <span class="kw">private</span> <span class="kw">set</span> <span class="op">{</span> _id <span class="op">=</span> value<span class="op">;</span> <span class="op">}</span> <span class="co">// 只有類別自己才能修改屬性值。</span></span>
-<span id="cb36-9"><a href="#cb36-9"></a>    <span class="op">}</span></span>
-<span id="cb36-10"><a href="#cb36-10"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb36-1"><a href="#cb36-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">class</span> Employee</span>
+<span id="cb36-2"><a href="#cb36-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-label="3"></a>    <span class="kw">private</span> <span class="dt">string</span> _id<span class="op">;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-label="4"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-label="5"></a>    <span class="kw">public</span> <span class="dt">string</span> ID</span>
+<span id="cb36-6"><a href="#cb36-6" aria-label="6"></a>    <span class="op">{</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-label="7"></a>        <span class="kw">get</span> <span class="op">{</span> <span class="kw">return</span> _id<span class="op">;</span> <span class="op">}</span> <span class="co">// 公開的 getter 不必、也不可加上 public。</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-label="8"></a>        <span class="kw">private</span> <span class="kw">set</span> <span class="op">{</span> _id <span class="op">=</span> value<span class="op">;</span> <span class="op">}</span> <span class="co">// 只有類別自己才能修改屬性值。</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-label="9"></a>    <span class="op">}</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-label="10"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>若 getter 或 setter 要沿用屬性本身的存取範圍，就不必、也不可以另外加上 public（或其他存取修飾詞）。只有在需要把其中一個 accessor 的存取範圍縮小時，才可以為它加上較嚴格的修飾詞，例如 <code>private</code> 或 <code>protected</code>。以此例來說，屬性 <code>ID</code> 已宣告為 <code>public</code>，因此 getter 若要維持公開存取，就不必也不能寫 <code>public get</code>；setter 要限制僅類別本身可以存取，所以寫成 <code>private set</code>。</p>
 </section>
 <section id="c-3.0自動實作屬性" class="level3">
 <h3 class="anchored" data-anchor-id="c-3.0自動實作屬性">C# 3.0：自動實作屬性</h3>
 <p>C# 3 增加了<strong>自動實作屬性</strong>（automatically implemented properties），或簡稱「自動屬性」。當類別裡的屬性很多時，這個語法可以省去手動宣告私有欄位的步驟，讓程式碼明顯簡潔許多：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw">public</span> <span class="kw">class</span> Employee</span>
-<span id="cb37-2"><a href="#cb37-2"></a><span class="op">{</span></span>
-<span id="cb37-3"><a href="#cb37-3"></a>    <span class="kw">public</span> <span class="dt">string</span> ID <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">private</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="co">// 外界可讀，但不可修改。</span></span>
-<span id="cb37-4"><a href="#cb37-4"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb37-5"><a href="#cb37-5"></a>    <span class="co">// 想像這個類別還有一堆屬性，就能看出少宣告多少私有欄位。</span></span>
-<span id="cb37-6"><a href="#cb37-6"></a></span>
-<span id="cb37-7"><a href="#cb37-7"></a>    <span class="kw">public</span> <span class="fu">Employee</span><span class="op">(</span><span class="dt">string</span> id<span class="op">)</span> <span class="co">// 建構式</span></span>
-<span id="cb37-8"><a href="#cb37-8"></a>    <span class="op">{</span></span>
-<span id="cb37-9"><a href="#cb37-9"></a>        ID <span class="op">=</span> id<span class="op">;</span> <span class="co">// 設定自動屬性 ID 的初始值。</span></span>
-<span id="cb37-10"><a href="#cb37-10"></a>    <span class="op">}</span></span>
-<span id="cb37-11"><a href="#cb37-11"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb37-1"><a href="#cb37-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">class</span> Employee</span>
+<span id="cb37-2"><a href="#cb37-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">string</span> ID <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">private</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="co">// 外界可讀，但不可修改。</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-label="4"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-label="5"></a>    <span class="co">// 想像這個類別還有一堆屬性，就能看出少宣告多少私有欄位。</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-label="6"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-label="7"></a>    <span class="kw">public</span> <span class="fu">Employee</span><span class="op">(</span><span class="dt">string</span> id<span class="op">)</span> <span class="co">// 建構式</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-label="8"></a>    <span class="op">{</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-label="9"></a>        ID <span class="op">=</span> id<span class="op">;</span> <span class="co">// 設定自動屬性 ID 的初始值。</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-label="10"></a>    <span class="op">}</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-label="11"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡，編譯器會在背後替 <code>Employee</code> 類別的 <code>ID</code> 和 <code>Name</code> 屬性產生兩個私有成員，這種由自動屬性產生的成員變數稱為<strong>背後欄位</strong>（backing field）。當類別需要定義大量屬性時，自動屬性能省去宣告私有成員的步驟。不過，如果你需要在 getter 或 setter 裡加入額外的取值或賦值邏輯，就還是得明確宣告私有成員。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoAutoPropBasic">DemoAutoPropBasic</a></p>
@@ -820,34 +823,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="field-關鍵字-c-14"><code>field</code> 關鍵字 (C# 14)</h3>
 <p>C# 14 引入了 <code>field</code> 關鍵字，讓你在屬性存取器中可以直接存取編譯器產生的背後欄位（backing field），無需手動宣告私有欄位。這是自動實作屬性的一個重大改進。</p>
 <p>在 <code>field</code> 關鍵字出現之前，如果需要在 setter 中加入驗證邏輯，你必須手動宣告私有欄位：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb38-1"><a href="#cb38-1"></a><span class="co">// C# 13 及更早版本</span></span>
-<span id="cb38-2"><a href="#cb38-2"></a><span class="kw">private</span> <span class="dt">int</span> _age<span class="op">;</span></span>
-<span id="cb38-3"><a href="#cb38-3"></a></span>
-<span id="cb38-4"><a href="#cb38-4"></a><span class="kw">public</span> <span class="dt">int</span> Age</span>
-<span id="cb38-5"><a href="#cb38-5"></a><span class="op">{</span></span>
-<span id="cb38-6"><a href="#cb38-6"></a>    get <span class="op">=&gt;</span> _age<span class="op">;</span></span>
-<span id="cb38-7"><a href="#cb38-7"></a>    set</span>
-<span id="cb38-8"><a href="#cb38-8"></a>    <span class="op">{</span></span>
-<span id="cb38-9"><a href="#cb38-9"></a>        <span class="kw">if</span> <span class="op">(</span>value <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb38-10"><a href="#cb38-10"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentOutOfRangeException</span><span class="op">(</span></span>
-<span id="cb38-11"><a href="#cb38-11"></a>                <span class="fu">nameof</span><span class="op">(</span>value<span class="op">),</span> <span class="st">"年齡不可為負數！"</span><span class="op">);</span></span>
-<span id="cb38-12"><a href="#cb38-12"></a>        _age <span class="op">=</span> value<span class="op">;</span></span>
-<span id="cb38-13"><a href="#cb38-13"></a>    <span class="op">}</span></span>
-<span id="cb38-14"><a href="#cb38-14"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb38-1"><a href="#cb38-1" aria-label="1"></a><span class="co">// C# 13 及更早版本</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-label="2"></a><span class="kw">private</span> <span class="dt">int</span> _age<span class="op">;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-label="3"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-label="4"></a><span class="kw">public</span> <span class="dt">int</span> Age</span>
+<span id="cb38-5"><a href="#cb38-5" aria-label="5"></a><span class="op">{</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-label="6"></a>    get <span class="op">=&gt;</span> _age<span class="op">;</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-label="7"></a>    set</span>
+<span id="cb38-8"><a href="#cb38-8" aria-label="8"></a>    <span class="op">{</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-label="9"></a>        <span class="kw">if</span> <span class="op">(</span>value <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-label="10"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentOutOfRangeException</span><span class="op">(</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-label="11"></a>                <span class="fu">nameof</span><span class="op">(</span>value<span class="op">),</span> <span class="st">"年齡不可為負數！"</span><span class="op">);</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-label="12"></a>        _age <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-label="13"></a>    <span class="op">}</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-label="14"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>有了 <code>field</code> 關鍵字之後，可以保留驗證邏輯，同時省去私有欄位的宣告：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb39-1"><a href="#cb39-1"></a><span class="co">// C# 14：使用 field 關鍵字</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a><span class="kw">public</span> <span class="dt">int</span> Age</span>
-<span id="cb39-3"><a href="#cb39-3"></a><span class="op">{</span></span>
-<span id="cb39-4"><a href="#cb39-4"></a>    <span class="kw">get</span><span class="op">;</span>  <span class="co">// 編譯器自動產生 getter</span></span>
-<span id="cb39-5"><a href="#cb39-5"></a>    set</span>
-<span id="cb39-6"><a href="#cb39-6"></a>    <span class="op">{</span></span>
-<span id="cb39-7"><a href="#cb39-7"></a>        <span class="kw">if</span> <span class="op">(</span>value <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb39-8"><a href="#cb39-8"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentOutOfRangeException</span><span class="op">(</span></span>
-<span id="cb39-9"><a href="#cb39-9"></a>                <span class="fu">nameof</span><span class="op">(</span>value<span class="op">),</span> <span class="st">"年齡不可為負數！"</span><span class="op">);</span></span>
-<span id="cb39-10"><a href="#cb39-10"></a></span>
-<span id="cb39-11"><a href="#cb39-11"></a>        field <span class="op">=</span> value<span class="op">;</span>  <span class="co">// field 代表編譯器產生的背後欄位</span></span>
-<span id="cb39-12"><a href="#cb39-12"></a>    <span class="op">}</span></span>
-<span id="cb39-13"><a href="#cb39-13"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb39-1"><a href="#cb39-1" aria-label="1"></a><span class="co">// C# 14：使用 field 關鍵字</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-label="2"></a><span class="kw">public</span> <span class="dt">int</span> Age</span>
+<span id="cb39-3"><a href="#cb39-3" aria-label="3"></a><span class="op">{</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-label="4"></a>    <span class="kw">get</span><span class="op">;</span>  <span class="co">// 編譯器自動產生 getter</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-label="5"></a>    set</span>
+<span id="cb39-6"><a href="#cb39-6" aria-label="6"></a>    <span class="op">{</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-label="7"></a>        <span class="kw">if</span> <span class="op">(</span>value <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-label="8"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentOutOfRangeException</span><span class="op">(</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-label="9"></a>                <span class="fu">nameof</span><span class="op">(</span>value<span class="op">),</span> <span class="st">"年齡不可為負數！"</span><span class="op">);</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-label="10"></a></span>
+<span id="cb39-11"><a href="#cb39-11" aria-label="11"></a>        field <span class="op">=</span> value<span class="op">;</span>  <span class="co">// field 代表編譯器產生的背後欄位</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-label="12"></a>    <span class="op">}</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-label="13"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這種寫法有幾個優點：</p>
 <ol type="1">
 <li><strong>減少樣板程式碼</strong>：不需要宣告私有欄位，也不需要替它命名。</li>
@@ -856,48 +859,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>要提醒的是，只要某個屬性的存取器使用了 <code>field</code> 關鍵字，編譯器就會替該屬性產生對應的背後欄位。這通常也表示同一個屬性的其他存取器應該一致地使用 <code>field</code>（或使用自動存取器），不要一邊操作 <code>field</code>、一邊操作手動宣告的欄位。</p>
 <p>下面這個範例雖然可以編譯，但會產生 CS9266 警告，因為 getter 讀取的是編譯器產生的 <code>field</code>，setter 寫入的卻是手動宣告的 <code>_count</code>。兩者是完全不同的儲存位置，所以讀到的值永遠不是你寫進去的值：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw">public</span> <span class="kw">class</span> Person</span>
-<span id="cb40-2"><a href="#cb40-2"></a><span class="op">{</span></span>
-<span id="cb40-3"><a href="#cb40-3"></a>    <span class="co">// ✗ 混用 field 與手動欄位</span></span>
-<span id="cb40-4"><a href="#cb40-4"></a>    <span class="kw">private</span> <span class="dt">int</span> _count<span class="op">;</span></span>
-<span id="cb40-5"><a href="#cb40-5"></a>    <span class="kw">public</span> <span class="dt">int</span> Count</span>
-<span id="cb40-6"><a href="#cb40-6"></a>    <span class="op">{</span></span>
-<span id="cb40-7"><a href="#cb40-7"></a>        get <span class="op">=&gt;</span> field<span class="op">;</span></span>
-<span id="cb40-8"><a href="#cb40-8"></a>        set <span class="op">=&gt;</span> _count <span class="op">=</span> value<span class="op">;</span> <span class="co">// 編譯警告 CS9266</span></span>
-<span id="cb40-9"><a href="#cb40-9"></a>    <span class="op">}</span></span>
-<span id="cb40-10"><a href="#cb40-10"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb40-1"><a href="#cb40-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">class</span> Person</span>
+<span id="cb40-2"><a href="#cb40-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-label="3"></a>    <span class="co">// ✗ 混用 field 與手動欄位</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-label="4"></a>    <span class="kw">private</span> <span class="dt">int</span> _count<span class="op">;</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-label="5"></a>    <span class="kw">public</span> <span class="dt">int</span> Count</span>
+<span id="cb40-6"><a href="#cb40-6" aria-label="6"></a>    <span class="op">{</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-label="7"></a>        get <span class="op">=&gt;</span> field<span class="op">;</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-label="8"></a>        set <span class="op">=&gt;</span> _count <span class="op">=</span> value<span class="op">;</span> <span class="co">// 編譯警告 CS9266</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-label="9"></a>    <span class="op">}</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-label="10"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>再看幾個常見的寫法：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb41-1"><a href="#cb41-1"></a><span class="kw">public</span> <span class="kw">class</span> Person</span>
-<span id="cb41-2"><a href="#cb41-2"></a><span class="op">{</span></span>
-<span id="cb41-3"><a href="#cb41-3"></a>   <span class="co">// 唯讀屬性：編譯器仍會產生背後欄位，但這裡沒有用到 field 關鍵字</span></span>
-<span id="cb41-4"><a href="#cb41-4"></a>   <span class="kw">public</span> <span class="dt">string</span> Id <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> Guid<span class="op">.</span><span class="fu">NewGuid</span><span class="op">().</span><span class="fu">ToString</span><span class="op">();</span></span>
-<span id="cb41-5"><a href="#cb41-5"></a></span>
-<span id="cb41-6"><a href="#cb41-6"></a>   <span class="co">// 帶驗證的屬性</span></span>
-<span id="cb41-7"><a href="#cb41-7"></a>   <span class="kw">public</span> <span class="dt">string</span> Name</span>
-<span id="cb41-8"><a href="#cb41-8"></a>   <span class="op">{</span></span>
-<span id="cb41-9"><a href="#cb41-9"></a>      <span class="kw">get</span><span class="op">;</span></span>
-<span id="cb41-10"><a href="#cb41-10"></a>      set <span class="op">=&gt;</span> field <span class="op">=</span> value <span class="op">??</span></span>
-<span id="cb41-11"><a href="#cb41-11"></a>                     <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentNullException</span><span class="op">(</span><span class="fu">nameof</span><span class="op">(</span>value<span class="op">));</span></span>
-<span id="cb41-12"><a href="#cb41-12"></a>   <span class="op">}</span> <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
-<span id="cb41-13"><a href="#cb41-13"></a></span>
-<span id="cb41-14"><a href="#cb41-14"></a>   <span class="co">// 帶通知的屬性（常見於 MVVM）</span></span>
-<span id="cb41-15"><a href="#cb41-15"></a>   <span class="kw">public</span> <span class="dt">string</span> Email</span>
-<span id="cb41-16"><a href="#cb41-16"></a>   <span class="op">{</span></span>
-<span id="cb41-17"><a href="#cb41-17"></a>      <span class="kw">get</span><span class="op">;</span></span>
-<span id="cb41-18"><a href="#cb41-18"></a>      set</span>
-<span id="cb41-19"><a href="#cb41-19"></a>      <span class="op">{</span></span>
-<span id="cb41-20"><a href="#cb41-20"></a>         <span class="kw">if</span> <span class="op">(</span>field <span class="op">!=</span> value<span class="op">)</span></span>
-<span id="cb41-21"><a href="#cb41-21"></a>         <span class="op">{</span></span>
-<span id="cb41-22"><a href="#cb41-22"></a>            field <span class="op">=</span> value<span class="op">;</span></span>
-<span id="cb41-23"><a href="#cb41-23"></a>            <span class="fu">OnPropertyChanged</span><span class="op">();</span></span>
-<span id="cb41-24"><a href="#cb41-24"></a>         <span class="op">}</span></span>
-<span id="cb41-25"><a href="#cb41-25"></a>      <span class="op">}</span></span>
-<span id="cb41-26"><a href="#cb41-26"></a>   <span class="op">}</span> <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
-<span id="cb41-27"><a href="#cb41-27"></a></span>
-<span id="cb41-28"><a href="#cb41-28"></a>   <span class="kw">private</span> <span class="dt">void</span> <span class="fu">OnPropertyChanged</span><span class="op">([</span>CallerMemberName<span class="op">]</span> <span class="dt">string</span><span class="op">?</span> name <span class="op">=</span> <span class="kw">null</span><span class="op">)</span></span>
-<span id="cb41-29"><a href="#cb41-29"></a>   <span class="op">{</span></span>
-<span id="cb41-30"><a href="#cb41-30"></a>   <span class="op">}</span></span>
-<span id="cb41-31"><a href="#cb41-31"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb41-1"><a href="#cb41-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">class</span> Person</span>
+<span id="cb41-2"><a href="#cb41-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-label="3"></a>   <span class="co">// 唯讀屬性：編譯器仍會產生背後欄位，但這裡沒有用到 field 關鍵字</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-label="4"></a>   <span class="kw">public</span> <span class="dt">string</span> Id <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> Guid<span class="op">.</span><span class="fu">NewGuid</span><span class="op">().</span><span class="fu">ToString</span><span class="op">();</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-label="5"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-label="6"></a>   <span class="co">// 帶驗證的屬性</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-label="7"></a>   <span class="kw">public</span> <span class="dt">string</span> Name</span>
+<span id="cb41-8"><a href="#cb41-8" aria-label="8"></a>   <span class="op">{</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-label="9"></a>      <span class="kw">get</span><span class="op">;</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-label="10"></a>      set <span class="op">=&gt;</span> field <span class="op">=</span> value <span class="op">??</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-label="11"></a>                     <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentNullException</span><span class="op">(</span><span class="fu">nameof</span><span class="op">(</span>value<span class="op">));</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-label="12"></a>   <span class="op">}</span> <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-label="13"></a></span>
+<span id="cb41-14"><a href="#cb41-14" aria-label="14"></a>   <span class="co">// 帶通知的屬性（常見於 MVVM）</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-label="15"></a>   <span class="kw">public</span> <span class="dt">string</span> Email</span>
+<span id="cb41-16"><a href="#cb41-16" aria-label="16"></a>   <span class="op">{</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-label="17"></a>      <span class="kw">get</span><span class="op">;</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-label="18"></a>      set</span>
+<span id="cb41-19"><a href="#cb41-19" aria-label="19"></a>      <span class="op">{</span></span>
+<span id="cb41-20"><a href="#cb41-20" aria-label="20"></a>         <span class="kw">if</span> <span class="op">(</span>field <span class="op">!=</span> value<span class="op">)</span></span>
+<span id="cb41-21"><a href="#cb41-21" aria-label="21"></a>         <span class="op">{</span></span>
+<span id="cb41-22"><a href="#cb41-22" aria-label="22"></a>            field <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb41-23"><a href="#cb41-23" aria-label="23"></a>            <span class="fu">OnPropertyChanged</span><span class="op">();</span></span>
+<span id="cb41-24"><a href="#cb41-24" aria-label="24"></a>         <span class="op">}</span></span>
+<span id="cb41-25"><a href="#cb41-25" aria-label="25"></a>      <span class="op">}</span></span>
+<span id="cb41-26"><a href="#cb41-26" aria-label="26"></a>   <span class="op">}</span> <span class="op">=</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb41-27"><a href="#cb41-27" aria-label="27"></a></span>
+<span id="cb41-28"><a href="#cb41-28" aria-label="28"></a>   <span class="kw">private</span> <span class="dt">void</span> <span class="fu">OnPropertyChanged</span><span class="op">([</span>CallerMemberName<span class="op">]</span> <span class="dt">string</span><span class="op">?</span> name <span class="op">=</span> <span class="kw">null</span><span class="op">)</span></span>
+<span id="cb41-29"><a href="#cb41-29" aria-label="29"></a>   <span class="op">{</span></span>
+<span id="cb41-30"><a href="#cb41-30" aria-label="30"></a>   <span class="op">}</span></span>
+<span id="cb41-31"><a href="#cb41-31" aria-label="31"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoAutoPropField">DemoAutoPropField</a></p>
 </blockquote>
@@ -908,16 +911,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="匿名型別anonymous-types">2.6 匿名型別（Anonymous Types）</h2>
 <p>有時候，我們只是在某個函式裡臨時需要一個類別來保存幾個簡單資料，不一定值得為此定義一個新的類別。這種情境就可以使用 C# 的匿名型別（anonymous type）。</p>
 <p>先看一個基本範例：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb42-1"><a href="#cb42-1"></a><span class="dt">var</span> emp <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Michael"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">)</span> <span class="op">};</span></span>
-<span id="cb42-2"><a href="#cb42-2"></a></span>
-<span id="cb42-3"><a href="#cb42-3"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Name: {emp.Name}"</span><span class="op">);</span></span>
-<span id="cb42-4"><a href="#cb42-4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Birthday: {emp.Birthday:yyyy-MM-dd}"</span><span class="op">);</span></span>
-<span id="cb42-5"><a href="#cb42-5"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"實際型別: {emp.GetType()}"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb42-1"><a href="#cb42-1" aria-label="1"></a><span class="dt">var</span> emp <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Michael"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">)</span> <span class="op">};</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-label="2"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-label="3"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Name: {emp.Name}"</span><span class="op">);</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Birthday: {emp.Birthday:yyyy-MM-dd}"</span><span class="op">);</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-label="5"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"實際型別: {emp.GetType()}"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這個範例使用了隱含型別 <code>var</code> 來宣告區域變數 <code>emp</code>；這是最常見也最實用的寫法。因為從 <code>new</code> 運算子之後的大括弧包住的部分，會由編譯器產生一個匿名類別，而該類別的名稱是編譯器決定的，所以如果你想在目前作用域中以靜態型別方式直接存取它的屬性，通常就得使用 <code>var</code>。當然，你仍可把匿名物件指定給 <code>object</code> 或 <code>dynamic</code>，或透過泛型型別推斷傳給方法；只是那樣就失去了直接以匿名型別本身來操作其屬性的便利。</p>
 <p>可能的輸出：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb43-1"><a href="#cb43-1"></a>Name: Michael</span>
-<span id="cb43-2"><a href="#cb43-2"></a>Birthday: 1971-01-01</span>
-<span id="cb43-3"><a href="#cb43-3"></a>實際型別: &lt;&gt;f__AnonymousType...</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb43-1"><a href="#cb43-1" aria-label="1"></a>Name: Michael</span>
+<span id="cb43-2"><a href="#cb43-2" aria-label="2"></a>Birthday: 1971-01-01</span>
+<span id="cb43-3"><a href="#cb43-3" aria-label="3"></a>實際型別: &lt;&gt;f__AnonymousType...</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>範例程式的最後一行是把匿名型別的實際型別名稱顯示出來。要注意的是，這個名稱屬於編譯器的內部實作細節，不同編譯器版本或不同程式內容下都可能略有差異；重點在於它是一個由編譯器產生的泛型類別，而不是你可以在原始碼中直接使用的型別名稱。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoAnonTypeBasic">DemoAnonTypeBasic</a></p>
@@ -927,10 +930,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="型別重用" class="level3">
 <h3 class="anchored" data-anchor-id="型別重用">型別重用</h3>
 <p>在<strong>同一個組件</strong>內，若匿名型別的<strong>屬性名稱、屬性型別、屬性順序</strong>都相同，編譯器就會重用同一個匿名型別：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb44-1"><a href="#cb44-1"></a><span class="dt">var</span> emp1 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Michael"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">)</span> <span class="op">};</span></span>
-<span id="cb44-2"><a href="#cb44-2"></a><span class="dt">var</span> emp2 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> Name <span class="op">=</span> <span class="st">"John"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1981</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">31</span><span class="op">)</span> <span class="op">};</span></span>
-<span id="cb44-3"><a href="#cb44-3"></a></span>
-<span id="cb44-4"><a href="#cb44-4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>emp1<span class="op">.</span><span class="fu">GetType</span><span class="op">()</span> <span class="op">==</span> emp2<span class="op">.</span><span class="fu">GetType</span><span class="op">());</span>  <span class="co">// True</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb44-1"><a href="#cb44-1" aria-label="1"></a><span class="dt">var</span> emp1 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Michael"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">)</span> <span class="op">};</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-label="2"></a><span class="dt">var</span> emp2 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> Name <span class="op">=</span> <span class="st">"John"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1981</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">31</span><span class="op">)</span> <span class="op">};</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-label="3"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>emp1<span class="op">.</span><span class="fu">GetType</span><span class="op">()</span> <span class="op">==</span> emp2<span class="op">.</span><span class="fu">GetType</span><span class="op">());</span>  <span class="co">// True</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這是因為，基於效率考量，編譯器會重複使用結構相同的匿名型別，而不會每碰到一個匿名型別的宣告就產生一個新的泛型類別。</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> emp2 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> Name <span class="op">=</span> <span class="st">"John"</span><span class="op">,</span> Birth <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1981</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">31</span><span class="op">)</span> <span class="op">};</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co">// emp1 和 emp2 的型別不同！</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
@@ -938,42 +941,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="值相等性value-equality" class="level3">
 <h3 class="anchored" data-anchor-id="值相等性value-equality">值相等性（Value Equality）</h3>
 <p>匿名型別還有一個很實用的特性：編譯器會為它們實作 <code>Equals</code> 和 <code>GetHashCode</code> 方法。這意味著，如果有兩個匿名型別的實例（instances），而且它們本來就是<strong>同一個匿名型別</strong>（亦即屬性名稱、型別、順序皆相同，因而被編譯器重用），那麼只要它們的<strong>屬性值都相同</strong>，它們就會被視為相等：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb46-1"><a href="#cb46-1"></a><span class="dt">var</span> p1 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> X <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">2</span> <span class="op">};</span></span>
-<span id="cb46-2"><a href="#cb46-2"></a><span class="dt">var</span> p2 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> X <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">2</span> <span class="op">};</span></span>
-<span id="cb46-3"><a href="#cb46-3"></a></span>
-<span id="cb46-4"><a href="#cb46-4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>p1 <span class="op">==</span> p2<span class="op">);</span>      <span class="co">// False (因為是不同的參考)</span></span>
-<span id="cb46-5"><a href="#cb46-5"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>p1<span class="op">.</span><span class="fu">Equals</span><span class="op">(</span>p2<span class="op">));</span> <span class="co">// True  (因為屬性值都相同)</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb46-1"><a href="#cb46-1" aria-label="1"></a><span class="dt">var</span> p1 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> X <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">2</span> <span class="op">};</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-label="2"></a><span class="dt">var</span> p2 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> X <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">2</span> <span class="op">};</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-label="3"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>p1 <span class="op">==</span> p2<span class="op">);</span>      <span class="co">// False (因為是不同的參考)</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-label="5"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>p1<span class="op">.</span><span class="fu">Equals</span><span class="op">(</span>p2<span class="op">));</span> <span class="co">// True  (因為屬性值都相同)</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這個特性讓匿名物件在 LINQ 的分組（<code>GroupBy</code>）或去重（<code>Distinct</code>）操作中很有用，因為它們可以正確地被比較。</p>
 </section>
 <section id="投射初始設定式" class="level3">
 <h3 class="anchored" data-anchor-id="投射初始設定式">投射初始設定式</h3>
 <p>匿名型別還有一種<strong>投射初始設定式（projection initializers）</strong>的寫法。所謂「投射」，就是把既有物件的屬性或區域變數，直接投射成新匿名型別的屬性。</p>
 <p>除了像前面範例那樣直接指定屬性名稱（<code>var 變數名 = new { 屬性名=屬性值 }</code>），你也可以透過投射既有物件屬性或區域變數的方式來建立匿名型別：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb47-1"><a href="#cb47-1"></a><span class="kw">public</span> <span class="kw">class</span> Employee</span>
-<span id="cb47-2"><a href="#cb47-2"></a><span class="op">{</span></span>
-<span id="cb47-3"><a href="#cb47-3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb47-4"><a href="#cb47-4"></a>    <span class="kw">public</span> DateTime Birthday <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb47-5"><a href="#cb47-5"></a><span class="op">}</span></span>
-<span id="cb47-6"><a href="#cb47-6"></a></span>
-<span id="cb47-7"><a href="#cb47-7"></a><span class="dt">var</span> emp <span class="op">=</span> <span class="kw">new</span> Employee</span>
-<span id="cb47-8"><a href="#cb47-8"></a><span class="op">{</span></span>
-<span id="cb47-9"><a href="#cb47-9"></a>    Name <span class="op">=</span> <span class="st">"Michael"</span><span class="op">,</span></span>
-<span id="cb47-10"><a href="#cb47-10"></a>    Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">)</span></span>
-<span id="cb47-11"><a href="#cb47-11"></a><span class="op">};</span></span>
-<span id="cb47-12"><a href="#cb47-12"></a></span>
-<span id="cb47-13"><a href="#cb47-13"></a><span class="co">// (1) 投射物件屬性</span></span>
-<span id="cb47-14"><a href="#cb47-14"></a><span class="dt">var</span> emp1 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> emp<span class="op">.</span><span class="fu">Name</span><span class="op">,</span> emp<span class="op">.</span><span class="fu">Birthday</span> <span class="op">};</span></span>
-<span id="cb47-15"><a href="#cb47-15"></a></span>
-<span id="cb47-16"><a href="#cb47-16"></a><span class="co">// (2) 投射區域變數</span></span>
-<span id="cb47-17"><a href="#cb47-17"></a><span class="dt">string</span> name <span class="op">=</span> <span class="st">"John"</span><span class="op">;</span></span>
-<span id="cb47-18"><a href="#cb47-18"></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
-<span id="cb47-19"><a href="#cb47-19"></a><span class="dt">var</span> emp2 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> name<span class="op">,</span> age <span class="op">};</span></span>
-<span id="cb47-20"><a href="#cb47-20"></a></span>
-<span id="cb47-21"><a href="#cb47-21"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"emp1.Name = "</span> <span class="op">+</span> emp1<span class="op">.</span><span class="fu">Name</span><span class="op">);</span></span>
-<span id="cb47-22"><a href="#cb47-22"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"emp2.name = "</span> <span class="op">+</span> emp2<span class="op">.</span><span class="fu">name</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb47-1"><a href="#cb47-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">class</span> Employee</span>
+<span id="cb47-2"><a href="#cb47-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-label="4"></a>    <span class="kw">public</span> DateTime Birthday <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-label="5"></a><span class="op">}</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-label="6"></a></span>
+<span id="cb47-7"><a href="#cb47-7" aria-label="7"></a><span class="dt">var</span> emp <span class="op">=</span> <span class="kw">new</span> Employee</span>
+<span id="cb47-8"><a href="#cb47-8" aria-label="8"></a><span class="op">{</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-label="9"></a>    Name <span class="op">=</span> <span class="st">"Michael"</span><span class="op">,</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-label="10"></a>    Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1971</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">)</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-label="11"></a><span class="op">};</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-label="12"></a></span>
+<span id="cb47-13"><a href="#cb47-13" aria-label="13"></a><span class="co">// (1) 投射物件屬性</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-label="14"></a><span class="dt">var</span> emp1 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> emp<span class="op">.</span><span class="fu">Name</span><span class="op">,</span> emp<span class="op">.</span><span class="fu">Birthday</span> <span class="op">};</span></span>
+<span id="cb47-15"><a href="#cb47-15" aria-label="15"></a></span>
+<span id="cb47-16"><a href="#cb47-16" aria-label="16"></a><span class="co">// (2) 投射區域變數</span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-label="17"></a><span class="dt">string</span> name <span class="op">=</span> <span class="st">"John"</span><span class="op">;</span></span>
+<span id="cb47-18"><a href="#cb47-18" aria-label="18"></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb47-19"><a href="#cb47-19" aria-label="19"></a><span class="dt">var</span> emp2 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> name<span class="op">,</span> age <span class="op">};</span></span>
+<span id="cb47-20"><a href="#cb47-20" aria-label="20"></a></span>
+<span id="cb47-21"><a href="#cb47-21" aria-label="21"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"emp1.Name = "</span> <span class="op">+</span> emp1<span class="op">.</span><span class="fu">Name</span><span class="op">);</span></span>
+<span id="cb47-22"><a href="#cb47-22" aria-label="22"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"emp2.name = "</span> <span class="op">+</span> emp2<span class="op">.</span><span class="fu">name</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>輸出結果：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb48-1"><a href="#cb48-1"></a>emp1.Name = Michael</span>
-<span id="cb48-2"><a href="#cb48-2"></a>emp2.name = John</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb48-1"><a href="#cb48-1" aria-label="1"></a>emp1.Name = Michael</span>
+<span id="cb48-2"><a href="#cb48-2" aria-label="2"></a>emp2.name = John</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡示範了兩種投射方式：</p>
 <ol type="1">
 <li><p><strong>投射物件屬性</strong>（註解標示 (1) 的地方）：利用事先定義的類別 <code>Employee</code> 的物件屬性來投射。也就是說，編譯器在為匿名型別變數產生實際的類別時，會使用傳入物件的屬性名稱來定義新類別的屬性。</p></li>
@@ -984,11 +987,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="非破壞性修改">非破壞性修改</h3>
 <p>從 C# 10 開始，你可以對匿名型別使用 <code>with</code> 運算式，這稱為非破壞性修改（nondestructive mutation）。它的作用是：<strong>建立一個新物件，複製原有物件的所有屬性，但修改其中幾個指定屬性的值</strong>。<code>with</code> 運算式也適用於 record 和 struct，詳見第 4 章。</p>
 <p>例如：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb49-1"><a href="#cb49-1"></a><span class="dt">var</span> a1 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> A <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> B <span class="op">=</span> <span class="dv">2</span><span class="op">,</span> C <span class="op">=</span> <span class="dv">3</span> <span class="op">};</span></span>
-<span id="cb49-2"><a href="#cb49-2"></a><span class="dt">var</span> a2 <span class="op">=</span> a1 with <span class="op">{</span> B <span class="op">=</span> <span class="dv">99</span> <span class="op">};</span>  <span class="co">// 複製 a1，但將 B 改為 99</span></span>
-<span id="cb49-3"><a href="#cb49-3"></a></span>
-<span id="cb49-4"><a href="#cb49-4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"a2: A={a2.A}, B={a2.B}, C={a2.C}"</span><span class="op">);</span></span>
-<span id="cb49-5"><a href="#cb49-5"></a><span class="co">// 輸出: a2: A=1, B=99, C=3</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb49-1"><a href="#cb49-1" aria-label="1"></a><span class="dt">var</span> a1 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> A <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> B <span class="op">=</span> <span class="dv">2</span><span class="op">,</span> C <span class="op">=</span> <span class="dv">3</span> <span class="op">};</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-label="2"></a><span class="dt">var</span> a2 <span class="op">=</span> a1 with <span class="op">{</span> B <span class="op">=</span> <span class="dv">99</span> <span class="op">};</span>  <span class="co">// 複製 a1，但將 B 改為 99</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-label="3"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"a2: A={a2.A}, B={a2.B}, C={a2.C}"</span><span class="op">);</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-label="5"></a><span class="co">// 輸出: a2: A=1, B=99, C=3</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這在處理不可變資料（immutable data）時非常方便，你不需要為了修改一個屬性而重新抄寫所有屬性。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoAnonTypeMutation">DemoAnonTypeMutation</a></p>
@@ -1017,14 +1020,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="sec-2-7">2.7 字串插補（String Interpolation）</h2>
 <p>C# 6.0 引入了<strong>字串插補</strong>（string interpolation），讓你可以把運算式直接嵌入字串中，讓程式碼更容易閱讀。</p>
 <p>先看它和 <code>string.Format</code> 的對照：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb50-1"><a href="#cb50-1"></a><span class="dt">var</span> name <span class="op">=</span> <span class="st">"Michael"</span><span class="op">;</span></span>
-<span id="cb50-2"><a href="#cb50-2"></a><span class="dt">var</span> age <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
-<span id="cb50-3"><a href="#cb50-3"></a></span>
-<span id="cb50-4"><a href="#cb50-4"></a><span class="co">// 傳統寫法 (string.Format)</span></span>
-<span id="cb50-5"><a href="#cb50-5"></a><span class="dt">var</span> s1 <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Format</span><span class="op">(</span><span class="st">"Name: {0}, Age: {1}"</span><span class="op">,</span> name<span class="op">,</span> age<span class="op">);</span></span>
-<span id="cb50-6"><a href="#cb50-6"></a></span>
-<span id="cb50-7"><a href="#cb50-7"></a><span class="co">// 字串插補寫法</span></span>
-<span id="cb50-8"><a href="#cb50-8"></a><span class="dt">var</span> s2 <span class="op">=</span> $<span class="st">"Name: {name}, Age: {age}"</span><span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb50-1"><a href="#cb50-1" aria-label="1"></a><span class="dt">var</span> name <span class="op">=</span> <span class="st">"Michael"</span><span class="op">;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-label="2"></a><span class="dt">var</span> age <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-label="3"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-label="4"></a><span class="co">// 傳統寫法 (string.Format)</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-label="5"></a><span class="dt">var</span> s1 <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Format</span><span class="op">(</span><span class="st">"Name: {0}, Age: {1}"</span><span class="op">,</span> name<span class="op">,</span> age<span class="op">);</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-label="6"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-label="7"></a><span class="co">// 字串插補寫法</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-label="8"></a><span class="dt">var</span> s2 <span class="op">=</span> $<span class="st">"Name: {name}, Age: {age}"</span><span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoStringInterpolation">DemoStringInterpolation</a></p>
 </blockquote>
@@ -1033,30 +1036,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="格式化與對齊">格式化與對齊</h3>
 <p>你可以在插補運算式後面加上冒號（<code>:</code>）來指定格式字串，或加上逗號（<code>,</code>）來指定對齊寬度。</p>
 <p><strong>格式字串（Format String）</strong>：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb51-1"><a href="#cb51-1"></a><span class="dt">var</span> price <span class="op">=</span> <span class="fl">123.456m</span><span class="op">;</span></span>
-<span id="cb51-2"><a href="#cb51-2"></a><span class="dt">var</span> dt <span class="op">=</span> DateTime<span class="op">.</span><span class="fu">Now</span><span class="op">;</span></span>
-<span id="cb51-3"><a href="#cb51-3"></a></span>
-<span id="cb51-4"><a href="#cb51-4"></a><span class="co">// 格式化為貨幣，小數點後兩位</span></span>
-<span id="cb51-5"><a href="#cb51-5"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Price: {price:C2}"</span><span class="op">);</span> <span class="co">// Price: $123.46 (視語系而定)</span></span>
-<span id="cb51-6"><a href="#cb51-6"></a></span>
-<span id="cb51-7"><a href="#cb51-7"></a><span class="co">// 格式化日期</span></span>
-<span id="cb51-8"><a href="#cb51-8"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Date: {dt:yyyy-MM-dd}"</span><span class="op">);</span> <span class="co">// Date: 2023-10-27</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb51-1"><a href="#cb51-1" aria-label="1"></a><span class="dt">var</span> price <span class="op">=</span> <span class="fl">123.456m</span><span class="op">;</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-label="2"></a><span class="dt">var</span> dt <span class="op">=</span> DateTime<span class="op">.</span><span class="fu">Now</span><span class="op">;</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-label="3"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-label="4"></a><span class="co">// 格式化為貨幣，小數點後兩位</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-label="5"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Price: {price:C2}"</span><span class="op">);</span> <span class="co">// Price: $123.46 (視語系而定)</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-label="6"></a></span>
+<span id="cb51-7"><a href="#cb51-7" aria-label="7"></a><span class="co">// 格式化日期</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-label="8"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Date: {dt:yyyy-MM-dd}"</span><span class="op">);</span> <span class="co">// Date: 2023-10-27</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>對齊（Alignment）</strong>：</p>
 <p>逗號後的數字表示欄位寬度。正數表示靠右對齊，負數表示靠左對齊。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb52-1"><a href="#cb52-1"></a><span class="dt">var</span> name <span class="op">=</span> <span class="st">"Jordan"</span><span class="op">;</span></span>
-<span id="cb52-2"><a href="#cb52-2"></a><span class="dt">var</span> score <span class="op">=</span> <span class="dv">95</span><span class="op">;</span></span>
-<span id="cb52-3"><a href="#cb52-3"></a></span>
-<span id="cb52-4"><a href="#cb52-4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"|{name,-10}|{score,5}|"</span><span class="op">);</span></span>
-<span id="cb52-5"><a href="#cb52-5"></a></span>
-<span id="cb52-6"><a href="#cb52-6"></a><span class="co">// 輸出: |Jordan    |   95|</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb52-1"><a href="#cb52-1" aria-label="1"></a><span class="dt">var</span> name <span class="op">=</span> <span class="st">"Jordan"</span><span class="op">;</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-label="2"></a><span class="dt">var</span> score <span class="op">=</span> <span class="dv">95</span><span class="op">;</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-label="3"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"|{name,-10}|{score,5}|"</span><span class="op">);</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-label="5"></a></span>
+<span id="cb52-6"><a href="#cb52-6" aria-label="6"></a><span class="co">// 輸出: |Jordan    |   95|</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="常數插補字串-c-10" class="level3">
 <h3 class="anchored" data-anchor-id="常數插補字串-c-10">常數插補字串 (C# 10)</h3>
 <p>從 C# 10 開始，如果插補字串中的所有「洞」（hole）填入的都是常數字串，那麼該插補字串本身也可以被宣告為 <code>const</code>。</p>
 <p>範例：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb53-1"><a href="#cb53-1"></a><span class="dt">const</span> <span class="dt">string</span> Greeting <span class="op">=</span> <span class="st">"Hello"</span><span class="op">;</span></span>
-<span id="cb53-2"><a href="#cb53-2"></a><span class="dt">const</span> <span class="dt">string</span> Target <span class="op">=</span> <span class="st">"World"</span><span class="op">;</span></span>
-<span id="cb53-3"><a href="#cb53-3"></a><span class="dt">const</span> <span class="dt">string</span> Message <span class="op">=</span> $<span class="st">"{Greeting}, {Target}!"</span><span class="op">;</span> <span class="co">// C# 10 有效</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb53-1"><a href="#cb53-1" aria-label="1"></a><span class="dt">const</span> <span class="dt">string</span> Greeting <span class="op">=</span> <span class="st">"Hello"</span><span class="op">;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-label="2"></a><span class="dt">const</span> <span class="dt">string</span> Target <span class="op">=</span> <span class="st">"World"</span><span class="op">;</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-label="3"></a><span class="dt">const</span> <span class="dt">string</span> Message <span class="op">=</span> $<span class="st">"{Greeting}, {Target}!"</span><span class="op">;</span> <span class="co">// C# 10 有效</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="原始字串常值-c-11" class="level3">
 <h3 class="anchored" data-anchor-id="原始字串常值-c-11">原始字串常值 (C# 11)</h3>
@@ -1064,41 +1067,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="原始字串語法" class="level4">
 <h4 class="anchored" data-anchor-id="原始字串語法">原始字串語法</h4>
 <p>使用至少三個雙引號 <code>"""</code> 包裹字串內容。對 C# 而言，內容中的引號、反斜線、換行、空白都會被視為原樣輸出，因此<strong>不需要再寫 C# 字串跳脫（escape）</strong>。不過，若字串內容本身是一段 JSON、XML 等格式，仍然要遵守該格式自己的規則。例如下面的 <code>C:\\Windows</code> 使用兩個反斜線，因為它的用途是表示一個 JSON 字串，如果只用一個反斜線，會導致 JSON 格式驗證錯誤。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb54-1"><a href="#cb54-1"></a><span class="dt">var</span> json <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb54-2"><a href="#cb54-2"></a>    <span class="op">{</span></span>
-<span id="cb54-3"><a href="#cb54-3"></a>        <span class="st">"name"</span><span class="op">:</span> <span class="st">"Michael"</span><span class="op">,</span></span>
-<span id="cb54-4"><a href="#cb54-4"></a>        <span class="st">"age"</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
-<span id="cb54-5"><a href="#cb54-5"></a>        <span class="st">"path"</span><span class="op">:</span> <span class="st">"C:</span><span class="sc">\\</span><span class="st">Windows</span><span class="sc">\\</span><span class="st">System32"</span></span>
-<span id="cb54-6"><a href="#cb54-6"></a>    <span class="op">}</span></span>
-<span id="cb54-7"><a href="#cb54-7"></a>    <span class="st">""";</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb54-1"><a href="#cb54-1" aria-label="1"></a><span class="dt">var</span> json <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-label="2"></a>    <span class="op">{</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-label="3"></a>        <span class="st">"name"</span><span class="op">:</span> <span class="st">"Michael"</span><span class="op">,</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-label="4"></a>        <span class="st">"age"</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-label="5"></a>        <span class="st">"path"</span><span class="op">:</span> <span class="st">"C:</span><span class="sc">\\</span><span class="st">Windows</span><span class="sc">\\</span><span class="st">System32"</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-label="6"></a>    <span class="op">}</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-label="7"></a>    <span class="st">""";</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>請注意最後的結尾 <code>"""</code>，其縮排位置決定了每一行的基準縮排（base indentation）。所有內容行中，此位置之前的空白會被移除。在這個例子中，<code>{</code> 前面的空白會被忽略，因為它們必須與結尾引號對齊：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb55-1"><a href="#cb55-1"></a><span class="dt">var</span> json <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb55-2"><a href="#cb55-2"></a>    <span class="op">{</span>           ← 這一行前面有 <span class="dv">4</span> 個空白</span>
-<span id="cb55-3"><a href="#cb55-3"></a>        <span class="st">"name"</span>  ← 這一行前面有 <span class="dv">8</span> 個空白</span>
-<span id="cb55-4"><a href="#cb55-4"></a>    <span class="op">}</span></span>
-<span id="cb55-5"><a href="#cb55-5"></a>    <span class="st">""";        ← 結尾在第 4 個字元位置</span></span>
-<span id="cb55-6"><a href="#cb55-6"></a></span>
-<span id="cb55-7"><a href="#cb55-7"></a><span class="co">// 編譯結果：每行的前 4 個空白被移除</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb55-1"><a href="#cb55-1" aria-label="1"></a><span class="dt">var</span> json <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-label="2"></a>    <span class="op">{</span>           ← 這一行前面有 <span class="dv">4</span> 個空白</span>
+<span id="cb55-3"><a href="#cb55-3" aria-label="3"></a>        <span class="st">"name"</span>  ← 這一行前面有 <span class="dv">8</span> 個空白</span>
+<span id="cb55-4"><a href="#cb55-4" aria-label="4"></a>    <span class="op">}</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-label="5"></a>    <span class="st">""";        ← 結尾在第 4 個字元位置</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-label="6"></a></span>
+<span id="cb55-7"><a href="#cb55-7" aria-label="7"></a><span class="co">// 編譯結果：每行的前 4 個空白被移除</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>如果你的字串內容剛好包含三個連續引號 <code>"""</code>，你可以用四個引號 <code>""""</code> 來包裹，以此類推。</p>
 </section>
 <section id="結合字串插補" class="level4">
 <h4 class="anchored" data-anchor-id="結合字串插補">結合字串插補</h4>
 <p>你可以將 <code>$</code> 與 <code>"""</code> 結合使用。如果要在原始字串中使用大括號 <code>{}</code>（例如 JSON），你可以增加 <code>$</code> 的數量來改變插補的起始符號。</p>
 <p>例如，使用兩個 <code>$$</code> 時，就表示需要兩個大括號 <code>{{…}}</code> 才會被視為插補，單個大括號 <code>{</code> 則會被視為普通字元：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb56-1"><a href="#cb56-1"></a><span class="dt">var</span> name <span class="op">=</span> <span class="st">"Michael"</span><span class="op">;</span></span>
-<span id="cb56-2"><a href="#cb56-2"></a><span class="dt">var</span> json <span class="op">=</span> $$<span class="st">"""</span></span>
-<span id="cb56-3"><a href="#cb56-3"></a>    <span class="op">{</span></span>
-<span id="cb56-4"><a href="#cb56-4"></a>        <span class="st">"name"</span><span class="op">:</span> <span class="st">"{{name}}"</span><span class="op">,</span></span>
-<span id="cb56-5"><a href="#cb56-5"></a>        <span class="st">"age"</span><span class="op">:</span> <span class="dv">50</span></span>
-<span id="cb56-6"><a href="#cb56-6"></a>    <span class="op">}</span></span>
-<span id="cb56-7"><a href="#cb56-7"></a>    <span class="st">""";</span></span>
-<span id="cb56-8"><a href="#cb56-8"></a></span>
-<span id="cb56-9"><a href="#cb56-9"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>json<span class="op">);</span></span>
-<span id="cb56-10"><a href="#cb56-10"></a><span class="co">// 輸出:</span></span>
-<span id="cb56-11"><a href="#cb56-11"></a><span class="co">// {</span></span>
-<span id="cb56-12"><a href="#cb56-12"></a><span class="co">//     "name": "Michael",</span></span>
-<span id="cb56-13"><a href="#cb56-13"></a><span class="co">//     "age": 50</span></span>
-<span id="cb56-14"><a href="#cb56-14"></a><span class="co">// }</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb56-1"><a href="#cb56-1" aria-label="1"></a><span class="dt">var</span> name <span class="op">=</span> <span class="st">"Michael"</span><span class="op">;</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-label="2"></a><span class="dt">var</span> json <span class="op">=</span> $$<span class="st">"""</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-label="3"></a>    <span class="op">{</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-label="4"></a>        <span class="st">"name"</span><span class="op">:</span> <span class="st">"{{name}}"</span><span class="op">,</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-label="5"></a>        <span class="st">"age"</span><span class="op">:</span> <span class="dv">50</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-label="6"></a>    <span class="op">}</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-label="7"></a>    <span class="st">""";</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-label="8"></a></span>
+<span id="cb56-9"><a href="#cb56-9" aria-label="9"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>json<span class="op">);</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-label="10"></a><span class="co">// 輸出:</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-label="11"></a><span class="co">// {</span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-label="12"></a><span class="co">//     "name": "Michael",</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-label="13"></a><span class="co">//     "age": 50</span></span>
+<span id="cb56-14"><a href="#cb56-14" aria-label="14"></a><span class="co">// }</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡使用了 <code>$$</code>，使得只有連續兩個大括號 <code>{{…}}</code> 包住的部分被視為插補，因此 “<code>{name}</code>” 會被插補為變數值；而外層單獨的一個 <code>{</code> 和 <code>}</code> 不符合插補規則，所以會被視為普通字元，保留作為 JSON 的結構符號。</p>
 <p><strong>規則總結</strong>：</p>
 <ul>
@@ -1108,13 +1111,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>這種機制讓你可以處理包含大量大括號的內容（如 JSON、CSS、JavaScript），同時保留插補功能。產生結構化文字（JSON、XML、HTML）時，這種寫法通常比手動跳脫更乾淨，也比較不容易出錯。</p>
 <p><strong>範例</strong>：產生 CSS 樣式</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb57-1"><a href="#cb57-1"></a><span class="dt">var</span> color <span class="op">=</span> <span class="st">"#3498db"</span><span class="op">;</span></span>
-<span id="cb57-2"><a href="#cb57-2"></a><span class="dt">var</span> css <span class="op">=</span> $$<span class="st">"""</span></span>
-<span id="cb57-3"><a href="#cb57-3"></a>    <span class="op">.</span><span class="fu">button</span> <span class="op">{</span></span>
-<span id="cb57-4"><a href="#cb57-4"></a>        background<span class="op">-</span>color<span class="op">:</span> <span class="op">{{</span>color<span class="op">}};</span></span>
-<span id="cb57-5"><a href="#cb57-5"></a>        border<span class="op">-</span>radius<span class="op">:</span> <span class="dv">4</span>px<span class="op">;</span></span>
-<span id="cb57-6"><a href="#cb57-6"></a>    <span class="op">}</span></span>
-<span id="cb57-7"><a href="#cb57-7"></a>    <span class="st">""";</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb57-1"><a href="#cb57-1" aria-label="1"></a><span class="dt">var</span> color <span class="op">=</span> <span class="st">"#3498db"</span><span class="op">;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-label="2"></a><span class="dt">var</span> css <span class="op">=</span> $$<span class="st">"""</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-label="3"></a>    <span class="op">.</span><span class="fu">button</span> <span class="op">{</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-label="4"></a>        background<span class="op">-</span>color<span class="op">:</span> <span class="op">{{</span>color<span class="op">}};</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-label="5"></a>        border<span class="op">-</span>radius<span class="op">:</span> <span class="dv">4</span>px<span class="op">;</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-label="6"></a>    <span class="op">}</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-label="7"></a>    <span class="st">""";</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoRawStringLiterals">DemoRawStringLiterals</a></p>
 </blockquote>
@@ -1132,23 +1135,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="tuple-語法基礎">Tuple 語法基礎</h3>
 <p>如果說 class 是堅固但笨重的「行李箱」，那麼 Tuple 就是輕便的「夾鏈袋」。當你只是想隨手把兩三樣東西（回傳值）裝在一起帶走時，夾鏈袋顯然比行李箱方便多了。</p>
 <p>你可以使用括號 <code>()</code> 來定義 Tuple，並直接為成員命名：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb58-1"><a href="#cb58-1"></a><span class="op">(</span><span class="dt">string</span> Name<span class="op">,</span> <span class="dt">int</span> Age<span class="op">)</span> person <span class="op">=</span> <span class="op">(</span><span class="st">"Bob"</span><span class="op">,</span> <span class="dv">23</span><span class="op">);</span></span>
-<span id="cb58-2"><a href="#cb58-2"></a></span>
-<span id="cb58-3"><a href="#cb58-3"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>person<span class="op">.</span><span class="fu">Name</span><span class="op">);</span> <span class="co">// Bob</span></span>
-<span id="cb58-4"><a href="#cb58-4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>person<span class="op">.</span><span class="fu">Age</span><span class="op">);</span>  <span class="co">// 23</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb58-1"><a href="#cb58-1" aria-label="1"></a><span class="op">(</span><span class="dt">string</span> Name<span class="op">,</span> <span class="dt">int</span> Age<span class="op">)</span> person <span class="op">=</span> <span class="op">(</span><span class="st">"Bob"</span><span class="op">,</span> <span class="dv">23</span><span class="op">);</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-label="2"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-label="3"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>person<span class="op">.</span><span class="fu">Name</span><span class="op">);</span> <span class="co">// Bob</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>person<span class="op">.</span><span class="fu">Age</span><span class="op">);</span>  <span class="co">// 23</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這背後其實是使用了 <code>System.ValueTuple&lt;T1, T2, ...&gt;</code> 泛型結構。編譯器會自動將上述語法轉換為對應的 <code>ValueTuple</code> 操作。注意，我們不再受限於 <code>Item1</code>, <code>Item2</code> 這種無意義的名稱（雖然底層仍是那些欄位，但編譯器會幫我們處理名稱對應）。</p>
 </section>
 <section id="方法回傳多值" class="level3">
 <h3 class="anchored" data-anchor-id="方法回傳多值">方法回傳多值</h3>
 <p>Tuple 最常見的應用場景就是讓方法回傳多個值：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb59-1"><a href="#cb59-1"></a><span class="kw">public</span> <span class="op">(</span><span class="dt">double</span> Lat<span class="op">,</span> <span class="dt">double</span> Lon<span class="op">)</span> <span class="fu">GetCoordinates</span><span class="op">(</span><span class="dt">string</span> address<span class="op">)</span></span>
-<span id="cb59-2"><a href="#cb59-2"></a><span class="op">{</span></span>
-<span id="cb59-3"><a href="#cb59-3"></a>    <span class="co">// 假裝查詢了地圖 API</span></span>
-<span id="cb59-4"><a href="#cb59-4"></a>    <span class="kw">return</span> <span class="op">(</span><span class="fl">25.0330</span><span class="op">,</span> <span class="fl">121.5654</span><span class="op">);</span></span>
-<span id="cb59-5"><a href="#cb59-5"></a><span class="op">}</span></span>
-<span id="cb59-6"><a href="#cb59-6"></a></span>
-<span id="cb59-7"><a href="#cb59-7"></a><span class="dt">var</span> coords <span class="op">=</span> <span class="fu">GetCoordinates</span><span class="op">(</span><span class="st">"Taipei 101"</span><span class="op">);</span></span>
-<span id="cb59-8"><a href="#cb59-8"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"緯度: {coords.Lat}, 經度: {coords.Lon}"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb59-1"><a href="#cb59-1" aria-label="1"></a><span class="kw">public</span> <span class="op">(</span><span class="dt">double</span> Lat<span class="op">,</span> <span class="dt">double</span> Lon<span class="op">)</span> <span class="fu">GetCoordinates</span><span class="op">(</span><span class="dt">string</span> address<span class="op">)</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-label="3"></a>    <span class="co">// 假裝查詢了地圖 API</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-label="4"></a>    <span class="kw">return</span> <span class="op">(</span><span class="fl">25.0330</span><span class="op">,</span> <span class="fl">121.5654</span><span class="op">);</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-label="5"></a><span class="op">}</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-label="6"></a></span>
+<span id="cb59-7"><a href="#cb59-7" aria-label="7"></a><span class="dt">var</span> coords <span class="op">=</span> <span class="fu">GetCoordinates</span><span class="op">(</span><span class="st">"Taipei 101"</span><span class="op">);</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-label="8"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"緯度: {coords.Lat}, 經度: {coords.Lon}"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>比起使用 <code>out</code> 參數，這種寫法更直覺，也更容易閱讀。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoTupleBasic">DemoTupleBasic</a></p>
@@ -1159,13 +1162,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="解構deconstruction" class="level3">
 <h3 class="anchored" data-anchor-id="解構deconstruction">解構（Deconstruction）</h3>
 <p>C# 也提供了<strong>解構</strong>（deconstruction）語法，可以將 Tuple 或其他物件「拆解」成多個獨立變數：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb60-1"><a href="#cb60-1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
-<span id="cb60-2"><a href="#cb60-2"></a></span>
-<span id="cb60-3"><a href="#cb60-3"></a><span class="co">// 將 Tuple 解構為兩個獨立變數</span></span>
-<span id="cb60-4"><a href="#cb60-4"></a><span class="op">(</span><span class="dt">string</span> name<span class="op">,</span> <span class="dt">int</span> age<span class="op">)</span> <span class="op">=</span> person<span class="op">;</span></span>
-<span id="cb60-5"><a href="#cb60-5"></a></span>
-<span id="cb60-6"><a href="#cb60-6"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>name<span class="op">);</span> <span class="co">// Alice</span></span>
-<span id="cb60-7"><a href="#cb60-7"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>age<span class="op">);</span>  <span class="co">// 30</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb60-1"><a href="#cb60-1" aria-label="1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-label="2"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-label="3"></a><span class="co">// 將 Tuple 解構為兩個獨立變數</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-label="4"></a><span class="op">(</span><span class="dt">string</span> name<span class="op">,</span> <span class="dt">int</span> age<span class="op">)</span> <span class="op">=</span> person<span class="op">;</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-label="5"></a></span>
+<span id="cb60-6"><a href="#cb60-6" aria-label="6"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>name<span class="op">);</span> <span class="co">// Alice</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-label="7"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>age<span class="op">);</span>  <span class="co">// 30</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>你也可以使用 <code>var</code> 讓編譯器推斷型別：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span> <span class="op">(</span>lat<span class="op">,</span> lon<span class="op">)</span> <span class="op">=</span> <span class="fu">GetCoordinates</span><span class="op">(</span><span class="st">"Taipei 101"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
@@ -1184,41 +1187,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="自訂型別的解構">自訂型別的解構</h3>
 <p>Tuple 不是唯一能被解構的型別。只要定義名為 <code>Deconstruct</code> 的特殊方法，任何型別都可以支援解構。</p>
 <p>以下範例讓 <code>Person</code> 支援兩種解構方式：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb63"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb63-1"><a href="#cb63-1"></a><span class="kw">public</span> <span class="kw">class</span> Person</span>
-<span id="cb63-2"><a href="#cb63-2"></a><span class="op">{</span></span>
-<span id="cb63-3"><a href="#cb63-3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb63-4"><a href="#cb63-4"></a>    <span class="kw">public</span> DateTime Birthday <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb63-5"><a href="#cb63-5"></a>    <span class="kw">public</span> <span class="dt">string</span> Email <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb63-6"><a href="#cb63-6"></a></span>
-<span id="cb63-7"><a href="#cb63-7"></a>    <span class="co">// 定義解構方法</span></span>
-<span id="cb63-8"><a href="#cb63-8"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Deconstruct</span><span class="op">(</span><span class="kw">out</span> <span class="dt">string</span> name<span class="op">,</span> <span class="kw">out</span> DateTime birthday<span class="op">)</span></span>
-<span id="cb63-9"><a href="#cb63-9"></a>    <span class="op">{</span></span>
-<span id="cb63-10"><a href="#cb63-10"></a>        name <span class="op">=</span> Name<span class="op">;</span></span>
-<span id="cb63-11"><a href="#cb63-11"></a>        birthday <span class="op">=</span> Birthday<span class="op">;</span></span>
-<span id="cb63-12"><a href="#cb63-12"></a>    <span class="op">}</span></span>
-<span id="cb63-13"><a href="#cb63-13"></a></span>
-<span id="cb63-14"><a href="#cb63-14"></a>    <span class="co">// 可以有多個重載的解構方法</span></span>
-<span id="cb63-15"><a href="#cb63-15"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Deconstruct</span><span class="op">(</span><span class="kw">out</span> <span class="dt">string</span> name<span class="op">,</span> <span class="kw">out</span> DateTime birthday<span class="op">,</span></span>
-<span id="cb63-16"><a href="#cb63-16"></a>                            <span class="kw">out</span> <span class="dt">string</span> email<span class="op">)</span></span>
-<span id="cb63-17"><a href="#cb63-17"></a>    <span class="op">{</span></span>
-<span id="cb63-18"><a href="#cb63-18"></a>        name <span class="op">=</span> Name<span class="op">;</span></span>
-<span id="cb63-19"><a href="#cb63-19"></a>        birthday <span class="op">=</span> Birthday<span class="op">;</span></span>
-<span id="cb63-20"><a href="#cb63-20"></a>        email <span class="op">=</span> Email<span class="op">;</span></span>
-<span id="cb63-21"><a href="#cb63-21"></a>    <span class="op">}</span></span>
-<span id="cb63-22"><a href="#cb63-22"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb63"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb63-1"><a href="#cb63-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">class</span> Person</span>
+<span id="cb63-2"><a href="#cb63-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-label="4"></a>    <span class="kw">public</span> DateTime Birthday <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-label="5"></a>    <span class="kw">public</span> <span class="dt">string</span> Email <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-label="6"></a></span>
+<span id="cb63-7"><a href="#cb63-7" aria-label="7"></a>    <span class="co">// 定義解構方法</span></span>
+<span id="cb63-8"><a href="#cb63-8" aria-label="8"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Deconstruct</span><span class="op">(</span><span class="kw">out</span> <span class="dt">string</span> name<span class="op">,</span> <span class="kw">out</span> DateTime birthday<span class="op">)</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-label="9"></a>    <span class="op">{</span></span>
+<span id="cb63-10"><a href="#cb63-10" aria-label="10"></a>        name <span class="op">=</span> Name<span class="op">;</span></span>
+<span id="cb63-11"><a href="#cb63-11" aria-label="11"></a>        birthday <span class="op">=</span> Birthday<span class="op">;</span></span>
+<span id="cb63-12"><a href="#cb63-12" aria-label="12"></a>    <span class="op">}</span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-label="13"></a></span>
+<span id="cb63-14"><a href="#cb63-14" aria-label="14"></a>    <span class="co">// 可以有多個重載的解構方法</span></span>
+<span id="cb63-15"><a href="#cb63-15" aria-label="15"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Deconstruct</span><span class="op">(</span><span class="kw">out</span> <span class="dt">string</span> name<span class="op">,</span> <span class="kw">out</span> DateTime birthday<span class="op">,</span></span>
+<span id="cb63-16"><a href="#cb63-16" aria-label="16"></a>                            <span class="kw">out</span> <span class="dt">string</span> email<span class="op">)</span></span>
+<span id="cb63-17"><a href="#cb63-17" aria-label="17"></a>    <span class="op">{</span></span>
+<span id="cb63-18"><a href="#cb63-18" aria-label="18"></a>        name <span class="op">=</span> Name<span class="op">;</span></span>
+<span id="cb63-19"><a href="#cb63-19" aria-label="19"></a>        birthday <span class="op">=</span> Birthday<span class="op">;</span></span>
+<span id="cb63-20"><a href="#cb63-20" aria-label="20"></a>        email <span class="op">=</span> Email<span class="op">;</span></span>
+<span id="cb63-21"><a href="#cb63-21" aria-label="21"></a>    <span class="op">}</span></span>
+<span id="cb63-22"><a href="#cb63-22" aria-label="22"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>使用時會<strong>隱含呼叫</strong> <code>Deconstruct</code> 方法：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb64-1"><a href="#cb64-1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="kw">new</span> Person</span>
-<span id="cb64-2"><a href="#cb64-2"></a><span class="op">{</span></span>
-<span id="cb64-3"><a href="#cb64-3"></a>    Name <span class="op">=</span> <span class="st">"Bob"</span><span class="op">,</span></span>
-<span id="cb64-4"><a href="#cb64-4"></a>    Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1980</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">15</span><span class="op">),</span></span>
-<span id="cb64-5"><a href="#cb64-5"></a>    Email <span class="op">=</span> <span class="st">"bob@example.com"</span></span>
-<span id="cb64-6"><a href="#cb64-6"></a><span class="op">};</span></span>
-<span id="cb64-7"><a href="#cb64-7"></a></span>
-<span id="cb64-8"><a href="#cb64-8"></a><span class="co">// 自動呼叫第一個 Deconstruct 方法</span></span>
-<span id="cb64-9"><a href="#cb64-9"></a><span class="fu">var</span> <span class="op">(</span>name<span class="op">,</span> birthday<span class="op">)</span> <span class="op">=</span> person<span class="op">;</span></span>
-<span id="cb64-10"><a href="#cb64-10"></a></span>
-<span id="cb64-11"><a href="#cb64-11"></a><span class="co">// 自動呼叫第二個 Deconstruct 方法</span></span>
-<span id="cb64-12"><a href="#cb64-12"></a><span class="fu">var</span> <span class="op">(</span>fullName<span class="op">,</span> dob<span class="op">,</span> email<span class="op">)</span> <span class="op">=</span> person<span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb64-1"><a href="#cb64-1" aria-label="1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="kw">new</span> Person</span>
+<span id="cb64-2"><a href="#cb64-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-label="3"></a>    Name <span class="op">=</span> <span class="st">"Bob"</span><span class="op">,</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-label="4"></a>    Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1980</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">15</span><span class="op">),</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-label="5"></a>    Email <span class="op">=</span> <span class="st">"bob@example.com"</span></span>
+<span id="cb64-6"><a href="#cb64-6" aria-label="6"></a><span class="op">};</span></span>
+<span id="cb64-7"><a href="#cb64-7" aria-label="7"></a></span>
+<span id="cb64-8"><a href="#cb64-8" aria-label="8"></a><span class="co">// 自動呼叫第一個 Deconstruct 方法</span></span>
+<span id="cb64-9"><a href="#cb64-9" aria-label="9"></a><span class="fu">var</span> <span class="op">(</span>name<span class="op">,</span> birthday<span class="op">)</span> <span class="op">=</span> person<span class="op">;</span></span>
+<span id="cb64-10"><a href="#cb64-10" aria-label="10"></a></span>
+<span id="cb64-11"><a href="#cb64-11" aria-label="11"></a><span class="co">// 自動呼叫第二個 Deconstruct 方法</span></span>
+<span id="cb64-12"><a href="#cb64-12" aria-label="12"></a><span class="fu">var</span> <span class="op">(</span>fullName<span class="op">,</span> dob<span class="op">,</span> email<span class="op">)</span> <span class="op">=</span> person<span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoTupleDeconstruction">DemoTupleDeconstruction</a></p>
 </blockquote>

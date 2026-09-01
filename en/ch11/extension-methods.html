@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -76,10 +79,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-7a0a15f832ccafbbdcdbb43d1bed5561.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -336,27 +339,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pain-points-of-traditional-static-helper-classes" class="level3">
 <h3 class="anchored" data-anchor-id="pain-points-of-traditional-static-helper-classes">Pain points of traditional static helper classes</h3>
 <p>If you write .NET applications often, you probably create utility classes for common tasks. For string processing, for example, we might write a <code>StringHelper</code> class for reversing strings or capitalizing them. Typically, these are <code>static</code> classes, meaning they can’t be instantiated:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="op">{</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">(</span><span class="dt">string</span> s<span class="op">)</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>    <span class="op">{</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>        <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> s<span class="op">;</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a>        <span class="dt">char</span><span class="op">[]</span> charArray <span class="op">=</span> s<span class="op">.</span><span class="fu">ToCharArray</span><span class="op">();</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>        Array<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span>charArray<span class="op">);</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a>        <span class="kw">return</span> <span class="kw">new</span> <span class="dt">string</span><span class="op">(</span>charArray<span class="op">);</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>    <span class="op">}</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="dt">string</span> s<span class="op">)</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>    <span class="op">{</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a>        <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a>            <span class="kw">return</span> s<span class="op">;</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a>        <span class="kw">return</span> <span class="dt">char</span><span class="op">.</span><span class="fu">ToUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">])</span> <span class="op">+</span> s<span class="op">[</span><span class="dv">1</span><span class="op">..];</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>    <span class="op">}</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">(</span><span class="dt">string</span> s<span class="op">)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a>        <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> s<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-label="6"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-label="7"></a>        <span class="dt">char</span><span class="op">[]</span> charArray <span class="op">=</span> s<span class="op">.</span><span class="fu">ToCharArray</span><span class="op">();</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-label="8"></a>        Array<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span>charArray<span class="op">);</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-label="9"></a>        <span class="kw">return</span> <span class="kw">new</span> <span class="dt">string</span><span class="op">(</span>charArray<span class="op">);</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-label="10"></a>    <span class="op">}</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-label="11"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-label="12"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="dt">string</span> s<span class="op">)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-label="13"></a>    <span class="op">{</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-label="14"></a>        <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-label="15"></a>            <span class="kw">return</span> s<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-label="16"></a>        <span class="kw">return</span> <span class="dt">char</span><span class="op">.</span><span class="fu">ToUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">])</span> <span class="op">+</span> s<span class="op">[</span><span class="dv">1</span><span class="op">..];</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-label="17"></a>    <span class="op">}</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-label="18"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If we want to combine these two operations—reversing a string and then capitalizing its first letter—the code might look like this:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1"></a><span class="dt">string</span> s1 <span class="op">=</span> <span class="st">"abcdefg"</span><span class="op">;</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="dt">string</span> s2 <span class="op">=</span> StringHelper<span class="op">.</span><span class="fu">Capitalize</span><span class="op">(</span>StringHelper<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span>s1<span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="dt">string</span> s1 <span class="op">=</span> <span class="st">"abcdefg"</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="dt">string</span> s2 <span class="op">=</span> StringHelper<span class="op">.</span><span class="fu">Capitalize</span><span class="op">(</span>StringHelper<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span>s1<span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Where is the problem?</strong></p>
 <ol type="1">
 <li><strong>Poor Readability</strong>: Nested calls make the execution order the reverse of the reading order.</li>
@@ -367,8 +370,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="advantages-of-extension-methods" class="level3">
 <h3 class="anchored" data-anchor-id="advantages-of-extension-methods">Advantages of extension methods</h3>
 <p>If we change these two methods into extension methods, the earlier code can be rewritten like this:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1"></a><span class="dt">string</span> s1 <span class="op">=</span> <span class="st">"abcdefg"</span><span class="op">;</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="dt">string</span> s2 <span class="op">=</span> s1<span class="op">.</span><span class="fu">Reverse</span><span class="op">().</span><span class="fu">Capitalize</span><span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="dt">string</span> s1 <span class="op">=</span> <span class="st">"abcdefg"</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="dt">string</span> s2 <span class="op">=</span> s1<span class="op">.</span><span class="fu">Reverse</span><span class="op">().</span><span class="fu">Capitalize</span><span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Advantages:</strong></p>
 <ul>
 <li>✓ <strong>Natural Reading Order</strong>: From left to right, matching how we naturally read.</li>
@@ -391,23 +394,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="basic-syntax-the-this-keyword" class="level3">
 <h3 class="anchored" data-anchor-id="basic-syntax-the-this-keyword">Basic syntax: the <code>this</code> keyword</h3>
 <p>To change a static method to an extension method, simply add the <code>this</code> keyword before the <strong>first parameter</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="op">{</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>    <span class="op">{</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>        <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> s<span class="op">;</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7"></a>        <span class="dt">char</span><span class="op">[]</span> charArray <span class="op">=</span> s<span class="op">.</span><span class="fu">ToCharArray</span><span class="op">();</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>        Array<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span>charArray<span class="op">);</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a>        <span class="kw">return</span> <span class="kw">new</span> <span class="dt">string</span><span class="op">(</span>charArray<span class="op">);</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a>    <span class="op">}</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a></span>
-<span id="cb4-12"><a href="#cb4-12"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a>    <span class="op">{</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a>        <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> s<span class="op">;</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a>        <span class="kw">return</span> <span class="dt">char</span><span class="op">.</span><span class="fu">ToUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">])</span> <span class="op">+</span> s<span class="op">[</span><span class="dv">1</span><span class="op">..];</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a>    <span class="op">}</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
+<span id="cb4-2"><a href="#cb4-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-label="5"></a>        <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> s<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-label="6"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-label="7"></a>        <span class="dt">char</span><span class="op">[]</span> charArray <span class="op">=</span> s<span class="op">.</span><span class="fu">ToCharArray</span><span class="op">();</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-label="8"></a>        Array<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span>charArray<span class="op">);</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-label="9"></a>        <span class="kw">return</span> <span class="kw">new</span> <span class="dt">string</span><span class="op">(</span>charArray<span class="op">);</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-label="10"></a>    <span class="op">}</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-label="11"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-label="12"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-label="13"></a>    <span class="op">{</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-label="14"></a>        <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> s<span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-label="15"></a>        <span class="kw">return</span> <span class="dt">char</span><span class="op">.</span><span class="fu">ToUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">])</span> <span class="op">+</span> s<span class="op">[</span><span class="dv">1</span><span class="op">..];</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-label="16"></a>    <span class="op">}</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-label="17"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Key syntax rules:</strong></p>
 <ol type="1">
 <li><strong>Must be declared in a top-level, nongeneric static class</strong>: Extension methods cannot be declared in a nested class.</li>
@@ -420,31 +423,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="how-to-determine-the-target-class-for-extension" class="level3">
 <h3 class="anchored" data-anchor-id="how-to-determine-the-target-class-for-extension">How to determine the target class for extension?</h3>
 <p>The compiler treats the type modified by the keyword <code>this</code> as the class the method intends to extend. For example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">ToString</span><span class="op">(</span><span class="kw">this</span> DateTime aDate<span class="op">,</span> <span class="dt">char</span> sep<span class="op">)</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="op">{</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    <span class="kw">return</span> $<span class="st">"{aDate.Year}{sep}{aDate.Month:D2}{sep}{aDate.Day:D2}"</span><span class="op">;</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">ToString</span><span class="op">(</span><span class="kw">this</span> DateTime aDate<span class="op">,</span> <span class="dt">char</span> sep<span class="op">)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>    <span class="kw">return</span> $<span class="st">"{aDate.Year}{sep}{aDate.Month:D2}{sep}{aDate.Day:D2}"</span><span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This makes <code>ToString</code> an extension method on the <code>DateTime</code> class, and <code>this DateTime aDate</code> in the parameter list represents the current object.</p>
 <p>When calling:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1"></a>DateTime now <span class="op">=</span> DateTime<span class="op">.</span><span class="fu">Now</span><span class="op">;</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="dt">string</span> formatted <span class="op">=</span> now<span class="op">.</span><span class="fu">ToString</span><span class="op">(</span><span class="ch">'/'</span><span class="op">);</span>  <span class="co">// for example: "2026/03/28"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a>DateTime now <span class="op">=</span> DateTime<span class="op">.</span><span class="fu">Now</span><span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-label="2"></a><span class="dt">string</span> formatted <span class="op">=</span> now<span class="op">.</span><span class="fu">ToString</span><span class="op">(</span><span class="ch">'/'</span><span class="op">);</span>  <span class="co">// for example: "2026/03/28"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="extending-interfaces" class="level3">
 <h3 class="anchored" data-anchor-id="extending-interfaces">Extending interfaces</h3>
 <p>Extension methods can extend not only concrete classes but also <strong>interfaces</strong>. The core mechanism of LINQ is implemented by extending the <code>IEnumerable&lt;T&gt;</code> interface:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="op">{</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a>    <span class="kw">public</span> <span class="kw">static</span> T First<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> sequence<span class="op">)</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>    <span class="op">{</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>        <span class="kw">foreach</span> <span class="op">(</span>T element <span class="kw">in</span> sequence<span class="op">)</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a>            <span class="kw">return</span> element<span class="op">;</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a>        <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">InvalidOperationException</span><span class="op">(</span><span class="st">"Sequence contains no elements!"</span><span class="op">);</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a>    <span class="op">}</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
+<span id="cb7-2"><a href="#cb7-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> T First<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> sequence<span class="op">)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-label="5"></a>        <span class="kw">foreach</span> <span class="op">(</span>T element <span class="kw">in</span> sequence<span class="op">)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-label="6"></a>            <span class="kw">return</span> element<span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-label="7"></a>        <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">InvalidOperationException</span><span class="op">(</span><span class="st">"Sequence contains no elements!"</span><span class="op">);</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-label="8"></a>    <span class="op">}</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-label="9"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>When used, all types implementing <code>IEnumerable&lt;T&gt;</code> can use this extension method:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1"></a><span class="dt">char</span> firstChar <span class="op">=</span> <span class="st">"Seattle"</span><span class="op">.</span><span class="fu">First</span><span class="op">();</span>  <span class="co">// 'S'</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="dt">int</span> firstNumber <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">}.</span><span class="fu">First</span><span class="op">();</span>  <span class="co">// 1</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="dt">var</span> firstItem <span class="op">=</span> myList<span class="op">.</span><span class="fu">First</span><span class="op">();</span> <span class="co">// List&lt;T&gt; also implements IEnumerable&lt;T&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="dt">char</span> firstChar <span class="op">=</span> <span class="st">"Seattle"</span><span class="op">.</span><span class="fu">First</span><span class="op">();</span>  <span class="co">// 'S'</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="dt">int</span> firstNumber <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">}.</span><span class="fu">First</span><span class="op">();</span>  <span class="co">// 1</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-label="3"></a><span class="dt">var</span> firstItem <span class="op">=</span> myList<span class="op">.</span><span class="fu">First</span><span class="op">();</span> <span class="co">// List&lt;T&gt; also implements IEnumerable&lt;T&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Note the first line of the example above: <code>"Seattle"</code> is a string, and <code>string</code> implements the <code>IEnumerable&lt;char&gt;</code> interface, so the <code>First()</code> extension method can be called, returning the first character ‘S’. Similarly, <code>int[]</code> and <code>List&lt;T&gt;</code> implement <code>IEnumerable&lt;T&gt;</code>, so they can also use this extension method.</p>
 <p>The underlying rule is simple: when resolving an extension method, the compiler checks whether the receiver can be assigned to the type of the <code>this</code> parameter. If the answer is yes, that method becomes a candidate. So when the <code>this</code> parameter is <code>IEnumerable&lt;T&gt;</code>, any type implementing that interface can use the method without needing separate definitions for each concrete type.</p>
 <p>This is also the core operating principle of LINQ—by extending the <code>IEnumerable&lt;T&gt;</code> interface, LINQ methods (like <code>Where</code>, <code>Select</code>, <code>OrderBy</code>) can be applied to arrays, collections, strings, and many other types. What makes this work is the compiler’s static method resolution based on the <code>this</code> parameter type, not runtime dynamic binding.</p>
@@ -452,11 +455,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="parameter-passing-rules" class="level3">
 <h3 class="anchored" data-anchor-id="parameter-passing-rules">Parameter passing rules</h3>
 <p>Although declared as <code>static</code>, extension methods are called in the same way as regular instance methods. Since the compiler passes the current object to the first parameter of the extension method (the parameter modified by <code>this</code>), the call site supplies one fewer argument than the method declares.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">// Declaration: Two parameters (this DateTime aDate, char separator)</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">ToString</span><span class="op">(</span><span class="kw">this</span> DateTime aDate<span class="op">,</span> <span class="dt">char</span> separator<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co">// Call: Pass only one argument (separator)</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a>DateTime<span class="op">.</span><span class="fu">Now</span><span class="op">.</span><span class="fu">ToString</span><span class="op">(</span><span class="ch">'/'</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="co">// Declaration: Two parameters (this DateTime aDate, char separator)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-label="2"></a><span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">ToString</span><span class="op">(</span><span class="kw">this</span> DateTime aDate<span class="op">,</span> <span class="dt">char</span> separator<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-label="3"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-label="4"></a><span class="co">// Call: Pass only one argument (separator)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-label="5"></a>DateTime<span class="op">.</span><span class="fu">Now</span><span class="op">.</span><span class="fu">ToString</span><span class="op">(</span><span class="ch">'/'</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
 <p><strong><code>this</code> can only be used for the first parameter</strong>. If you add <code>this</code> to the second or subsequent parameters, the program will not compile.</p>
@@ -469,24 +472,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="do-not-pollute-core-namespaces" class="level3">
 <h3 class="anchored" data-anchor-id="do-not-pollute-core-namespaces">1. Do not pollute core namespaces</h3>
 <p><strong>✗ Not Recommended:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">namespace</span> System  <span class="co">// Polluted the System namespace!</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="op">{</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
-<span id="cb10-4"><a href="#cb10-4"></a>    <span class="op">{</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>        <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a>    <span class="op">}</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="kw">namespace</span> System  <span class="co">// Polluted the System namespace!</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
+<span id="cb10-4"><a href="#cb10-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-label="5"></a>        <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-label="6"></a>    <span class="op">}</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-label="7"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>✓ Recommended:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">namespace</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="op">{</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
-<span id="cb11-4"><a href="#cb11-4"></a>    <span class="op">{</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a>        <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a>        <span class="op">{</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a>            <span class="co">/* ... */</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a>        <span class="op">}</span></span>
-<span id="cb11-9"><a href="#cb11-9"></a>    <span class="op">}</span></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="kw">namespace</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
+<span id="cb11-4"><a href="#cb11-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-label="5"></a>        <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-label="6"></a>        <span class="op">{</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-label="7"></a>            <span class="co">/* ... */</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-label="8"></a>        <span class="op">}</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-label="9"></a>    <span class="op">}</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-label="10"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Reason:</strong></p>
 <ul>
 <li>Placing extension methods under <code>System</code> or other root namespaces makes them visible to all code using that namespace.</li>
@@ -497,15 +500,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="prioritize-extending-interfaces-over-concrete-classes" class="level3">
 <h3 class="anchored" data-anchor-id="prioritize-extending-interfaces-over-concrete-classes">2. Prioritize extending interfaces over concrete classes</h3>
 <p><strong>Targeting concrete classes (Not best practice):</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="dt">int</span> <span class="fu">Product</span><span class="op">(</span><span class="kw">this</span> List<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="op">{</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a>    <span class="kw">return</span> numbers<span class="op">.</span><span class="fu">Aggregate</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">(</span>acc<span class="op">,</span> n<span class="op">)</span> <span class="op">=&gt;</span> acc <span class="op">*</span> n<span class="op">);</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="dt">int</span> <span class="fu">Product</span><span class="op">(</span><span class="kw">this</span> List<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-label="3"></a>    <span class="kw">return</span> numbers<span class="op">.</span><span class="fu">Aggregate</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">(</span>acc<span class="op">,</span> n<span class="op">)</span> <span class="op">=&gt;</span> acc <span class="op">*</span> n<span class="op">);</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-label="4"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>✓ Prioritize extending interfaces:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="dt">int</span> <span class="fu">Product</span><span class="op">(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="op">{</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a>    <span class="kw">return</span> numbers<span class="op">.</span><span class="fu">Aggregate</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">(</span>acc<span class="op">,</span> n<span class="op">)</span> <span class="op">=&gt;</span> acc <span class="op">*</span> n<span class="op">);</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="dt">int</span> <span class="fu">Product</span><span class="op">(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-label="3"></a>    <span class="kw">return</span> numbers<span class="op">.</span><span class="fu">Aggregate</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">(</span>acc<span class="op">,</span> n<span class="op">)</span> <span class="op">=&gt;</span> acc <span class="op">*</span> n<span class="op">);</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-label="4"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Advantages:</strong></p>
 <ul>
 <li>Broader applicability (<code>List&lt;int&gt;</code>, <code>int[]</code>, <code>HashSet&lt;int&gt;</code> can all use it).</li>
@@ -515,58 +518,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="use-generic-extensions-to-improve-reusability" class="level3">
 <h3 class="anchored" data-anchor-id="use-generic-extensions-to-improve-reusability">3. Use generic extensions to improve reusability</h3>
 <p>When the extension logic does not depend on a specific element type, generics let the same method apply more broadly. The following example lets any <code>IEnumerable&lt;T&gt;</code> report whether it is <code>null</code> or empty:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="op">{</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a>    <span class="co">// ✓ Generic version, applicable to all IEnumerable&lt;T&gt;</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> IsNullOrEmpty<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;?</span> source<span class="op">)</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a>    <span class="op">{</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a>        <span class="kw">return</span> source <span class="op">==</span> <span class="kw">null</span> <span class="op">||</span> <span class="op">!</span>source<span class="op">.</span><span class="fu">Any</span><span class="op">();</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a>    <span class="op">}</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="op">}</span></span>
-<span id="cb14-9"><a href="#cb14-9"></a></span>
-<span id="cb14-10"><a href="#cb14-10"></a><span class="co">// Usage</span></span>
-<span id="cb14-11"><a href="#cb14-11"></a>List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> names <span class="op">=</span> <span class="fu">GetNames</span><span class="op">();</span></span>
-<span id="cb14-12"><a href="#cb14-12"></a><span class="kw">if</span> <span class="op">(</span>names<span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">())</span></span>
-<span id="cb14-13"><a href="#cb14-13"></a><span class="op">{</span></span>
-<span id="cb14-14"><a href="#cb14-14"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"No data"</span><span class="op">);</span></span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
+<span id="cb14-2"><a href="#cb14-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>    <span class="co">// ✓ Generic version, applicable to all IEnumerable&lt;T&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-label="4"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> IsNullOrEmpty<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;?</span> source<span class="op">)</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-label="5"></a>    <span class="op">{</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-label="6"></a>        <span class="kw">return</span> source <span class="op">==</span> <span class="kw">null</span> <span class="op">||</span> <span class="op">!</span>source<span class="op">.</span><span class="fu">Any</span><span class="op">();</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-label="7"></a>    <span class="op">}</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-label="8"></a><span class="op">}</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-label="9"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-label="10"></a><span class="co">// Usage</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-label="11"></a>List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> names <span class="op">=</span> <span class="fu">GetNames</span><span class="op">();</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-label="12"></a><span class="kw">if</span> <span class="op">(</span>names<span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">())</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-label="13"></a><span class="op">{</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-label="14"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"No data"</span><span class="op">);</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-label="15"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="pay-attention-to-null-safety" class="level3">
 <h3 class="anchored" data-anchor-id="pay-attention-to-null-safety">4. Pay attention to null safety</h3>
 <p>Extension methods can be called on <code>null</code> references (because they are actually static methods), so null cases must be handled:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="op">{</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsNullOrWhiteSpace</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span><span class="op">?</span> value<span class="op">)</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a>    <span class="op">{</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a>        <span class="kw">return</span> <span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrWhiteSpace</span><span class="op">(</span>value<span class="op">);</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a>    <span class="op">}</span></span>
-<span id="cb15-7"><a href="#cb15-7"></a></span>
-<span id="cb15-8"><a href="#cb15-8"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Truncate</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span><span class="op">?</span> value<span class="op">,</span> <span class="dt">int</span> maxLength<span class="op">)</span></span>
-<span id="cb15-9"><a href="#cb15-9"></a>    <span class="op">{</span></span>
-<span id="cb15-10"><a href="#cb15-10"></a>        <span class="kw">if</span> <span class="op">(</span>value <span class="op">==</span> <span class="kw">null</span><span class="op">)</span> <span class="kw">return</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Empty</span><span class="op">;</span></span>
-<span id="cb15-11"><a href="#cb15-11"></a>        <span class="kw">return</span> value<span class="op">.</span><span class="fu">Length</span> <span class="op">&lt;=</span> maxLength <span class="op">?</span> value <span class="op">:</span> value<span class="op">.</span><span class="fu">Substring</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> maxLength<span class="op">);</span></span>
-<span id="cb15-12"><a href="#cb15-12"></a>    <span class="op">}</span></span>
-<span id="cb15-13"><a href="#cb15-13"></a><span class="op">}</span></span>
-<span id="cb15-14"><a href="#cb15-14"></a></span>
-<span id="cb15-15"><a href="#cb15-15"></a><span class="co">// Can be safely called on null</span></span>
-<span id="cb15-16"><a href="#cb15-16"></a><span class="dt">string</span><span class="op">?</span> text <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
-<span id="cb15-17"><a href="#cb15-17"></a><span class="dt">bool</span> isEmpty <span class="op">=</span> text<span class="op">.</span><span class="fu">IsNullOrWhiteSpace</span><span class="op">();</span>  <span class="co">// true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
+<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsNullOrWhiteSpace</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span><span class="op">?</span> value<span class="op">)</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-label="5"></a>        <span class="kw">return</span> <span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrWhiteSpace</span><span class="op">(</span>value<span class="op">);</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-label="6"></a>    <span class="op">}</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-label="7"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-label="8"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Truncate</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span><span class="op">?</span> value<span class="op">,</span> <span class="dt">int</span> maxLength<span class="op">)</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-label="9"></a>    <span class="op">{</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-label="10"></a>        <span class="kw">if</span> <span class="op">(</span>value <span class="op">==</span> <span class="kw">null</span><span class="op">)</span> <span class="kw">return</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Empty</span><span class="op">;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-label="11"></a>        <span class="kw">return</span> value<span class="op">.</span><span class="fu">Length</span> <span class="op">&lt;=</span> maxLength <span class="op">?</span> value <span class="op">:</span> value<span class="op">.</span><span class="fu">Substring</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> maxLength<span class="op">);</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-label="12"></a>    <span class="op">}</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-label="13"></a><span class="op">}</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-label="14"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-label="15"></a><span class="co">// Can be safely called on null</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-label="16"></a><span class="dt">string</span><span class="op">?</span> text <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-label="17"></a><span class="dt">bool</span> isEmpty <span class="op">=</span> text<span class="op">.</span><span class="fu">IsNullOrWhiteSpace</span><span class="op">();</span>  <span class="co">// true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="performance-considerations" class="level3">
 <h3 class="anchored" data-anchor-id="performance-considerations">5. Performance considerations</h3>
 <p>Code that uses extension methods does not add a special runtime dispatch cost, because the compiler rewrites it at compile time. If you inspect the generated IL with a decompiler, you’ll see that an extension method call is fundamentally compiled into a static method call.</p>
 <p>The following code snippet simply illustrates the compiler’s transformation rules:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb16-1"></a><span class="co">// Source code (extension method syntax)</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="dt">string</span> result <span class="op">=</span> <span class="st">"hello"</span><span class="op">.</span><span class="fu">Reverse</span><span class="op">();</span></span>
-<span id="cb16-3"><a href="#cb16-3"></a></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="co">// compiled equivalent (static method call)</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="dt">string</span> result <span class="op">=</span> StringExtensions<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span><span class="st">"hello"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="co">// Source code (extension method syntax)</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-label="2"></a><span class="dt">string</span> result <span class="op">=</span> <span class="st">"hello"</span><span class="op">.</span><span class="fu">Reverse</span><span class="op">();</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-label="3"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-label="4"></a><span class="co">// compiled equivalent (static method call)</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-label="5"></a><span class="dt">string</span> result <span class="op">=</span> StringExtensions<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span><span class="st">"hello"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>More generally, the transformation looks like this:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">// Extension method call</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>arg0<span class="op">.</span><span class="fu">Method</span><span class="op">(</span>arg1<span class="op">,</span> arg2<span class="op">,</span> <span class="op">...);</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a></span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="co">// Compiled to static method call</span></span>
-<span id="cb17-5"><a href="#cb17-5"></a>StaticClass<span class="op">.</span><span class="fu">Method</span><span class="op">(</span>arg0<span class="op">,</span> arg1<span class="op">,</span> arg2<span class="op">,</span> <span class="op">...);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="co">// Extension method call</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-label="2"></a>arg0<span class="op">.</span><span class="fu">Method</span><span class="op">(</span>arg1<span class="op">,</span> arg2<span class="op">,</span> <span class="op">...);</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-label="3"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-label="4"></a><span class="co">// Compiled to static method call</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-label="5"></a>StaticClass<span class="op">.</span><span class="fu">Method</span><span class="op">(</span>arg0<span class="op">,</span> arg1<span class="op">,</span> arg2<span class="op">,</span> <span class="op">...);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This means:</p>
 <ul>
 <li><strong>No special dispatch mechanism</strong>: After compilation, an extension method is still just a normal static method call. The extension syntax itself does not introduce extra runtime lookup work.</li>
@@ -595,81 +598,81 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>C# 14 uses the <code>extension</code> keyword to define an extension member block. The following example shows how to add extension members to the <code>string</code> type:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="op">{</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a>    <span class="co">// Extension member block (instance members)</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>    <span class="fu">extension</span><span class="op">(</span><span class="dt">string</span> s<span class="op">)</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a>    <span class="op">{</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a>        <span class="co">// Extension property (avoid naming conflict with string.IsNullOrEmpty method)</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a>        <span class="kw">public</span> <span class="dt">bool</span> IsEmpty <span class="op">=&gt;</span> <span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">);</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a></span>
-<span id="cb18-9"><a href="#cb18-9"></a>        <span class="co">// Extension method</span></span>
-<span id="cb18-10"><a href="#cb18-10"></a>        <span class="kw">public</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">()</span></span>
-<span id="cb18-11"><a href="#cb18-11"></a>        <span class="op">{</span></span>
-<span id="cb18-12"><a href="#cb18-12"></a>            <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> s<span class="op">;</span></span>
-<span id="cb18-13"><a href="#cb18-13"></a>            <span class="dt">var</span> chars <span class="op">=</span> s<span class="op">.</span><span class="fu">ToCharArray</span><span class="op">();</span></span>
-<span id="cb18-14"><a href="#cb18-14"></a>            Array<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span>chars<span class="op">);</span></span>
-<span id="cb18-15"><a href="#cb18-15"></a>            <span class="kw">return</span> <span class="kw">new</span> <span class="dt">string</span><span class="op">(</span>chars<span class="op">);</span></span>
-<span id="cb18-16"><a href="#cb18-16"></a>        <span class="op">}</span></span>
-<span id="cb18-17"><a href="#cb18-17"></a>    <span class="op">}</span></span>
-<span id="cb18-18"><a href="#cb18-18"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
+<span id="cb18-2"><a href="#cb18-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-label="3"></a>    <span class="co">// Extension member block (instance members)</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-label="4"></a>    <span class="fu">extension</span><span class="op">(</span><span class="dt">string</span> s<span class="op">)</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-label="5"></a>    <span class="op">{</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-label="6"></a>        <span class="co">// Extension property (avoid naming conflict with string.IsNullOrEmpty method)</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-label="7"></a>        <span class="kw">public</span> <span class="dt">bool</span> IsEmpty <span class="op">=&gt;</span> <span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-label="8"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-label="9"></a>        <span class="co">// Extension method</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-label="10"></a>        <span class="kw">public</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">()</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-label="11"></a>        <span class="op">{</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-label="12"></a>            <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> s<span class="op">;</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-label="13"></a>            <span class="dt">var</span> chars <span class="op">=</span> s<span class="op">.</span><span class="fu">ToCharArray</span><span class="op">();</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-label="14"></a>            Array<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span>chars<span class="op">);</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-label="15"></a>            <span class="kw">return</span> <span class="kw">new</span> <span class="dt">string</span><span class="op">(</span>chars<span class="op">);</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-label="16"></a>        <span class="op">}</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-label="17"></a>    <span class="op">}</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-label="18"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>One benefit of this style is that, unlike traditional extension methods, you don’t need to add the <code>this</code> parameter to every extension member. You specify it once when declaring the block: <code>extension(string s)</code>.</p>
 <p>At the call site, the syntax still looks like a normal member access:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb19-1"><a href="#cb19-1"></a><span class="dt">string</span> text <span class="op">=</span> <span class="st">"hello"</span><span class="op">;</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="dt">bool</span> isEmpty <span class="op">=</span> text<span class="op">.</span><span class="fu">IsEmpty</span><span class="op">;</span>      <span class="co">// Extension property</span></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="dt">string</span> reversed <span class="op">=</span> text<span class="op">.</span><span class="fu">Reverse</span><span class="op">();</span>   <span class="co">// Extension method</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a><span class="dt">string</span> text <span class="op">=</span> <span class="st">"hello"</span><span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-label="2"></a><span class="dt">bool</span> isEmpty <span class="op">=</span> text<span class="op">.</span><span class="fu">IsEmpty</span><span class="op">;</span>      <span class="co">// Extension property</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-label="3"></a><span class="dt">string</span> reversed <span class="op">=</span> text<span class="op">.</span><span class="fu">Reverse</span><span class="op">();</span>   <span class="co">// Extension method</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>IsEmpty</code> in line 2 is an extension property, so parentheses are not needed when calling it, just as with a normal property. <code>Reverse()</code>, by contrast, is an extension method, so it still requires parentheses. This is one advantage of the new C# 14 syntax: previously, traditional syntax couldn’t define extension properties, so you could only write <code>text.IsEmpty()</code>; now you can use the more natural <code>text.IsEmpty</code> property syntax.</p>
 <blockquote class="blockquote">
 <p><strong>Source Code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch11/DemoExtensionBlock">DemoExtensionBlock</a></p>
 </blockquote>
 <p>The <code>extension</code> block can also work with generics and <code>where</code> constraints. To add a filtering method to a sequence that may contain <code>null</code>, you could write:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="op">{</span></span>
-<span id="cb20-3"><a href="#cb20-3"></a>   <span class="co">// Accepts a sequence that may contain null,</span></span>
-<span id="cb20-4"><a href="#cb20-4"></a>   <span class="co">// and returns a non-null reference sequence</span></span>
-<span id="cb20-5"><a href="#cb20-5"></a>   extension<span class="op">&lt;</span>TSource<span class="op">&gt;(</span>IEnumerable<span class="op">&lt;</span>TSource<span class="op">?&gt;</span> source<span class="op">)</span> where TSource <span class="op">:</span> <span class="kw">class</span></span>
-<span id="cb20-6"><a href="#cb20-6"></a>   <span class="op">{</span></span>
-<span id="cb20-7"><a href="#cb20-7"></a>      <span class="kw">public</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> <span class="fu">WhereNotNull</span><span class="op">()</span></span>
-<span id="cb20-8"><a href="#cb20-8"></a>      <span class="op">{</span></span>
-<span id="cb20-9"><a href="#cb20-9"></a>         <span class="kw">return</span> source<span class="op">.</span><span class="fu">Where</span><span class="op">(</span>x <span class="op">=&gt;</span> x <span class="kw">is</span> not <span class="kw">null</span><span class="op">)!;</span></span>
-<span id="cb20-10"><a href="#cb20-10"></a>      <span class="op">}</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a>   <span class="op">}</span></span>
-<span id="cb20-12"><a href="#cb20-12"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
+<span id="cb20-2"><a href="#cb20-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-label="3"></a>   <span class="co">// Accepts a sequence that may contain null,</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-label="4"></a>   <span class="co">// and returns a non-null reference sequence</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-label="5"></a>   extension<span class="op">&lt;</span>TSource<span class="op">&gt;(</span>IEnumerable<span class="op">&lt;</span>TSource<span class="op">?&gt;</span> source<span class="op">)</span> where TSource <span class="op">:</span> <span class="kw">class</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-label="6"></a>   <span class="op">{</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-label="7"></a>      <span class="kw">public</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> <span class="fu">WhereNotNull</span><span class="op">()</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-label="8"></a>      <span class="op">{</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-label="9"></a>         <span class="kw">return</span> source<span class="op">.</span><span class="fu">Where</span><span class="op">(</span>x <span class="op">=&gt;</span> x <span class="kw">is</span> not <span class="kw">null</span><span class="op">)!;</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-label="10"></a>      <span class="op">}</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-label="11"></a>   <span class="op">}</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-label="12"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>There are two key points here:</p>
 <ul>
 <li><code>where TSource : class</code> means <code>TSource</code> itself is a non-nullable reference type.</li>
 <li>The receiver type is written as <code>IEnumerable&lt;TSource?&gt;</code>, which means the input sequence is still allowed to contain null elements.</li>
 </ul>
 <p>You can call it like this:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1"></a><span class="dt">var</span> names <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">,</span> <span class="kw">null</span> <span class="op">};</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="dt">var</span> validNames <span class="op">=</span> names<span class="op">.</span><span class="fu">WhereNotNull</span><span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="dt">var</span> names <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">,</span> <span class="kw">null</span> <span class="op">};</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-label="2"></a><span class="dt">var</span> validNames <span class="op">=</span> names<span class="op">.</span><span class="fu">WhereNotNull</span><span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Here, <code>names</code> is inferred as <code>string?[]</code>, while <code>validNames</code> is inferred as <code>IEnumerable&lt;string&gt;</code>. In other words, the method not only filters out null values at runtime, but also narrows the element type of the returned sequence to a non-nullable reference type. If you instead wrote the receiver as <code>IEnumerable&lt;TSource&gt;</code> together with <code>where TSource : class?</code>, you could still filter nulls at runtime, but the returned static type would usually remain nullable.</p>
 </section>
 <section id="extension-static-members" class="level3">
 <h3 class="anchored" data-anchor-id="extension-static-members">Extension static members</h3>
 <p>The <code>extension</code> blocks introduced earlier all have parameter names (like <code>string s</code>), which means they define instance members. If you specify only the type without a parameter name, you define <strong>static extension members</strong>. Here is an example using <code>IEnumerable&lt;TSource&gt;</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="op">{</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a>    <span class="co">// Extension static members (Note: no parameter name)</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a>    extension<span class="op">&lt;</span>TSource<span class="op">&gt;(</span>IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;)</span></span>
-<span id="cb22-5"><a href="#cb22-5"></a>    <span class="op">{</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a>        <span class="co">// Static extension method</span></span>
-<span id="cb22-7"><a href="#cb22-7"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> <span class="fu">Combine</span><span class="op">(</span></span>
-<span id="cb22-8"><a href="#cb22-8"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> first<span class="op">,</span></span>
-<span id="cb22-9"><a href="#cb22-9"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> second<span class="op">)</span></span>
-<span id="cb22-10"><a href="#cb22-10"></a>            <span class="op">=&gt;</span> first<span class="op">.</span><span class="fu">Concat</span><span class="op">(</span>second<span class="op">);</span></span>
-<span id="cb22-11"><a href="#cb22-11"></a></span>
-<span id="cb22-12"><a href="#cb22-12"></a>        <span class="co">// Static extension property</span></span>
-<span id="cb22-13"><a href="#cb22-13"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> Empty</span>
-<span id="cb22-14"><a href="#cb22-14"></a>            <span class="op">=&gt;</span> Enumerable<span class="op">.</span><span class="fu">Empty</span><span class="op">&lt;</span>TSource<span class="op">&gt;();</span></span>
-<span id="cb22-15"><a href="#cb22-15"></a></span>
-<span id="cb22-16"><a href="#cb22-16"></a>        <span class="co">// Extension operator +</span></span>
-<span id="cb22-17"><a href="#cb22-17"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> <span class="kw">operator</span> <span class="op">+(</span></span>
-<span id="cb22-18"><a href="#cb22-18"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> left<span class="op">,</span></span>
-<span id="cb22-19"><a href="#cb22-19"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> right<span class="op">)</span></span>
-<span id="cb22-20"><a href="#cb22-20"></a>            <span class="op">=&gt;</span> left<span class="op">.</span><span class="fu">Concat</span><span class="op">(</span>right<span class="op">);</span></span>
-<span id="cb22-21"><a href="#cb22-21"></a>    <span class="op">}</span></span>
-<span id="cb22-22"><a href="#cb22-22"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
+<span id="cb22-2"><a href="#cb22-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-label="3"></a>    <span class="co">// Extension static members (Note: no parameter name)</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-label="4"></a>    extension<span class="op">&lt;</span>TSource<span class="op">&gt;(</span>IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-label="5"></a>    <span class="op">{</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-label="6"></a>        <span class="co">// Static extension method</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-label="7"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> <span class="fu">Combine</span><span class="op">(</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-label="8"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> first<span class="op">,</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-label="9"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> second<span class="op">)</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-label="10"></a>            <span class="op">=&gt;</span> first<span class="op">.</span><span class="fu">Concat</span><span class="op">(</span>second<span class="op">);</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-label="11"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-label="12"></a>        <span class="co">// Static extension property</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-label="13"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> Empty</span>
+<span id="cb22-14"><a href="#cb22-14" aria-label="14"></a>            <span class="op">=&gt;</span> Enumerable<span class="op">.</span><span class="fu">Empty</span><span class="op">&lt;</span>TSource<span class="op">&gt;();</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-label="15"></a></span>
+<span id="cb22-16"><a href="#cb22-16" aria-label="16"></a>        <span class="co">// Extension operator +</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-label="17"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> <span class="kw">operator</span> <span class="op">+(</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-label="18"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> left<span class="op">,</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-label="19"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> right<span class="op">)</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-label="20"></a>            <span class="op">=&gt;</span> left<span class="op">.</span><span class="fu">Concat</span><span class="op">(</span>right<span class="op">);</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-label="21"></a>    <span class="op">}</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-label="22"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Syntax notes:</p>
 <ul>
 <li><code>extension&lt;TSource&gt;(IEnumerable&lt;TSource&gt;)</code> has no parameter name, indicating members inside the block are static.</li>
@@ -677,14 +680,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Operators can also be extended. This example is the addition operator: <code>public static ... operator +(...)</code>.</li>
 </ul>
 <p>Call them like this:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb23-1"><a href="#cb23-1"></a><span class="co">// Static extension method: called via type name</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="dt">var</span> combined <span class="op">=</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;.</span><span class="fu">Combine</span><span class="op">(</span>first<span class="op">,</span> second<span class="op">);</span></span>
-<span id="cb23-3"><a href="#cb23-3"></a></span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="co">// Static extension property</span></span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="dt">var</span> empty <span class="op">=</span> IEnumerable<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;.</span><span class="fu">Empty</span><span class="op">;</span></span>
-<span id="cb23-6"><a href="#cb23-6"></a></span>
-<span id="cb23-7"><a href="#cb23-7"></a><span class="co">// Extension operator</span></span>
-<span id="cb23-8"><a href="#cb23-8"></a><span class="dt">var</span> merged <span class="op">=</span> list1 <span class="op">+</span> list2<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a><span class="co">// Static extension method: called via type name</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-label="2"></a><span class="dt">var</span> combined <span class="op">=</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;.</span><span class="fu">Combine</span><span class="op">(</span>first<span class="op">,</span> second<span class="op">);</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-label="3"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-label="4"></a><span class="co">// Static extension property</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-label="5"></a><span class="dt">var</span> empty <span class="op">=</span> IEnumerable<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;.</span><span class="fu">Empty</span><span class="op">;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-label="6"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-label="7"></a><span class="co">// Extension operator</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-label="8"></a><span class="dt">var</span> merged <span class="op">=</span> list1 <span class="op">+</span> list2<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This lets you add static members to interfaces. Although C# 11+ supports static abstract and static virtual interface members, that approach requires modifying the interface definition. Extension syntax achieves a similar effect without modifying the original type.</p>
 <blockquote class="blockquote">
 <p><strong>Source Code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch11/DemoExtensionStatic">DemoExtensionStatic</a></p>
@@ -735,35 +738,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="practical-example-adding-extension-properties-to-datetime" class="level3">
 <h3 class="anchored" data-anchor-id="practical-example-adding-extension-properties-to-datetime">Practical example: adding extension properties to <code>DateTime</code></h3>
 <p>After seeing the syntax, let’s use <code>DateTime</code> for a more complete example. The following extension members provide a weekend check, month boundaries, and a sortable date-time string:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> DateTimeExtensions</span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="op">{</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a>   <span class="fu">extension</span><span class="op">(</span>DateTime dt<span class="op">)</span></span>
-<span id="cb24-4"><a href="#cb24-4"></a>   <span class="op">{</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a>      <span class="co">// Extension property: Determine if it's a weekend</span></span>
-<span id="cb24-6"><a href="#cb24-6"></a>      <span class="kw">public</span> <span class="dt">bool</span> IsWeekend <span class="op">=&gt;</span></span>
-<span id="cb24-7"><a href="#cb24-7"></a>         dt<span class="op">.</span><span class="fu">DayOfWeek</span> <span class="kw">is</span> DayOfWeek<span class="op">.</span><span class="fu">Saturday</span> or DayOfWeek<span class="op">.</span><span class="fu">Sunday</span><span class="op">;</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a></span>
-<span id="cb24-9"><a href="#cb24-9"></a>      <span class="co">// Extension property: Get the first day of the month</span></span>
-<span id="cb24-10"><a href="#cb24-10"></a>      <span class="kw">public</span> DateTime FirstDayOfMonth <span class="op">=&gt;</span></span>
-<span id="cb24-11"><a href="#cb24-11"></a>                        <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span>dt<span class="op">.</span><span class="fu">Year</span><span class="op">,</span> dt<span class="op">.</span><span class="fu">Month</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
-<span id="cb24-12"><a href="#cb24-12"></a></span>
-<span id="cb24-13"><a href="#cb24-13"></a>      <span class="co">// Extension property: Get the last day of the month (must call</span></span>
-<span id="cb24-14"><a href="#cb24-14"></a>      <span class="co">//                     other extension properties via dt)</span></span>
-<span id="cb24-15"><a href="#cb24-15"></a>      <span class="kw">public</span> DateTime LastDayOfMonth <span class="op">=&gt;</span></span>
-<span id="cb24-16"><a href="#cb24-16"></a>                        dt<span class="op">.</span><span class="fu">FirstDayOfMonth</span><span class="op">.</span><span class="fu">AddMonths</span><span class="op">(</span><span class="dv">1</span><span class="op">).</span><span class="fu">AddDays</span><span class="op">(-</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb24-17"><a href="#cb24-17"></a></span>
-<span id="cb24-18"><a href="#cb24-18"></a>      <span class="co">// Extension method: Format as a sortable date-time string</span></span>
-<span id="cb24-19"><a href="#cb24-19"></a>      <span class="kw">public</span> <span class="dt">string</span> <span class="fu">ToSortableDateTimeString</span><span class="op">()</span> <span class="op">=&gt;</span> dt<span class="op">.</span><span class="fu">ToString</span><span class="op">(</span><span class="st">"s"</span><span class="op">);</span></span>
-<span id="cb24-20"><a href="#cb24-20"></a>   <span class="op">}</span></span>
-<span id="cb24-21"><a href="#cb24-21"></a><span class="op">}</span></span>
-<span id="cb24-22"><a href="#cb24-22"></a></span>
-<span id="cb24-23"><a href="#cb24-23"></a><span class="co">// Usage:</span></span>
-<span id="cb24-24"><a href="#cb24-24"></a><span class="dt">var</span> today <span class="op">=</span> DateTime<span class="op">.</span><span class="fu">Today</span><span class="op">;</span></span>
-<span id="cb24-25"><a href="#cb24-25"></a><span class="kw">if</span> <span class="op">(</span>today<span class="op">.</span><span class="fu">IsWeekend</span><span class="op">)</span></span>
-<span id="cb24-26"><a href="#cb24-26"></a><span class="op">{</span></span>
-<span id="cb24-27"><a href="#cb24-27"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"It's the weekend!"</span><span class="op">);</span></span>
-<span id="cb24-28"><a href="#cb24-28"></a><span class="op">}</span></span>
-<span id="cb24-29"><a href="#cb24-29"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"First day of the month: {today.FirstDayOfMonth:yyyy-MM-dd}"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> DateTimeExtensions</span>
+<span id="cb24-2"><a href="#cb24-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-label="3"></a>   <span class="fu">extension</span><span class="op">(</span>DateTime dt<span class="op">)</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-label="4"></a>   <span class="op">{</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-label="5"></a>      <span class="co">// Extension property: Determine if it's a weekend</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-label="6"></a>      <span class="kw">public</span> <span class="dt">bool</span> IsWeekend <span class="op">=&gt;</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-label="7"></a>         dt<span class="op">.</span><span class="fu">DayOfWeek</span> <span class="kw">is</span> DayOfWeek<span class="op">.</span><span class="fu">Saturday</span> or DayOfWeek<span class="op">.</span><span class="fu">Sunday</span><span class="op">;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-label="8"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-label="9"></a>      <span class="co">// Extension property: Get the first day of the month</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-label="10"></a>      <span class="kw">public</span> DateTime FirstDayOfMonth <span class="op">=&gt;</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-label="11"></a>                        <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span>dt<span class="op">.</span><span class="fu">Year</span><span class="op">,</span> dt<span class="op">.</span><span class="fu">Month</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-label="12"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-label="13"></a>      <span class="co">// Extension property: Get the last day of the month (must call</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-label="14"></a>      <span class="co">//                     other extension properties via dt)</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-label="15"></a>      <span class="kw">public</span> DateTime LastDayOfMonth <span class="op">=&gt;</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-label="16"></a>                        dt<span class="op">.</span><span class="fu">FirstDayOfMonth</span><span class="op">.</span><span class="fu">AddMonths</span><span class="op">(</span><span class="dv">1</span><span class="op">).</span><span class="fu">AddDays</span><span class="op">(-</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-label="17"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-label="18"></a>      <span class="co">// Extension method: Format as a sortable date-time string</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-label="19"></a>      <span class="kw">public</span> <span class="dt">string</span> <span class="fu">ToSortableDateTimeString</span><span class="op">()</span> <span class="op">=&gt;</span> dt<span class="op">.</span><span class="fu">ToString</span><span class="op">(</span><span class="st">"s"</span><span class="op">);</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-label="20"></a>   <span class="op">}</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-label="21"></a><span class="op">}</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-label="22"></a></span>
+<span id="cb24-23"><a href="#cb24-23" aria-label="23"></a><span class="co">// Usage:</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-label="24"></a><span class="dt">var</span> today <span class="op">=</span> DateTime<span class="op">.</span><span class="fu">Today</span><span class="op">;</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-label="25"></a><span class="kw">if</span> <span class="op">(</span>today<span class="op">.</span><span class="fu">IsWeekend</span><span class="op">)</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-label="26"></a><span class="op">{</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-label="27"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"It's the weekend!"</span><span class="op">);</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-label="28"></a><span class="op">}</span></span>
+<span id="cb24-29"><a href="#cb24-29" aria-label="29"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"First day of the month: {today.FirstDayOfMonth:yyyy-MM-dd}"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The method is intentionally named <code>ToSortableDateTimeString()</code> because the standard <code>"s"</code> format produces a sortable string such as <code>2026-03-25T08:30:00</code>. Its shape looks like a common ISO 8601 timestamp, but it <strong>does not preserve time zone information or the <code>DateTime.Kind</code> value</strong>. If you need a serialization format that round-trips more reliably, prefer the <code>"O"</code> format in most cases.</p>
 <blockquote class="blockquote">
 <p><strong>Source Code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch11/DemoExtensionMembers">DemoExtensionMembers</a></p>
@@ -784,25 +787,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Important Rule</strong>: Any compatible instance method always takes priority over extension methods, even if the extension method has more specific parameter types.</p>
 <p>This design preserves the behavior of existing types. Otherwise, adding a same-named extension method in some library or third-party package could unexpectedly change how calls that used to bind to an instance method are resolved, creating a subtle breaking change. In that sense, extension methods are meant to be a fallback convenience syntax, not a mechanism for overriding existing APIs.</p>
 <p>The following example shows this rule in action:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">class</span> Test</span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="op">{</span></span>
-<span id="cb25-3"><a href="#cb25-3"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Foo</span><span class="op">(</span><span class="dt">object</span> x<span class="op">)</span>  <span class="co">// Instance method, parameter is object</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>    <span class="op">{</span></span>
-<span id="cb25-5"><a href="#cb25-5"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Instance method"</span><span class="op">);</span></span>
-<span id="cb25-6"><a href="#cb25-6"></a>    <span class="op">}</span></span>
-<span id="cb25-7"><a href="#cb25-7"></a><span class="op">}</span></span>
-<span id="cb25-8"><a href="#cb25-8"></a></span>
-<span id="cb25-9"><a href="#cb25-9"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> Extensions</span>
-<span id="cb25-10"><a href="#cb25-10"></a><span class="op">{</span></span>
-<span id="cb25-11"><a href="#cb25-11"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Foo</span><span class="op">(</span><span class="kw">this</span> Test t<span class="op">,</span> <span class="dt">int</span> x<span class="op">)</span>  <span class="co">// Extension method, parameter is int</span></span>
-<span id="cb25-12"><a href="#cb25-12"></a>    <span class="op">{</span></span>
-<span id="cb25-13"><a href="#cb25-13"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Extension method"</span><span class="op">);</span></span>
-<span id="cb25-14"><a href="#cb25-14"></a>    <span class="op">}</span></span>
-<span id="cb25-15"><a href="#cb25-15"></a><span class="op">}</span></span>
-<span id="cb25-16"><a href="#cb25-16"></a></span>
-<span id="cb25-17"><a href="#cb25-17"></a><span class="co">// Usage</span></span>
-<span id="cb25-18"><a href="#cb25-18"></a><span class="dt">var</span> test <span class="op">=</span> <span class="kw">new</span> <span class="fu">Test</span><span class="op">();</span></span>
-<span id="cb25-19"><a href="#cb25-19"></a>test<span class="op">.</span><span class="fu">Foo</span><span class="op">(</span><span class="dv">123</span><span class="op">);</span>  <span class="co">// Output: "Instance method" (even though 123 is int)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="kw">class</span> Test</span>
+<span id="cb25-2"><a href="#cb25-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Foo</span><span class="op">(</span><span class="dt">object</span> x<span class="op">)</span>  <span class="co">// Instance method, parameter is object</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-label="5"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Instance method"</span><span class="op">);</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-label="6"></a>    <span class="op">}</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-label="7"></a><span class="op">}</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-label="8"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-label="9"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> Extensions</span>
+<span id="cb25-10"><a href="#cb25-10" aria-label="10"></a><span class="op">{</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-label="11"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Foo</span><span class="op">(</span><span class="kw">this</span> Test t<span class="op">,</span> <span class="dt">int</span> x<span class="op">)</span>  <span class="co">// Extension method, parameter is int</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-label="12"></a>    <span class="op">{</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-label="13"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Extension method"</span><span class="op">);</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-label="14"></a>    <span class="op">}</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-label="15"></a><span class="op">}</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-label="16"></a></span>
+<span id="cb25-17"><a href="#cb25-17" aria-label="17"></a><span class="co">// Usage</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-label="18"></a><span class="dt">var</span> test <span class="op">=</span> <span class="kw">new</span> <span class="fu">Test</span><span class="op">();</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-label="19"></a>test<span class="op">.</span><span class="fu">Foo</span><span class="op">(</span><span class="dv">123</span><span class="op">);</span>  <span class="co">// Output: "Instance method" (even though 123 is int)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In this case, the only way to call the extension method is through static syntax:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Extensions<span class="op">.</span><span class="fu">Foo</span><span class="op">(</span>test<span class="op">,</span> <span class="dv">123</span><span class="op">);</span>  <span class="co">// Output: "Extension method"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
@@ -810,26 +813,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="conflicts-between-extension-methods">Conflicts between extension methods</h3>
 <p>If two extension methods have the <strong>exact same</strong> signature, you must explicitly specify which one to call using static syntax. However, if two extension methods have the same name but their target types are compatible, the compiler will prefer the more specific method. That usually represents a more precise type match and better aligns with type safety and predictability.</p>
 <p>This is easier to grasp with a concrete example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
-<span id="cb27-2"><a href="#cb27-2"></a><span class="op">{</span></span>
-<span id="cb27-3"><a href="#cb27-3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
-<span id="cb27-4"><a href="#cb27-4"></a>    <span class="op">{</span></span>
-<span id="cb27-5"><a href="#cb27-5"></a>        <span class="kw">return</span> <span class="op">!</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
-<span id="cb27-6"><a href="#cb27-6"></a>    <span class="op">}</span></span>
-<span id="cb27-7"><a href="#cb27-7"></a><span class="op">}</span></span>
-<span id="cb27-8"><a href="#cb27-8"></a></span>
-<span id="cb27-9"><a href="#cb27-9"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> ObjectHelper</span>
-<span id="cb27-10"><a href="#cb27-10"></a><span class="op">{</span></span>
-<span id="cb27-11"><a href="#cb27-11"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">object</span> s<span class="op">)</span></span>
-<span id="cb27-12"><a href="#cb27-12"></a>    <span class="op">{</span></span>
-<span id="cb27-13"><a href="#cb27-13"></a>        <span class="kw">return</span> s<span class="op">?.</span><span class="fu">ToString</span><span class="op">()</span> <span class="kw">is</span> <span class="dt">string</span> str</span>
-<span id="cb27-14"><a href="#cb27-14"></a>            <span class="op">&amp;&amp;</span> str<span class="op">.</span><span class="fu">Length</span> <span class="op">&gt;</span> <span class="dv">0</span></span>
-<span id="cb27-15"><a href="#cb27-15"></a>            <span class="op">&amp;&amp;</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>str<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
-<span id="cb27-16"><a href="#cb27-16"></a>    <span class="op">}</span></span>
-<span id="cb27-17"><a href="#cb27-17"></a><span class="op">}</span></span>
-<span id="cb27-18"><a href="#cb27-18"></a></span>
-<span id="cb27-19"><a href="#cb27-19"></a><span class="co">// Usage</span></span>
-<span id="cb27-20"><a href="#cb27-20"></a><span class="dt">bool</span> test1 <span class="op">=</span> <span class="st">"Perth"</span><span class="op">.</span><span class="fu">IsCapitalized</span><span class="op">();</span>  <span class="co">// Calls StringHelper version (string is more specific than object)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
+<span id="cb27-2"><a href="#cb27-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-label="5"></a>        <span class="kw">return</span> <span class="op">!</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-label="6"></a>    <span class="op">}</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-label="7"></a><span class="op">}</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-label="8"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-label="9"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> ObjectHelper</span>
+<span id="cb27-10"><a href="#cb27-10" aria-label="10"></a><span class="op">{</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-label="11"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">object</span> s<span class="op">)</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-label="12"></a>    <span class="op">{</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-label="13"></a>        <span class="kw">return</span> s<span class="op">?.</span><span class="fu">ToString</span><span class="op">()</span> <span class="kw">is</span> <span class="dt">string</span> str</span>
+<span id="cb27-14"><a href="#cb27-14" aria-label="14"></a>            <span class="op">&amp;&amp;</span> str<span class="op">.</span><span class="fu">Length</span> <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-label="15"></a>            <span class="op">&amp;&amp;</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>str<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-label="16"></a>    <span class="op">}</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-label="17"></a><span class="op">}</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-label="18"></a></span>
+<span id="cb27-19"><a href="#cb27-19" aria-label="19"></a><span class="co">// Usage</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-label="20"></a><span class="dt">bool</span> test1 <span class="op">=</span> <span class="st">"Perth"</span><span class="op">.</span><span class="fu">IsCapitalized</span><span class="op">();</span>  <span class="co">// Calls StringHelper version (string is more specific than object)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Both <code>StringHelper</code> and <code>ObjectHelper</code> define the <code>IsCapitalized</code> extension method, but they target different types: one is <code>string</code>, the other is <code>object</code>. Since <code>object</code> is more general and <code>string</code> is more specific, the compiler chooses the <code>StringHelper</code> version when deciding which method to use for the last line of code. You can think of it this way: among multiple viable candidates, the compiler prefers the one closest to the receiver’s actual type, which usually produces the most intuitive result.</p>
 <blockquote class="blockquote">
 <p><strong>Source Code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch11/DemoExtensionConflicts">DemoExtensionConflicts</a></p>
@@ -844,48 +847,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="importance-of-namespaces" class="level3">
 <h3 class="anchored" data-anchor-id="importance-of-namespaces">Importance of namespaces</h3>
 <p>Extension methods must be in scope to be used, which usually means importing the namespace that defines them:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">namespace</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="op">{</span></span>
-<span id="cb28-3"><a href="#cb28-3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
-<span id="cb28-4"><a href="#cb28-4"></a>    <span class="op">{</span></span>
-<span id="cb28-5"><a href="#cb28-5"></a>        <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
-<span id="cb28-6"><a href="#cb28-6"></a>        <span class="op">{</span></span>
-<span id="cb28-7"><a href="#cb28-7"></a>            <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb28-8"><a href="#cb28-8"></a>            <span class="kw">return</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
-<span id="cb28-9"><a href="#cb28-9"></a>        <span class="op">}</span></span>
-<span id="cb28-10"><a href="#cb28-10"></a>    <span class="op">}</span></span>
-<span id="cb28-11"><a href="#cb28-11"></a><span class="op">}</span></span>
-<span id="cb28-12"><a href="#cb28-12"></a></span>
-<span id="cb28-13"><a href="#cb28-13"></a><span class="co">// Used in another file</span></span>
-<span id="cb28-14"><a href="#cb28-14"></a><span class="kw">namespace</span> MyApp</span>
-<span id="cb28-15"><a href="#cb28-15"></a><span class="op">{</span></span>
-<span id="cb28-16"><a href="#cb28-16"></a>    <span class="kw">using</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span><span class="op">;</span>  <span class="co">// Must import namespace!</span></span>
-<span id="cb28-17"><a href="#cb28-17"></a></span>
-<span id="cb28-18"><a href="#cb28-18"></a>    <span class="kw">class</span> Program</span>
-<span id="cb28-19"><a href="#cb28-19"></a>    <span class="op">{</span></span>
-<span id="cb28-20"><a href="#cb28-20"></a>        <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">()</span></span>
-<span id="cb28-21"><a href="#cb28-21"></a>        <span class="op">{</span></span>
-<span id="cb28-22"><a href="#cb28-22"></a>            Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Perth"</span><span class="op">.</span><span class="fu">IsCapitalized</span><span class="op">());</span>  <span class="co">// Now usable</span></span>
-<span id="cb28-23"><a href="#cb28-23"></a>        <span class="op">}</span></span>
-<span id="cb28-24"><a href="#cb28-24"></a>    <span class="op">}</span></span>
-<span id="cb28-25"><a href="#cb28-25"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1" aria-label="1"></a><span class="kw">namespace</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
+<span id="cb28-4"><a href="#cb28-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-label="5"></a>        <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-label="6"></a>        <span class="op">{</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-label="7"></a>            <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-label="8"></a>            <span class="kw">return</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-label="9"></a>        <span class="op">}</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-label="10"></a>    <span class="op">}</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-label="11"></a><span class="op">}</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-label="12"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-label="13"></a><span class="co">// Used in another file</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-label="14"></a><span class="kw">namespace</span> MyApp</span>
+<span id="cb28-15"><a href="#cb28-15" aria-label="15"></a><span class="op">{</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-label="16"></a>    <span class="kw">using</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span><span class="op">;</span>  <span class="co">// Must import namespace!</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-label="17"></a></span>
+<span id="cb28-18"><a href="#cb28-18" aria-label="18"></a>    <span class="kw">class</span> Program</span>
+<span id="cb28-19"><a href="#cb28-19" aria-label="19"></a>    <span class="op">{</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-label="20"></a>        <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">()</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-label="21"></a>        <span class="op">{</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-label="22"></a>            Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Perth"</span><span class="op">.</span><span class="fu">IsCapitalized</span><span class="op">());</span>  <span class="co">// Now usable</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-label="23"></a>        <span class="op">}</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-label="24"></a>    <span class="op">}</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-label="25"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Without <code>using MyCompany.Extensions;</code>, the program will not compile. This is by design: the compiler considers only extension methods visible in the current scope, which prevents every extension method from being dumped into the global surface area and reduces IntelliSense noise and naming conflicts. This is why placing extension methods in dedicated namespaces is a best practice—users can choose whether to import them.</p>
 </section>
 <section id="demoting-extension-methods-demoting" class="level3">
 <h3 class="anchored" data-anchor-id="demoting-extension-methods-demoting">Demoting extension methods (demoting)</h3>
 <p>When Microsoft adds an <strong>extension method</strong> in a newer version of .NET that conflicts with one of your own extension methods, you can handle the problem by manually <em>demoting</em> yours—without breaking binary compatibility with existing code.</p>
 <p><strong>Solution</strong>: Simply remove the <code>this</code> keyword to demote the extension method to a normal static method. For example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb29-1"><a href="#cb29-1"></a><span class="co">// Original extension method</span></span>
-<span id="cb29-2"><a href="#cb29-2"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> MyExtensions</span>
-<span id="cb29-3"><a href="#cb29-3"></a><span class="op">{</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a><span class="op">}</span></span>
-<span id="cb29-6"><a href="#cb29-6"></a></span>
-<span id="cb29-7"><a href="#cb29-7"></a><span class="co">// After demotion (removed this)</span></span>
-<span id="cb29-8"><a href="#cb29-8"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> MyExtensions</span>
-<span id="cb29-9"><a href="#cb29-9"></a><span class="op">{</span></span>
-<span id="cb29-10"><a href="#cb29-10"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span>  <span class="co">// No longer an extension method</span></span>
-<span id="cb29-11"><a href="#cb29-11"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb29-1"><a href="#cb29-1" aria-label="1"></a><span class="co">// Original extension method</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-label="2"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> MyExtensions</span>
+<span id="cb29-3"><a href="#cb29-3" aria-label="3"></a><span class="op">{</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-label="4"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-label="5"></a><span class="op">}</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-label="6"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-label="7"></a><span class="co">// After demotion (removed this)</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-label="8"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> MyExtensions</span>
+<span id="cb29-9"><a href="#cb29-9" aria-label="9"></a><span class="op">{</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-label="10"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span>  <span class="co">// No longer an extension method</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-label="11"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Benefits of this manual demotion:</p>
 <ul>
 <li>Compiled assemblies still work normally (because extension methods are converted to static method calls at compile time).</li>
@@ -899,31 +902,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="local-functions">11.6 Local functions</h2>
 <p>Local functions are not the same thing as extension methods. They are both advanced method-level features, however, and when writing extension methods you may also use local functions to organize internal logic, so they are worth covering here.</p>
 <p>Simply put, a local function is a method defined inside another method. Start with a basic example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb30-1"><a href="#cb30-1"></a><span class="dt">void</span> <span class="fu">Demo</span><span class="op">()</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="op">{</span></span>
-<span id="cb30-3"><a href="#cb30-3"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">));</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">));</span></span>
-<span id="cb30-5"><a href="#cb30-5"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">9</span><span class="op">,</span> <span class="dv">9</span><span class="op">));</span></span>
-<span id="cb30-6"><a href="#cb30-6"></a></span>
-<span id="cb30-7"><a href="#cb30-7"></a>    <span class="dt">int</span> <span class="fu">Add</span><span class="op">(</span><span class="dt">int</span> m<span class="op">,</span> <span class="dt">int</span> n<span class="op">)</span></span>
-<span id="cb30-8"><a href="#cb30-8"></a>    <span class="op">{</span></span>
-<span id="cb30-9"><a href="#cb30-9"></a>        <span class="kw">return</span> m <span class="op">+</span> n<span class="op">;</span></span>
-<span id="cb30-10"><a href="#cb30-10"></a>    <span class="op">}</span></span>
-<span id="cb30-11"><a href="#cb30-11"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb30-1"><a href="#cb30-1" aria-label="1"></a><span class="dt">void</span> <span class="fu">Demo</span><span class="op">()</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-label="3"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-label="4"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">));</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-label="5"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">9</span><span class="op">,</span> <span class="dv">9</span><span class="op">));</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-label="6"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-label="7"></a>    <span class="dt">int</span> <span class="fu">Add</span><span class="op">(</span><span class="dt">int</span> m<span class="op">,</span> <span class="dt">int</span> n<span class="op">)</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-label="8"></a>    <span class="op">{</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-label="9"></a>        <span class="kw">return</span> m <span class="op">+</span> n<span class="op">;</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-label="10"></a>    <span class="op">}</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-label="11"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>Add</code> here is a local function. This example illustrates one basic point: <strong>Local functions can only be called within their containing method</strong>; they are unavailable outside that scope. In the example above, the <code>Add</code> method can only be used within the <code>Demo</code> method.</p>
 <p>Local functions can also directly access local variables in the containing method:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb31-1"><a href="#cb31-1"></a><span class="dt">void</span> <span class="fu">DemoWithClosure</span><span class="op">()</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a><span class="op">{</span></span>
-<span id="cb31-3"><a href="#cb31-3"></a>    <span class="dt">int</span> multiplier <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a></span>
-<span id="cb31-5"><a href="#cb31-5"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Multiply</span><span class="op">(</span><span class="dv">5</span><span class="op">));</span>   <span class="co">// 50</span></span>
-<span id="cb31-6"><a href="#cb31-6"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Multiply</span><span class="op">(</span><span class="dv">3</span><span class="op">));</span>   <span class="co">// 30</span></span>
-<span id="cb31-7"><a href="#cb31-7"></a></span>
-<span id="cb31-8"><a href="#cb31-8"></a>    <span class="dt">int</span> <span class="fu">Multiply</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span></span>
-<span id="cb31-9"><a href="#cb31-9"></a>    <span class="op">{</span></span>
-<span id="cb31-10"><a href="#cb31-10"></a>        <span class="kw">return</span> n <span class="op">*</span> multiplier<span class="op">;</span></span>
-<span id="cb31-11"><a href="#cb31-11"></a>    <span class="op">}</span></span>
-<span id="cb31-12"><a href="#cb31-12"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb31-1"><a href="#cb31-1" aria-label="1"></a><span class="dt">void</span> <span class="fu">DemoWithClosure</span><span class="op">()</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-label="3"></a>    <span class="dt">int</span> multiplier <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-label="4"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-label="5"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Multiply</span><span class="op">(</span><span class="dv">5</span><span class="op">));</span>   <span class="co">// 50</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-label="6"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Multiply</span><span class="op">(</span><span class="dv">3</span><span class="op">));</span>   <span class="co">// 30</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-label="7"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-label="8"></a>    <span class="dt">int</span> <span class="fu">Multiply</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-label="9"></a>    <span class="op">{</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-label="10"></a>        <span class="kw">return</span> n <span class="op">*</span> multiplier<span class="op">;</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-label="11"></a>    <span class="op">}</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-label="12"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In this example, the local function <code>Multiply</code> can directly use the local variable <code>multiplier</code> declared in the outer method.</p>
 <section id="differences-from-extension-methods" class="level3">
 <h3 class="anchored" data-anchor-id="differences-from-extension-methods">Differences from extension methods</h3>
@@ -978,27 +981,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Iterator implementation</strong>: Improving readability.</li>
 </ol>
 <p>The following example shows how local functions can separate parameter validation from the actual iteration logic:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw">public</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="fu">GetEvenNumbers</span><span class="op">(</span><span class="dt">int</span> start<span class="op">,</span> <span class="dt">int</span> end<span class="op">)</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="op">{</span></span>
-<span id="cb32-3"><a href="#cb32-3"></a>    <span class="fu">ValidateRange</span><span class="op">(</span>start<span class="op">,</span> end<span class="op">);</span></span>
-<span id="cb32-4"><a href="#cb32-4"></a></span>
-<span id="cb32-5"><a href="#cb32-5"></a>    <span class="kw">return</span> <span class="fu">GetEvenNumbersCore</span><span class="op">(</span>start<span class="op">,</span> end<span class="op">);</span></span>
-<span id="cb32-6"><a href="#cb32-6"></a></span>
-<span id="cb32-7"><a href="#cb32-7"></a>    <span class="dt">void</span> <span class="fu">ValidateRange</span><span class="op">(</span><span class="dt">int</span> s<span class="op">,</span> <span class="dt">int</span> e<span class="op">)</span></span>
-<span id="cb32-8"><a href="#cb32-8"></a>    <span class="op">{</span></span>
-<span id="cb32-9"><a href="#cb32-9"></a>        <span class="kw">if</span> <span class="op">(</span>s <span class="op">&gt;</span> e<span class="op">)</span></span>
-<span id="cb32-10"><a href="#cb32-10"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentException</span><span class="op">(</span><span class="st">"start cannot be greater than end"</span><span class="op">);</span></span>
-<span id="cb32-11"><a href="#cb32-11"></a>    <span class="op">}</span></span>
-<span id="cb32-12"><a href="#cb32-12"></a></span>
-<span id="cb32-13"><a href="#cb32-13"></a>    IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="fu">GetEvenNumbersCore</span><span class="op">(</span><span class="dt">int</span> s<span class="op">,</span> <span class="dt">int</span> e<span class="op">)</span></span>
-<span id="cb32-14"><a href="#cb32-14"></a>    <span class="op">{</span></span>
-<span id="cb32-15"><a href="#cb32-15"></a>        <span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> s<span class="op">;</span> i <span class="op">&lt;=</span> e<span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb32-16"><a href="#cb32-16"></a>        <span class="op">{</span></span>
-<span id="cb32-17"><a href="#cb32-17"></a>            <span class="kw">if</span> <span class="op">(</span>i <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb32-18"><a href="#cb32-18"></a>                <span class="kw">yield</span> <span class="kw">return</span> i<span class="op">;</span></span>
-<span id="cb32-19"><a href="#cb32-19"></a>        <span class="op">}</span></span>
-<span id="cb32-20"><a href="#cb32-20"></a>    <span class="op">}</span></span>
-<span id="cb32-21"><a href="#cb32-21"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1" aria-label="1"></a><span class="kw">public</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="fu">GetEvenNumbers</span><span class="op">(</span><span class="dt">int</span> start<span class="op">,</span> <span class="dt">int</span> end<span class="op">)</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-label="3"></a>    <span class="fu">ValidateRange</span><span class="op">(</span>start<span class="op">,</span> end<span class="op">);</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-label="4"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-label="5"></a>    <span class="kw">return</span> <span class="fu">GetEvenNumbersCore</span><span class="op">(</span>start<span class="op">,</span> end<span class="op">);</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-label="6"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-label="7"></a>    <span class="dt">void</span> <span class="fu">ValidateRange</span><span class="op">(</span><span class="dt">int</span> s<span class="op">,</span> <span class="dt">int</span> e<span class="op">)</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-label="8"></a>    <span class="op">{</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-label="9"></a>        <span class="kw">if</span> <span class="op">(</span>s <span class="op">&gt;</span> e<span class="op">)</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-label="10"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentException</span><span class="op">(</span><span class="st">"start cannot be greater than end"</span><span class="op">);</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-label="11"></a>    <span class="op">}</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-label="12"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-label="13"></a>    IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="fu">GetEvenNumbersCore</span><span class="op">(</span><span class="dt">int</span> s<span class="op">,</span> <span class="dt">int</span> e<span class="op">)</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-label="14"></a>    <span class="op">{</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-label="15"></a>        <span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> s<span class="op">;</span> i <span class="op">&lt;=</span> e<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-label="16"></a>        <span class="op">{</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-label="17"></a>            <span class="kw">if</span> <span class="op">(</span>i <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-label="18"></a>                <span class="kw">yield</span> <span class="kw">return</span> i<span class="op">;</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-label="19"></a>        <span class="op">}</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-label="20"></a>    <span class="op">}</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-label="21"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The example above uses two local functions: <code>ValidateRange</code> and <code>GetEvenNumbersCore</code>. This is a common pattern:</p>
 <ul>
 <li><code>ValidateRange</code> is responsible for parameter validation and throws an exception immediately if validation fails. Since it’s only used within this method, there’s no need to promote it to a class-level method.</li>
@@ -1016,25 +1019,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="fluent-api-design" class="level3">
 <h3 class="anchored" data-anchor-id="fluent-api-design">Fluent API design</h3>
 <p>Extension methods are a key technique for implementing Fluent APIs. The following example defines two common helpers: <code>Tap</code> for inserting a side effect, and <code>Map</code> for transforming an object:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> FluentExtensions</span>
-<span id="cb33-2"><a href="#cb33-2"></a><span class="op">{</span></span>
-<span id="cb33-3"><a href="#cb33-3"></a>    <span class="kw">public</span> <span class="kw">static</span> T Tap<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> T obj<span class="op">,</span> Action<span class="op">&lt;</span>T<span class="op">&gt;</span> action<span class="op">)</span></span>
-<span id="cb33-4"><a href="#cb33-4"></a>    <span class="op">{</span></span>
-<span id="cb33-5"><a href="#cb33-5"></a>        <span class="fu">action</span><span class="op">(</span>obj<span class="op">);</span></span>
-<span id="cb33-6"><a href="#cb33-6"></a>        <span class="kw">return</span> obj<span class="op">;</span></span>
-<span id="cb33-7"><a href="#cb33-7"></a>    <span class="op">}</span></span>
-<span id="cb33-8"><a href="#cb33-8"></a></span>
-<span id="cb33-9"><a href="#cb33-9"></a>    <span class="kw">public</span> <span class="kw">static</span> TResult Map<span class="op">&lt;</span>TSource<span class="op">,</span> TResult<span class="op">&gt;(</span><span class="kw">this</span> TSource obj<span class="op">,</span> Func<span class="op">&lt;</span>TSource<span class="op">,</span> TResult<span class="op">&gt;</span> selector<span class="op">)</span></span>
-<span id="cb33-10"><a href="#cb33-10"></a>    <span class="op">{</span></span>
-<span id="cb33-11"><a href="#cb33-11"></a>        <span class="kw">return</span> <span class="fu">selector</span><span class="op">(</span>obj<span class="op">);</span></span>
-<span id="cb33-12"><a href="#cb33-12"></a>    <span class="op">}</span></span>
-<span id="cb33-13"><a href="#cb33-13"></a><span class="op">}</span></span>
-<span id="cb33-14"><a href="#cb33-14"></a></span>
-<span id="cb33-15"><a href="#cb33-15"></a><span class="co">// Usage</span></span>
-<span id="cb33-16"><a href="#cb33-16"></a><span class="dt">var</span> userDto <span class="op">=</span> <span class="kw">new</span> <span class="fu">User</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">)</span></span>
-<span id="cb33-17"><a href="#cb33-17"></a>    <span class="op">.</span><span class="fu">Tap</span><span class="op">(</span>u <span class="op">=&gt;</span> Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Creating user: {u.Name}"</span><span class="op">))</span></span>
-<span id="cb33-18"><a href="#cb33-18"></a>    <span class="op">.</span><span class="fu">Map</span><span class="op">(</span>u <span class="op">=&gt;</span> <span class="kw">new</span> <span class="fu">UserDto</span><span class="op">(</span>u<span class="op">.</span><span class="fu">Name</span><span class="op">,</span> u<span class="op">.</span><span class="fu">Age</span> <span class="op">&gt;=</span> <span class="dv">18</span><span class="op">))</span></span>
-<span id="cb33-19"><a href="#cb33-19"></a>    <span class="op">.</span><span class="fu">Tap</span><span class="op">(</span>dto <span class="op">=&gt;</span> Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Conversion complete: {dto.DisplayName}"</span><span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb33-1"><a href="#cb33-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> FluentExtensions</span>
+<span id="cb33-2"><a href="#cb33-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> T Tap<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> T obj<span class="op">,</span> Action<span class="op">&lt;</span>T<span class="op">&gt;</span> action<span class="op">)</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-label="5"></a>        <span class="fu">action</span><span class="op">(</span>obj<span class="op">);</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-label="6"></a>        <span class="kw">return</span> obj<span class="op">;</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-label="7"></a>    <span class="op">}</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-label="8"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-label="9"></a>    <span class="kw">public</span> <span class="kw">static</span> TResult Map<span class="op">&lt;</span>TSource<span class="op">,</span> TResult<span class="op">&gt;(</span><span class="kw">this</span> TSource obj<span class="op">,</span> Func<span class="op">&lt;</span>TSource<span class="op">,</span> TResult<span class="op">&gt;</span> selector<span class="op">)</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-label="10"></a>    <span class="op">{</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-label="11"></a>        <span class="kw">return</span> <span class="fu">selector</span><span class="op">(</span>obj<span class="op">);</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-label="12"></a>    <span class="op">}</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-label="13"></a><span class="op">}</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-label="14"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-label="15"></a><span class="co">// Usage</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-label="16"></a><span class="dt">var</span> userDto <span class="op">=</span> <span class="kw">new</span> <span class="fu">User</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">)</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-label="17"></a>    <span class="op">.</span><span class="fu">Tap</span><span class="op">(</span>u <span class="op">=&gt;</span> Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Creating user: {u.Name}"</span><span class="op">))</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-label="18"></a>    <span class="op">.</span><span class="fu">Map</span><span class="op">(</span>u <span class="op">=&gt;</span> <span class="kw">new</span> <span class="fu">UserDto</span><span class="op">(</span>u<span class="op">.</span><span class="fu">Name</span><span class="op">,</span> u<span class="op">.</span><span class="fu">Age</span> <span class="op">&gt;=</span> <span class="dv">18</span><span class="op">))</span></span>
+<span id="cb33-19"><a href="#cb33-19" aria-label="19"></a>    <span class="op">.</span><span class="fu">Tap</span><span class="op">(</span>dto <span class="op">=&gt;</span> Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Conversion complete: {dto.DisplayName}"</span><span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The two extension methods in this example serve different purposes:</p>
 <ul>
 <li><strong><code>Tap</code></strong>: Executes a side effect (like logging) and then returns the original object to continue chaining. The name comes from Ruby, meaning “tap lightly.”</li>
@@ -1048,58 +1051,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="extending-linq" class="level3">
 <h3 class="anchored" data-anchor-id="extending-linq">Extending LINQ</h3>
 <p>LINQ itself is implemented via extension methods. When the built-in operations do not quite describe your need, you can add your own LINQ-style operations:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> LinqExtensions</span>
-<span id="cb34-2"><a href="#cb34-2"></a><span class="op">{</span></span>
-<span id="cb34-3"><a href="#cb34-3"></a>    <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> WhereNotNull<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">?&gt;</span> source<span class="op">)</span></span>
-<span id="cb34-4"><a href="#cb34-4"></a>        where T <span class="op">:</span> <span class="kw">class</span></span>
-<span id="cb34-5"><a href="#cb34-5"></a>    <span class="op">{</span></span>
-<span id="cb34-6"><a href="#cb34-6"></a>        <span class="kw">return</span> source<span class="op">.</span><span class="fu">Where</span><span class="op">(</span>x <span class="op">=&gt;</span> x <span class="op">!=</span> <span class="kw">null</span><span class="op">)!;</span></span>
-<span id="cb34-7"><a href="#cb34-7"></a>    <span class="op">}</span></span>
-<span id="cb34-8"><a href="#cb34-8"></a></span>
-<span id="cb34-9"><a href="#cb34-9"></a>    <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;&gt;</span> Batch<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> source<span class="op">,</span> <span class="dt">int</span> batchSize<span class="op">)</span></span>
-<span id="cb34-10"><a href="#cb34-10"></a>    <span class="op">{</span></span>
-<span id="cb34-11"><a href="#cb34-11"></a>        <span class="kw">if</span> <span class="op">(</span>batchSize <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb34-12"><a href="#cb34-12"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentException</span><span class="op">(</span></span>
-<span id="cb34-13"><a href="#cb34-13"></a>                <span class="st">"Batch size must be greater than 0"</span><span class="op">,</span> <span class="fu">nameof</span><span class="op">(</span>batchSize<span class="op">));</span></span>
-<span id="cb34-14"><a href="#cb34-14"></a></span>
-<span id="cb34-15"><a href="#cb34-15"></a>        <span class="dt">var</span> batch <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span>T<span class="op">&gt;(</span>batchSize<span class="op">);</span></span>
-<span id="cb34-16"><a href="#cb34-16"></a>        <span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> item <span class="kw">in</span> source<span class="op">)</span></span>
-<span id="cb34-17"><a href="#cb34-17"></a>        <span class="op">{</span></span>
-<span id="cb34-18"><a href="#cb34-18"></a>            batch<span class="op">.</span><span class="fu">Add</span><span class="op">(</span>item<span class="op">);</span></span>
-<span id="cb34-19"><a href="#cb34-19"></a>            <span class="kw">if</span> <span class="op">(</span>batch<span class="op">.</span><span class="fu">Count</span> <span class="op">==</span> batchSize<span class="op">)</span></span>
-<span id="cb34-20"><a href="#cb34-20"></a>            <span class="op">{</span></span>
-<span id="cb34-21"><a href="#cb34-21"></a>                <span class="kw">yield</span> <span class="kw">return</span> batch<span class="op">;</span></span>
-<span id="cb34-22"><a href="#cb34-22"></a>                batch <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span>T<span class="op">&gt;(</span>batchSize<span class="op">);</span></span>
-<span id="cb34-23"><a href="#cb34-23"></a>            <span class="op">}</span></span>
-<span id="cb34-24"><a href="#cb34-24"></a>        <span class="op">}</span></span>
-<span id="cb34-25"><a href="#cb34-25"></a></span>
-<span id="cb34-26"><a href="#cb34-26"></a>        <span class="kw">if</span> <span class="op">(</span>batch<span class="op">.</span><span class="fu">Count</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb34-27"><a href="#cb34-27"></a>            <span class="kw">yield</span> <span class="kw">return</span> batch<span class="op">;</span></span>
-<span id="cb34-28"><a href="#cb34-28"></a>    <span class="op">}</span></span>
-<span id="cb34-29"><a href="#cb34-29"></a></span>
-<span id="cb34-30"><a href="#cb34-30"></a>    <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> TakeEvery<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> source<span class="op">,</span> <span class="dt">int</span> step<span class="op">)</span></span>
-<span id="cb34-31"><a href="#cb34-31"></a>    <span class="op">{</span></span>
-<span id="cb34-32"><a href="#cb34-32"></a>        <span class="kw">if</span> <span class="op">(</span>step <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb34-33"><a href="#cb34-33"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentException</span><span class="op">(</span><span class="st">"Step must be greater than 0"</span><span class="op">,</span> <span class="fu">nameof</span><span class="op">(</span>step<span class="op">));</span></span>
-<span id="cb34-34"><a href="#cb34-34"></a></span>
-<span id="cb34-35"><a href="#cb34-35"></a>        <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb34-36"><a href="#cb34-36"></a>        <span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> item <span class="kw">in</span> source<span class="op">)</span></span>
-<span id="cb34-37"><a href="#cb34-37"></a>        <span class="op">{</span></span>
-<span id="cb34-38"><a href="#cb34-38"></a>            <span class="kw">if</span> <span class="op">(</span>index <span class="op">%</span> step <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb34-39"><a href="#cb34-39"></a>                <span class="kw">yield</span> <span class="kw">return</span> item<span class="op">;</span></span>
-<span id="cb34-40"><a href="#cb34-40"></a>            index<span class="op">++;</span></span>
-<span id="cb34-41"><a href="#cb34-41"></a>        <span class="op">}</span></span>
-<span id="cb34-42"><a href="#cb34-42"></a>    <span class="op">}</span></span>
-<span id="cb34-43"><a href="#cb34-43"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb34-1"><a href="#cb34-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> LinqExtensions</span>
+<span id="cb34-2"><a href="#cb34-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> WhereNotNull<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">?&gt;</span> source<span class="op">)</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-label="4"></a>        where T <span class="op">:</span> <span class="kw">class</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-label="5"></a>    <span class="op">{</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-label="6"></a>        <span class="kw">return</span> source<span class="op">.</span><span class="fu">Where</span><span class="op">(</span>x <span class="op">=&gt;</span> x <span class="op">!=</span> <span class="kw">null</span><span class="op">)!;</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-label="7"></a>    <span class="op">}</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-label="8"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-label="9"></a>    <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;&gt;</span> Batch<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> source<span class="op">,</span> <span class="dt">int</span> batchSize<span class="op">)</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-label="10"></a>    <span class="op">{</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-label="11"></a>        <span class="kw">if</span> <span class="op">(</span>batchSize <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-label="12"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentException</span><span class="op">(</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-label="13"></a>                <span class="st">"Batch size must be greater than 0"</span><span class="op">,</span> <span class="fu">nameof</span><span class="op">(</span>batchSize<span class="op">));</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-label="14"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-label="15"></a>        <span class="dt">var</span> batch <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span>T<span class="op">&gt;(</span>batchSize<span class="op">);</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-label="16"></a>        <span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> item <span class="kw">in</span> source<span class="op">)</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-label="17"></a>        <span class="op">{</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-label="18"></a>            batch<span class="op">.</span><span class="fu">Add</span><span class="op">(</span>item<span class="op">);</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-label="19"></a>            <span class="kw">if</span> <span class="op">(</span>batch<span class="op">.</span><span class="fu">Count</span> <span class="op">==</span> batchSize<span class="op">)</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-label="20"></a>            <span class="op">{</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-label="21"></a>                <span class="kw">yield</span> <span class="kw">return</span> batch<span class="op">;</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-label="22"></a>                batch <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span>T<span class="op">&gt;(</span>batchSize<span class="op">);</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-label="23"></a>            <span class="op">}</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-label="24"></a>        <span class="op">}</span></span>
+<span id="cb34-25"><a href="#cb34-25" aria-label="25"></a></span>
+<span id="cb34-26"><a href="#cb34-26" aria-label="26"></a>        <span class="kw">if</span> <span class="op">(</span>batch<span class="op">.</span><span class="fu">Count</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb34-27"><a href="#cb34-27" aria-label="27"></a>            <span class="kw">yield</span> <span class="kw">return</span> batch<span class="op">;</span></span>
+<span id="cb34-28"><a href="#cb34-28" aria-label="28"></a>    <span class="op">}</span></span>
+<span id="cb34-29"><a href="#cb34-29" aria-label="29"></a></span>
+<span id="cb34-30"><a href="#cb34-30" aria-label="30"></a>    <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> TakeEvery<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> source<span class="op">,</span> <span class="dt">int</span> step<span class="op">)</span></span>
+<span id="cb34-31"><a href="#cb34-31" aria-label="31"></a>    <span class="op">{</span></span>
+<span id="cb34-32"><a href="#cb34-32" aria-label="32"></a>        <span class="kw">if</span> <span class="op">(</span>step <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb34-33"><a href="#cb34-33" aria-label="33"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentException</span><span class="op">(</span><span class="st">"Step must be greater than 0"</span><span class="op">,</span> <span class="fu">nameof</span><span class="op">(</span>step<span class="op">));</span></span>
+<span id="cb34-34"><a href="#cb34-34" aria-label="34"></a></span>
+<span id="cb34-35"><a href="#cb34-35" aria-label="35"></a>        <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb34-36"><a href="#cb34-36" aria-label="36"></a>        <span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> item <span class="kw">in</span> source<span class="op">)</span></span>
+<span id="cb34-37"><a href="#cb34-37" aria-label="37"></a>        <span class="op">{</span></span>
+<span id="cb34-38"><a href="#cb34-38" aria-label="38"></a>            <span class="kw">if</span> <span class="op">(</span>index <span class="op">%</span> step <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb34-39"><a href="#cb34-39" aria-label="39"></a>                <span class="kw">yield</span> <span class="kw">return</span> item<span class="op">;</span></span>
+<span id="cb34-40"><a href="#cb34-40" aria-label="40"></a>            index<span class="op">++;</span></span>
+<span id="cb34-41"><a href="#cb34-41" aria-label="41"></a>        <span class="op">}</span></span>
+<span id="cb34-42"><a href="#cb34-42" aria-label="42"></a>    <span class="op">}</span></span>
+<span id="cb34-43"><a href="#cb34-43" aria-label="43"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You can call them like this:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb35-1"><a href="#cb35-1"></a><span class="dt">var</span> users <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="st">"Charlie"</span> <span class="op">};</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a><span class="dt">var</span> validUsers <span class="op">=</span> users<span class="op">.</span><span class="fu">WhereNotNull</span><span class="op">();</span>  <span class="co">// ["Alice", "Bob", "Charlie"]</span></span>
-<span id="cb35-3"><a href="#cb35-3"></a></span>
-<span id="cb35-4"><a href="#cb35-4"></a><span class="dt">var</span> numbers <span class="op">=</span> Enumerable<span class="op">.</span><span class="fu">Range</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">);</span></span>
-<span id="cb35-5"><a href="#cb35-5"></a><span class="dt">var</span> batches <span class="op">=</span> numbers<span class="op">.</span><span class="fu">Batch</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span>         <span class="co">// [1,2,3], [4,5,6], ...</span></span>
-<span id="cb35-6"><a href="#cb35-6"></a></span>
-<span id="cb35-7"><a href="#cb35-7"></a><span class="dt">var</span> sampled <span class="op">=</span> Enumerable<span class="op">.</span><span class="fu">Range</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">12</span><span class="op">)</span></span>
-<span id="cb35-8"><a href="#cb35-8"></a>    <span class="op">.</span><span class="fu">TakeEvery</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span>                      <span class="co">// 1, 4, 7, 10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb35-1"><a href="#cb35-1" aria-label="1"></a><span class="dt">var</span> users <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="st">"Charlie"</span> <span class="op">};</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-label="2"></a><span class="dt">var</span> validUsers <span class="op">=</span> users<span class="op">.</span><span class="fu">WhereNotNull</span><span class="op">();</span>  <span class="co">// ["Alice", "Bob", "Charlie"]</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-label="3"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-label="4"></a><span class="dt">var</span> numbers <span class="op">=</span> Enumerable<span class="op">.</span><span class="fu">Range</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">);</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-label="5"></a><span class="dt">var</span> batches <span class="op">=</span> numbers<span class="op">.</span><span class="fu">Batch</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span>         <span class="co">// [1,2,3], [4,5,6], ...</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-label="6"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-label="7"></a><span class="dt">var</span> sampled <span class="op">=</span> Enumerable<span class="op">.</span><span class="fu">Range</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">12</span><span class="op">)</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-label="8"></a>    <span class="op">.</span><span class="fu">TakeEvery</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span>                      <span class="co">// 1, 4, 7, 10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>Source Code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch11/DemoLinqExtensions">DemoLinqExtensions</a></p>
 </blockquote>
@@ -1109,24 +1112,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="making-existing-types-support-foreach-duck-typing">Making existing types support <code>foreach</code> (duck typing)</h3>
 <p>C#’s <code>foreach</code> loop actually works through <strong>duck typing</strong>: as long as a type has a method named <code>GetEnumerator</code> that returns a type conforming to the enumerator pattern (with <code>Current</code> and <code>MoveNext</code>), it can be iterated with <code>foreach</code>—<strong>without</strong> implementing <code>IEnumerable</code>.</p>
 <p>Using this rule, we can use extension methods to let a type that does not implement <code>IEnumerable</code> still work with <code>foreach</code>. For example, you can make <code>int</code> support <code>foreach</code> to loop N times:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> IntExtensions</span>
-<span id="cb36-2"><a href="#cb36-2"></a><span class="op">{</span></span>
-<span id="cb36-3"><a href="#cb36-3"></a>    <span class="co">// Extend GetEnumerator, returning Range's enumerator</span></span>
-<span id="cb36-4"><a href="#cb36-4"></a>    <span class="kw">public</span> <span class="kw">static</span> IEnumerator<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="fu">GetEnumerator</span><span class="op">(</span><span class="kw">this</span> <span class="dt">int</span> count<span class="op">)</span></span>
-<span id="cb36-5"><a href="#cb36-5"></a>    <span class="op">{</span></span>
-<span id="cb36-6"><a href="#cb36-6"></a>        <span class="kw">return</span> Enumerable<span class="op">.</span><span class="fu">Range</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> count<span class="op">).</span><span class="fu">GetEnumerator</span><span class="op">();</span></span>
-<span id="cb36-7"><a href="#cb36-7"></a>    <span class="op">}</span></span>
-<span id="cb36-8"><a href="#cb36-8"></a><span class="op">}</span></span>
-<span id="cb36-9"><a href="#cb36-9"></a></span>
-<span id="cb36-10"><a href="#cb36-10"></a><span class="co">// Usage</span></span>
-<span id="cb36-11"><a href="#cb36-11"></a><span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> i <span class="kw">in</span> <span class="dv">3</span><span class="op">)</span></span>
-<span id="cb36-12"><a href="#cb36-12"></a><span class="op">{</span></span>
-<span id="cb36-13"><a href="#cb36-13"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Hello {i}"</span><span class="op">);</span></span>
-<span id="cb36-14"><a href="#cb36-14"></a><span class="op">}</span></span>
-<span id="cb36-15"><a href="#cb36-15"></a><span class="co">// Output:</span></span>
-<span id="cb36-16"><a href="#cb36-16"></a><span class="co">// Hello 0</span></span>
-<span id="cb36-17"><a href="#cb36-17"></a><span class="co">// Hello 1</span></span>
-<span id="cb36-18"><a href="#cb36-18"></a><span class="co">// Hello 2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb36-1"><a href="#cb36-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> IntExtensions</span>
+<span id="cb36-2"><a href="#cb36-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-label="3"></a>    <span class="co">// Extend GetEnumerator, returning Range's enumerator</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-label="4"></a>    <span class="kw">public</span> <span class="kw">static</span> IEnumerator<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="fu">GetEnumerator</span><span class="op">(</span><span class="kw">this</span> <span class="dt">int</span> count<span class="op">)</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-label="5"></a>    <span class="op">{</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-label="6"></a>        <span class="kw">return</span> Enumerable<span class="op">.</span><span class="fu">Range</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> count<span class="op">).</span><span class="fu">GetEnumerator</span><span class="op">();</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-label="7"></a>    <span class="op">}</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-label="8"></a><span class="op">}</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-label="9"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-label="10"></a><span class="co">// Usage</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-label="11"></a><span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> i <span class="kw">in</span> <span class="dv">3</span><span class="op">)</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-label="12"></a><span class="op">{</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-label="13"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Hello {i}"</span><span class="op">);</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-label="14"></a><span class="op">}</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-label="15"></a><span class="co">// Output:</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-label="16"></a><span class="co">// Hello 0</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-label="17"></a><span class="co">// Hello 1</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-label="18"></a><span class="co">// Hello 2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This style is somewhat tricky, so it works best in clear and narrow scenarios. If used too broadly, it can make type behavior harder for readers to predict.</p>
 <blockquote class="blockquote">
 <p><strong>Example project:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch11/DemoForeachDuckTyping">DemoForeachDuckTyping</a></p>
@@ -1135,26 +1138,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="smart-parameter-validation-callerargumentexpression" class="level3">
 <h3 class="anchored" data-anchor-id="smart-parameter-validation-callerargumentexpression">Smart parameter validation (CallerArgumentExpression)</h3>
 <p>When writing validation extension methods, combining them with C# 10’s [CallerArgumentExpression] attribute makes the calling code more concise while preserving complete error message information. For example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Runtime</span><span class="op">.</span><span class="fu">CompilerServices</span><span class="op">;</span></span>
-<span id="cb37-2"><a href="#cb37-2"></a></span>
-<span id="cb37-3"><a href="#cb37-3"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> GuardExtensions</span>
-<span id="cb37-4"><a href="#cb37-4"></a><span class="op">{</span></span>
-<span id="cb37-5"><a href="#cb37-5"></a>   <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">ThrowIfNegative</span><span class="op">(</span></span>
-<span id="cb37-6"><a href="#cb37-6"></a>      <span class="kw">this</span> <span class="dt">int</span> value<span class="op">,</span></span>
-<span id="cb37-7"><a href="#cb37-7"></a>      <span class="op">[</span><span class="fu">CallerArgumentExpression</span><span class="op">(</span><span class="fu">nameof</span><span class="op">(</span>value<span class="op">))]</span> <span class="dt">string</span><span class="op">?</span> paramName <span class="op">=</span> <span class="kw">null</span><span class="op">)</span></span>
-<span id="cb37-8"><a href="#cb37-8"></a>   <span class="op">{</span></span>
-<span id="cb37-9"><a href="#cb37-9"></a>      <span class="kw">if</span> <span class="op">(</span>value <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb37-10"><a href="#cb37-10"></a>      <span class="op">{</span></span>
-<span id="cb37-11"><a href="#cb37-11"></a>         <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentOutOfRangeException</span><span class="op">(</span></span>
-<span id="cb37-12"><a href="#cb37-12"></a>            paramName<span class="op">,</span> <span class="st">"Must not be negative"</span><span class="op">);</span></span>
-<span id="cb37-13"><a href="#cb37-13"></a>      <span class="op">}</span></span>
-<span id="cb37-14"><a href="#cb37-14"></a>   <span class="op">}</span></span>
-<span id="cb37-15"><a href="#cb37-15"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb37-1"><a href="#cb37-1" aria-label="1"></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Runtime</span><span class="op">.</span><span class="fu">CompilerServices</span><span class="op">;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-label="2"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-label="3"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> GuardExtensions</span>
+<span id="cb37-4"><a href="#cb37-4" aria-label="4"></a><span class="op">{</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-label="5"></a>   <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">ThrowIfNegative</span><span class="op">(</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-label="6"></a>      <span class="kw">this</span> <span class="dt">int</span> value<span class="op">,</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-label="7"></a>      <span class="op">[</span><span class="fu">CallerArgumentExpression</span><span class="op">(</span><span class="fu">nameof</span><span class="op">(</span>value<span class="op">))]</span> <span class="dt">string</span><span class="op">?</span> paramName <span class="op">=</span> <span class="kw">null</span><span class="op">)</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-label="8"></a>   <span class="op">{</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-label="9"></a>      <span class="kw">if</span> <span class="op">(</span>value <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-label="10"></a>      <span class="op">{</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-label="11"></a>         <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentOutOfRangeException</span><span class="op">(</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-label="12"></a>            paramName<span class="op">,</span> <span class="st">"Must not be negative"</span><span class="op">);</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-label="13"></a>      <span class="op">}</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-label="14"></a>   <span class="op">}</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-label="15"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Usage example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb38-1"><a href="#cb38-1"></a><span class="dt">int</span> age <span class="op">=</span> <span class="op">-</span><span class="dv">5</span><span class="op">;</span></span>
-<span id="cb38-2"><a href="#cb38-2"></a>age<span class="op">.</span><span class="fu">ThrowIfNegative</span><span class="op">();</span></span>
-<span id="cb38-3"><a href="#cb38-3"></a><span class="co">// Throws ArgumentOutOfRangeException</span></span>
-<span id="cb38-4"><a href="#cb38-4"></a><span class="co">// Message includes parameter name: "Must not be negative (Parameter 'age')"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb38-1"><a href="#cb38-1" aria-label="1"></a><span class="dt">int</span> age <span class="op">=</span> <span class="op">-</span><span class="dv">5</span><span class="op">;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-label="2"></a>age<span class="op">.</span><span class="fu">ThrowIfNegative</span><span class="op">();</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-label="3"></a><span class="co">// Throws ArgumentOutOfRangeException</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-label="4"></a><span class="co">// Message includes parameter name: "Must not be negative (Parameter 'age')"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Without this attribute, you’d typically have to write:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>age<span class="op">.</span><span class="fu">ThrowIfNegative</span><span class="op">(</span><span class="fu">nameof</span><span class="op">(</span>age<span class="op">))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Now the compiler automatically fills in <code>"age"</code> (the variable name or expression string from the call site). This is also the mechanism behind many standard .NET 6+ APIs such as <code>ArgumentNullException.ThrowIfNull</code>.</p>
