@@ -156,8 +156,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">第 5 章：錯誤處理與資源管理</span></a>
+  <a href="./ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第 5 章：錯誤處理與資源管理</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -244,7 +243,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-02</p>
+      <p class="date-modified">2026-09-05</p>
     </div>
   </div>
     
@@ -267,7 +266,7 @@ ul.task-list li input[type="checkbox"] {
 <li><a href="./ch02/declarations-and-sugars.html">第 2 章：宣告與語法糖</a> (免費)</li>
 <li><a href="./ch03/null-safety.html">第 3 章：空值安全</a> (免費)</li>
 <li><a href="./ch04/immutable-design.html">第 4 章：不可變設計</a> (免費)</li>
-<li><a href="./ch05/error-handling-and-res-mgmt.html">第 5 章：錯誤處理與資源管理</a></li>
+<li><a href="./ch05/error-handling-and-res-mgmt.html">第 5 章：錯誤處理與資源管理</a> (免費)</li>
 <li><a href="./ch06/pattern-matching.html">第 6 章：模式比對</a></li>
 <li><a href="./ch07/generics.html">第 7 章：泛型</a> (免費)</li>
 <li><a href="./ch08/delegates-and-lambda.html">第 8 章：委派與 Lambda 運算式</a></li>
@@ -313,46 +312,87 @@ ul.task-list li input[type="checkbox"] {
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

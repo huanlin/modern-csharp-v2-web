@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5 Error handling and resource management</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5 Error handling and resource management</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -316,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#exercise-1-implement-a-generic-stack" id="toc-exercise-1-implement-a-generic-stack" class="nav-link" data-scroll-target="#exercise-1-implement-a-generic-stack">Exercise 1: Implement a generic stack</a></li>
   <li><a href="#exercise-2-implement-a-generic-pair" id="toc-exercise-2-implement-a-generic-pair" class="nav-link" data-scroll-target="#exercise-2-implement-a-generic-pair">Exercise 2: Implement a generic pair</a></li>
-  <li><a href="#exercise-3-constraints-in-practice" id="toc-exercise-3-constraints-in-practice" class="nav-link" data-scroll-target="#exercise-3-constraints-in-practice">Exercise 3: Constraints in practice</a></li>
+  <li><a href="#exercise-3-constraints-in-practice-advanced-challenge" id="toc-exercise-3-constraints-in-practice-advanced-challenge" class="nav-link" data-scroll-target="#exercise-3-constraints-in-practice-advanced-challenge">Exercise 3: Constraints in practice (Advanced Challenge)</a></li>
   <li><a href="#exercise-4-covariance-in-practice" id="toc-exercise-4-covariance-in-practice" class="nav-link" data-scroll-target="#exercise-4-covariance-in-practice">Exercise 4: Covariance in practice</a></li>
   </ul></li>
   <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">Glossary</a></li>
@@ -340,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 1, 2026</p>
+      <p class="date-modified">September 5, 2026</p>
     </div>
   </div>
     
@@ -450,14 +449,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch07/DemoWhyGenerics">DemoWhyGenerics</a></p>
 </blockquote>
-<p>After seeing the basic use and benefits, let’s look at generic syntax.</p>
 </section>
 </section>
 <section id="generics-in-depth" class="level2">
 <h2 class="anchored" data-anchor-id="generics-in-depth">7.2 Generics in depth</h2>
 <p>The term <em>generic</em> essentially means <em>broadly applicable</em> or <em>universal</em>. You define a single type and reuse it across many different contexts—effectively writing the logic once and reapplying it many times.</p>
 <p>Consider our earlier list example. We need lists for integers, strings, employees, and customers. All of them share the exact same behavior; only the underlying element type differs. Generics allow you to extract that changing part as a parameter. You write the “fixed” logic once and supply different type arguments as needed.</p>
-<p>Next, we’ll define our own generic type.</p>
 <section id="generics-type-parameters-constructed-types" class="level3">
 <h3 class="anchored" data-anchor-id="generics-type-parameters-constructed-types">Generics, type parameters, constructed types</h3>
 <p>Generics can be used with classes, interfaces, delegates, and methods. Here is the basic syntax for a generic class:</p>
@@ -1300,12 +1297,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Repository pattern</li>
 <li>Result/Option types</li>
 </ol>
-<p><strong>Poor fits</strong>:</p>
-<ol type="1">
-<li>More than three type parameters (too complex)</li>
-<li>Logic tightly coupled to a specific type (use inheritance instead)</li>
-<li>Heavy use of reflection (generics add complexity)</li>
-</ol>
+<p><strong>Situations requiring careful evaluation or poor fits</strong>:</p>
+<ul>
+<li><strong>Too many type parameters with tangled responsibilities</strong>: When a class or method requires more than three type parameters, it is often a code smell indicating that the API takes on too many responsibilities. Examine whether each type parameter truly represents an independent data contract. If parameters represent configuration, logging, or helper services, prefer constructor injection, interfaces, or composition over crowding angle brackets (see Principle 1 below).</li>
+<li><strong>Logic tightly coupled to concrete implementations</strong>: If method logic relies heavily on specific properties or private details of concrete types, using generics forces you to rely on <code>is</code>, <code>as</code>, or casting to inspect types—undermining the core value of compile-time type safety. In such cases, prefer ordinary concrete methods, interface contracts, composition/strategy patterns, or inheritance when an “is-a” relationship genuinely applies.</li>
+<li><strong>Heavy reliance on dynamic reflection or Native AOT constraints</strong>: If an algorithm depends heavily on runtime type inspection and dynamically creating open generic types (e.g., via <code>MakeGenericType</code>), generics add code complexity, incur performance overhead, and can introduce trimming and code-generation compatibility risks under Native AOT. Simpler non-generic interfaces or polymorphic abstractions are often much more practical.</li>
+</ul>
 </section>
 <section id="designing-generic-apis" class="level3">
 <h3 class="anchored" data-anchor-id="designing-generic-apis">Designing generic APIs</h3>
@@ -1390,19 +1387,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb72-10"><a href="#cb72-10" aria-label="10"></a><span class="co">// Prompt should require:</span></span>
 <span id="cb72-11"><a href="#cb72-11" aria-label="11"></a><span class="co">// "Implement a generic comparer where T implements IComparable&lt;T&gt;"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="pitfall-2-outdated-syntax" class="level4">
-<h4 class="anchored" data-anchor-id="pitfall-2-outdated-syntax">Pitfall 2: outdated syntax</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb73-1"><a href="#cb73-1" aria-label="1"></a><span class="co">// Old C# 2.0 style</span></span>
+<section id="note-syntax-shorthand-and-style-preferences" class="level4">
+<h4 class="anchored" data-anchor-id="note-syntax-shorthand-and-style-preferences">Note: syntax shorthand and style preferences</h4>
+<p>AI-generated code sometimes defaults to earlier syntax styles. For example, returning a default value:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb73-1"><a href="#cb73-1" aria-label="1"></a><span class="co">// Earlier syntax (C# 2.0+, completely valid but more verbose)</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-label="2"></a><span class="kw">public</span> T GetDefault<span class="op">&lt;</span>T<span class="op">&gt;()</span></span>
 <span id="cb73-3"><a href="#cb73-3" aria-label="3"></a><span class="op">{</span></span>
 <span id="cb73-4"><a href="#cb73-4" aria-label="4"></a>    <span class="kw">return</span> <span class="kw">default</span><span class="op">(</span>T<span class="op">);</span></span>
 <span id="cb73-5"><a href="#cb73-5" aria-label="5"></a><span class="op">}</span></span>
 <span id="cb73-6"><a href="#cb73-6" aria-label="6"></a></span>
-<span id="cb73-7"><a href="#cb73-7" aria-label="7"></a><span class="co">// Modern C# 7.1+</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-label="7"></a><span class="co">// Modern shorthand (C# 7.1+, type can be omitted)</span></span>
 <span id="cb73-8"><a href="#cb73-8" aria-label="8"></a><span class="kw">public</span> T GetDefault<span class="op">&lt;</span>T<span class="op">&gt;()</span></span>
 <span id="cb73-9"><a href="#cb73-9" aria-label="9"></a><span class="op">{</span></span>
 <span id="cb73-10"><a href="#cb73-10" aria-label="10"></a>    <span class="kw">return</span> <span class="kw">default</span><span class="op">;</span></span>
 <span id="cb73-11"><a href="#cb73-11" aria-label="11"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Both produce identical runtime behavior. <code>default(T)</code> is not an error; modern C# simply allows a more concise form. When reviewing AI-generated generic code, your primary focus should be on <strong>whether type constraints are sufficient and satisfy business contracts</strong> (as in pitfall 1), rather than merely swapping syntax preferences.</p>
 <p><strong>Sample prompt</strong>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb74"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb74-1"><a href="#cb74-1" aria-label="1"></a>Use C# 12+ syntax to implement a generic Repository&lt;T&gt;.</span>
 <span id="cb74-2"><a href="#cb74-2" aria-label="2"></a>T must be a reference type that implements IEntity.</span>
@@ -1446,9 +1445,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="exercise-2-implement-a-generic-pair">Exercise 2: Implement a generic pair</h3>
 <p>Implement a <code>Pair&lt;T1, T2&gt;</code> class that stores two values and implements <code>IEquatable&lt;Pair&lt;T1, T2&gt;&gt;</code> for equality comparison.</p>
 </section>
-<section id="exercise-3-constraints-in-practice" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-3-constraints-in-practice">Exercise 3: Constraints in practice</h3>
-<p>Implement a <code>Calculator&lt;T&gt;</code> class with <code>Add</code>, <code>Subtract</code>, and <code>Multiply</code> methods. Question: what constraints should <code>T</code> have? (Hint: numeric types.)</p>
+<section id="exercise-3-constraints-in-practice-advanced-challenge" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3-constraints-in-practice-advanced-challenge">Exercise 3: Constraints in practice (Advanced Challenge)</h3>
+<p>Implement a <code>Calculator&lt;T&gt;</code> class with <code>Add</code>, <code>Subtract</code>, and <code>Multiply</code> methods.</p>
+<p>Questions to consider:</p>
+<ol type="1">
+<li>If you only apply <code>where T : struct</code>, what happens when you try to compile <code>a + b</code>? Why does the C# compiler disallow arithmetic operators on arbitrary generic types?</li>
+<li>In modern C# (.NET 7+), Microsoft introduced <strong>Generic Math</strong>, resolving this via static abstract interface members. Consult the official documentation <a href="https://learn.microsoft.com/dotnet/standard/generics/math">Generic math</a> and implement the class using <code>where T : INumber&lt;T&gt;</code>.</li>
+<li>(Alternative approach) Without <code>INumber&lt;T&gt;</code> (such as in earlier .NET versions), how could you achieve generic calculation by injecting operation delegates (like <code>Func&lt;T, T, T&gt;</code>) or an operation strategy object via the constructor?</li>
+</ol>
 </section>
 <section id="exercise-4-covariance-in-practice" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-4-covariance-in-practice">Exercise 4: Covariance in practice</h3>
@@ -1575,46 +1580,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

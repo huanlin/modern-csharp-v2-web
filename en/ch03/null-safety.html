@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5 Error handling and resource management</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5 Error handling and resource management</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -319,7 +318,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 1, 2026</p>
+      <p class="date-modified">September 5, 2026</p>
     </div>
   </div>
     
@@ -892,7 +891,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="compatibility-with-legacy-code" class="level3">
 <h3 class="anchored" data-anchor-id="compatibility-with-legacy-code">Compatibility with legacy code</h3>
-<p>NRT is a <strong>compile-time</strong> feature; it doesn’t change runtime behavior. That means:</p>
+<p>NRT is a <strong>compile-time</strong> feature; it doesn’t change runtime behavior. Specifically:</p>
 <ul>
 <li>Existing code won’t stop running just because you turned on NRT.</li>
 <li>Even with NRT warnings, the project can still build and run (unless you treat warnings as errors, covered later).</li>
@@ -1114,7 +1113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Null operators (<code>??</code>, <code>??=</code>, <code>?.</code>, <code>?[]</code>)</strong>: Simplify null-handling logic and make code safer. C# 14 further extends this with null-conditional assignment.</li>
 <li><strong>Nullable Reference Types (C# 8+)</strong>: Detect many null bugs at compile time.</li>
 <li><strong>Pattern matching</strong>: <code>is null</code>, <code>is not null</code>, and switch expressions make null checks clearer and safer.</li>
-<li><strong>Best practices</strong>: Annotate explicitly, guard early, and combine modern syntax carefully to keep <code>NullReferenceException</code> out of your code.</li>
+<li><strong>Best practices</strong>: Annotate explicitly, guard early, and use modern syntax to significantly reduce null risks; remember that NRT is a compile-time safeguard, so external inputs and legacy boundaries still require proper defenses.</li>
 </ul>
 <hr>
 <p>In the next chapter, we’ll look at <strong>immutability</strong> and how it supports safer, more maintainable designs.</p>
@@ -1215,46 +1214,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

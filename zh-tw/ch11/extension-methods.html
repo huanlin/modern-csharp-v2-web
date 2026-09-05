@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">第 5 章：錯誤處理與資源管理</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第 5 章：錯誤處理與資源管理</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -318,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-07-23</p>
+      <p class="date-modified">2026-09-05</p>
     </div>
   </div>
     
@@ -575,7 +574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-3"><a href="#cb17-3" aria-label="3"></a></span>
 <span id="cb17-4"><a href="#cb17-4" aria-label="4"></a><span class="co">// 編譯為靜態方法呼叫</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-label="5"></a>StaticClass<span class="op">.</span><span class="fu">Method</span><span class="op">(</span>arg0<span class="op">,</span> arg1<span class="op">,</span> arg2<span class="op">,</span> <span class="op">...);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>這意味著：</p>
+<p>由於擴充方法在底層只是靜態方法呼叫，因此在架構與效能上有以下特點：</p>
 <ul>
 <li><strong>沒有額外的特殊派發機制</strong>：擴充方法在編譯後仍然是普通的靜態方法呼叫，不會因為「擴充」這個語法糖而多出額外的執行時期查找成本。</li>
 <li><strong>可用一般靜態方法的角度理解效能</strong>：JIT 編譯器會像處理其他靜態方法一樣評估是否最佳化，但是否內嵌（inlining）仍取決於方法本身和執行環境。</li>
@@ -656,7 +655,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>呼叫時可以這樣寫：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="dt">var</span> names <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">,</span> <span class="kw">null</span> <span class="op">};</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-label="2"></a><span class="dt">var</span> validNames <span class="op">=</span> names<span class="op">.</span><span class="fu">WhereNotNull</span><span class="op">();</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>這裡的變數 <code>names</code> 型別會被推斷為 <code>string?[]</code>，而 <code>validNames</code> 的型別則是 <code>IEnumerable&lt;string&gt;</code>。也就是說，這個方法不只在執行時過濾掉 null，也會把回傳序列的元素型別收斂成 non-nullable 參考型別。若你把接收者寫成 <code>IEnumerable&lt;TSource&gt;</code> 並搭配 <code>where TSource : class?</code>，雖然仍可在執行時過濾 null，但回傳型別通常還是 nullable，較容易誤導讀者。</p>
+<p>這裡的變數 <code>names</code> 型別會被推斷為 <code>string?[]</code>，而 <code>validNames</code> 的型別則是 <code>IEnumerable&lt;string&gt;</code>。也就是說，這個方法不只在執行時過濾掉 null，也會把回傳序列的元素型別收斂成 non-nullable 參考型別。若你把接收者寫成 <code>IEnumerable&lt;TSource&gt;</code> 並搭配 <code>where TSource : class?</code>，雖然仍可在執行時過濾 null，但回傳序列的元素型別通常還是 nullable，呼叫端便無法從型別標註得知結果已經排除了 null。</p>
 </section>
 <section id="擴充靜態成員" class="level3">
 <h3 class="anchored" data-anchor-id="擴充靜態成員">擴充靜態成員</h3>
@@ -794,7 +793,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="實例方法優先於擴充方法" class="level3">
 <h3 class="anchored" data-anchor-id="實例方法優先於擴充方法">實例方法優先於擴充方法</h3>
 <p><strong>重要規則</strong>：任何相容的實例方法永遠優先於擴充方法，即使擴充方法的參數型別更具體。</p>
-<p>這樣設計是為了維持既有型別的行為一致性。否則，一旦某個程式庫或第三方套件新增了同名擴充方法，就可能意外改變原本呼叫實例方法的結果，形成難以察覺的破壞性變更。換句話說，擴充方法的角色比較像是「後補的便利語法」，而不是覆蓋既有 API 的機制。</p>
+<p>這樣設計是為了維持既有型別的行為一致性。否則，一旦某個程式庫或第三方套件新增了同名擴充方法，就可能意外改變原本呼叫實例方法的結果，形成難以察覺的破壞性變更。因此，擴充方法的角色是「後補的便利語法」，而非覆蓋既有 API 的機制。</p>
 <p>以下範例可以看出這個規則：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="kw">class</span> Test</span>
 <span id="cb25-2"><a href="#cb25-2" aria-label="2"></a><span class="op">{</span></span>
@@ -910,7 +909,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="區域函式local-functions" class="level2">
 <h2 class="anchored" data-anchor-id="區域函式local-functions">11.6 區域函式（local functions）</h2>
 <p>區域函式跟擴充方法不是同一件事。不過它們都屬於方法層級的進階用法，而且在撰寫擴充方法時，確實可能順手用區域函式來整理內部邏輯，所以這裡一併介紹。</p>
-<p>簡單來說，區域函式（local function）就是「寫在方法裡面的方法」。先看一個基本範例：</p>
+<p>簡單來說，區域函式（local function，亦稱區域方法）就是「寫在方法裡面的方法」。第 8 章介紹過它與 Lambda 運算式的差異，先看一個基本範例：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb30-1"><a href="#cb30-1" aria-label="1"></a><span class="dt">void</span> <span class="fu">Demo</span><span class="op">()</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-label="2"></a><span class="op">{</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-label="3"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">));</span></span>
@@ -1137,7 +1136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb36-16"><a href="#cb36-16" aria-label="16"></a><span class="co">// Hello 0</span></span>
 <span id="cb36-17"><a href="#cb36-17" aria-label="17"></a><span class="co">// Hello 1</span></span>
 <span id="cb36-18"><a href="#cb36-18" aria-label="18"></a><span class="co">// Hello 2</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>這種寫法帶有一點技巧性，適合用在明確且小範圍的情境；若用得太廣，反而可能讓讀者不容易預期型別行為。</p>
+<p>這種寫法帶有一點技巧性，適合用在明確且小範圍的情境；若用得太廣，閱讀程式碼時就不容易預期哪些型別可以用於 <code>foreach</code>，以及迭代時會產生什麼結果。</p>
 <blockquote class="blockquote">
 <p><strong>範例程式：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoForeachDuckTyping">DemoForeachDuckTyping</a></p>
 </blockquote>
@@ -1310,46 +1309,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

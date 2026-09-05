@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">第 5 章：錯誤處理與資源管理</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第 5 章：錯誤處理與資源管理</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -262,7 +261,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#常見錯誤可變的-struct" id="toc-常見錯誤可變的-struct" class="nav-link" data-scroll-target="#常見錯誤可變的-struct">常見錯誤：可變的 struct</a></li>
   <li><a href="#readonly-struct編譯器強制的不可變性" id="toc-readonly-struct編譯器強制的不可變性" class="nav-link" data-scroll-target="#readonly-struct編譯器強制的不可變性">readonly struct：編譯器強制的不可變性</a></li>
   <li><a href="#防禦性複製隱藏的效能陷阱" id="toc-防禦性複製隱藏的效能陷阱" class="nav-link" data-scroll-target="#防禦性複製隱藏的效能陷阱">防禦性複製：隱藏的效能陷阱</a></li>
-  <li><a href="#ref-struct只能存在於堆疊上" id="toc-ref-struct只能存在於堆疊上" class="nav-link" data-scroll-target="#ref-struct只能存在於堆疊上">ref struct：只能存在於堆疊上</a></li>
+  <li><a href="#ref-struct只能存在於堆疊上進階" id="toc-ref-struct只能存在於堆疊上進階" class="nav-link" data-scroll-target="#ref-struct只能存在於堆疊上進階">ref struct：只能存在於堆疊上（進階）</a></li>
   <li><a href="#ref-struct-應用場景零配置zero-allocation處理" id="toc-ref-struct-應用場景零配置zero-allocation處理" class="nav-link" data-scroll-target="#ref-struct-應用場景零配置zero-allocation處理">ref struct 應用場景：零配置（zero-allocation）處理</a></li>
   </ul></li>
   <li><a href="#sec-4-3" id="toc-sec-4-3" class="nav-link" data-scroll-target="#sec-4-3">4.3 record：簡化資料型別的定義</a>
@@ -329,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-01</p>
+      <p class="date-modified">2026-09-05</p>
     </div>
   </div>
     
@@ -548,7 +547,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoReadonlyStruct">DemoReadonlyStruct</a></p>
 <p>相關微軟文件：<a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct">The <code>struct</code> type</a>、 <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/readonly">readonly (C# reference)</a></p>
 </blockquote>
-<p>到這裡，設計一個唯讀結構看起來相當直觀。不過，這裡還有個隱藏的效能陷阱：如果不了解編譯器的行為，很容易在不知不覺中付出額外成本。</p>
+<p>到這裡，設計一個唯讀結構看起來相當直觀。</p>
+<blockquote class="blockquote">
+<p><strong>閱讀建議</strong></p>
+<p>掌握了上述 <code>struct</code> 與 <code>class</code> 的語意差異、可變結構陷阱以及 <code>readonly struct</code> 之後，你已經具備設計一般不可變資料型別的核心基礎。 接下來要討論的「防禦性複製」與「<code>ref struct</code>」，屬於進階的底層效能與記憶體機制。若你的主要目標是為業務邏輯、DTO 或領域模型建立不可變物件，可以直接跳讀 <a href="#sec-4-3">4.3 record：簡化資料型別的定義</a>；日後需要調校極致效能或深入理解 Span 時再回頭研讀即可。</p>
+</blockquote>
+<p>不過，這裡還有個隱藏的效能陷阱：如果不了解編譯器的行為，很容易在不知不覺中付出額外成本。</p>
 </section>
 <section id="防禦性複製隱藏的效能陷阱" class="level3">
 <h3 class="anchored" data-anchor-id="防禦性複製隱藏的效能陷阱">防禦性複製：隱藏的效能陷阱</h3>
@@ -722,14 +726,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 </section>
 </section>
-<section id="ref-struct只能存在於堆疊上" class="level3">
-<h3 class="anchored" data-anchor-id="ref-struct只能存在於堆疊上">ref struct：只能存在於堆疊上</h3>
+<section id="ref-struct只能存在於堆疊上進階" class="level3">
+<h3 class="anchored" data-anchor-id="ref-struct只能存在於堆疊上進階">ref struct：只能存在於堆疊上（進階）</h3>
 <p>C# 7.2 引入了 <code>ref struct</code>，這是一種特殊的結構，在微軟文件 <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct">ref structure types (C# reference)</a> 開頭的第一句話是這麼介紹它的：</p>
 <blockquote class="blockquote">
 <p>Use the ref modifier when declaring a structure type. You allocate instances of a ref struct type on the stack, and they can’t escape to the managed heap.</p>
 </blockquote>
 <p>也就是說，以 <code>ref struct</code> 型別所建立的結構實體（instance）本身受到 stack-only 限制，不能逃逸到堆積（managed heap）上。</p>
-<p>大多數情況下，你不會需要定義自己的 <code>ref struct</code> 型別，但了解這個概念有助於理解 .NET 的高效能 API，例如 <code>Span&lt;T&gt;</code> 和 <code>ReadOnlySpan&lt;T&gt;</code>（本書第 13 章有介紹）。</p>
+<p>大多數情況下，你不會需要定義自己的 <code>ref struct</code> 型別，但了解這個概念有助於理解 .NET 的高效能 API，例如 <code>Span&lt;T&gt;</code> 和 <code>ReadOnlySpan&lt;T&gt;</code>（本書第 13 章有介紹）。若你目前關注的是日常資料物件的不可變設計，可先略過這部分，直接跳至 <a href="#sec-4-3">4.3 record：簡化資料型別的定義</a>。</p>
 <p>底下是一個簡單的 <code>ref struct</code> 範例：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a><span class="kw">ref</span> <span class="kw">struct</span> StackOnlyPoint</span>
 <span id="cb19-2"><a href="#cb19-2" aria-label="2"></a><span class="op">{</span></span>
@@ -776,7 +780,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-4"><a href="#cb23-4" aria-label="4"></a>    await Task<span class="op">.</span><span class="fu">Delay</span><span class="op">(</span><span class="dv">100</span><span class="op">);</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-label="5"></a>    span<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">42</span><span class="op">;</span>  <span class="co">// ✗ 編譯錯誤：span 不能跨越 await 邊界</span></span>
 <span id="cb23-6"><a href="#cb23-6" aria-label="6"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>換句話說，<code>ref struct</code> 可以出現在 <code>async</code> 方法中，但不能在 <code>await</code> 之前建立後，又在 <code>await</code> 之後繼續使用。相同的原則也適用於 iterator 方法中的 <code>yield</code>。</p>
+<p><code>ref struct</code> 雖然可以出現在 <code>async</code> 方法中，但不能在 <code>await</code> 之前建立後，又在 <code>await</code> 之後繼續使用。相同的原則也適用於 iterator 方法中的 <code>yield</code>。</p>
 <p>另外要留意的是，在 C# 13 之前，<code>ref struct</code> 完全不能實作介面。C# 13 開始雖然可以實作介面，但仍然無法轉型為介面型別（因為轉型會導致裝箱）。</p>
 <p>可是，為什麼 <code>ref struct</code> 會有這麼多限制？它到底可以用在哪裡呢？</p>
 <p>簡單來說，這些限制都是為了確保 <code>ref struct</code> 永遠不會逃逸到堆積上。至於為什麼這件事這麼重要，接下來先看它的典型應用場景，再回頭說明背後的技術原因。</p>
@@ -1214,7 +1218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="計算屬性與延遲求值" class="level2">
 <h2 class="anchored" data-anchor-id="計算屬性與延遲求值">4.6 計算屬性與延遲求值</h2>
-<p>不可變型別經常需要包含<strong>計算屬性</strong>（derived/calculated properties），即從其他欄位計算而來的值。一個常見的優化技巧是<strong>延遲求值</strong>（lazy evaluation）：只在首次存取時計算值，然後快取結果供後續使用。</p>
+<p>不可變型別經常需要包含<strong>計算屬性</strong>（derived/calculated properties），即從其他欄位計算而來的值。一個常見的做法是<strong>延遲求值</strong>（lazy evaluation），也就是把計算推遲到真正需要其值時才進行；若計算成本較高，通常會進一步搭配<strong>快取</strong>（memoization）供後續存取直接重用。</p>
 <p>以下示範如何定義一個簡單的計算屬性：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb46-1"><a href="#cb46-1" aria-label="1"></a><span class="kw">public</span> record <span class="fu">Point</span><span class="op">(</span><span class="dt">double</span> X<span class="op">,</span> <span class="dt">double</span> Y<span class="op">)</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-label="2"></a><span class="op">{</span></span>
@@ -1656,7 +1660,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Lazy evaluation</td>
 <td style="text-align: left;">延遲求值</td>
-<td style="text-align: left;">只在需要時才計算值，並快取結果以供後續使用</td>
+<td style="text-align: left;">將計算推遲到真正需要時才進行；在屬性實作中常進一步搭配快取以避免重複計算</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Logical immutability</td>
@@ -1756,46 +1760,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -2233,7 +2278,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   <div class="nav-page nav-page-next">
       <a href="../ch05/error-handling-and-res-mgmt.html" class="pagination-link" aria-label="第 5 章：錯誤處理與資源管理">
-        <span class="nav-page-text">第 5 章：錯誤處理與資源管理</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-title">第 5 章：錯誤處理與資源管理</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

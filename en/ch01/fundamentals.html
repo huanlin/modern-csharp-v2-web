@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5 Error handling and resource management</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5 Error handling and resource management</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -308,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 1, 2026</p>
+      <p class="date-modified">September 5, 2026</p>
     </div>
   </div>
     
@@ -359,7 +358,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Terminology</strong></p>
 <p>In programming languages, an <strong>expression</strong> is typically “a piece of code that can be evaluated and produces a value.” A <strong>statement</strong>, on the other hand, performs an action and usually does not directly produce a value.</p>
 </blockquote>
-<p>Let’s move on to the type system.</p>
 <section id="type-safety-your-first-defense" class="level3">
 <h3 class="anchored" data-anchor-id="type-safety-your-first-defense">Type safety: your first defense</h3>
 <p>C# is a <strong>strongly typed</strong> language with strict type rules:</p>
@@ -375,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-label="4"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-label="5"></a><span class="dt">int</span> rounded2 <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>pi<span class="op">;</span>  <span class="co">// ✓ Explicit cast; you're choosing to truncate</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In this example, the compiler is not forbidding the conversion outright; it requires you to make the potential loss of information explicit. That design keeps risky operations from happening quietly in your code.</p>
-<p>In other words: <strong>let the compiler help you reduce potential bugs</strong>. Type safety, null safety, pattern matching, and record-based value equality all reduce surprises at runtime.</p>
+<p>In short: <strong>leverage the compiler to prevent bugs</strong>. Type safety, null safety, pattern matching, and record-based value equality all reduce surprises at runtime.</p>
 </section>
 </section>
 <section id="sec-1-2" class="level2">
@@ -388,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://dotnet.microsoft.com/download/dotnet/">.NET 10 SDK (or later)</a>: required for building .NET applications.</li>
 <li>A development tool (IDE/editor). Pick what you’re comfortable with:
 <ul>
-<li>Visual Studio 2026 Community: The most powerful Windows IDE for large-scale and enterprise projects.</li>
+<li>Visual Studio 2026 Community: A full-featured IDE offering deep debugging, profiling, and visualization tools, well suited for large-scale and enterprise projects.</li>
 <li>Visual Studio Code: A cross-platform (Windows, macOS, Linux), lightweight, and highly extensible editor—perfect for fast editing and highly customized workflows.</li>
 <li>JetBrains Rider: A powerful cross-platform IDE (Windows, macOS, Linux); free for non-commercial use.</li>
 </ul></li>
@@ -527,7 +525,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>This means your C# code can run on any of these platforms, provided you avoid coupling it to platform-specific APIs.</p>
+<p>As long as you avoid coupling it to platform-specific APIs, your C# code can run on any of these platforms.</p>
 <p>Beyond the execution environment, the next foundation that directly affects program behavior and performance is how memory is allocated.</p>
 </section>
 </section>
@@ -913,7 +911,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Execution model</strong>: A typical .NET build first compiles C# source code into <strong>IL</strong>. In the usual JIT execution model, the CLR compiles that IL into machine code at runtime and handles runtime services such as garbage collection.</li>
 <li><strong>Stack vs heap</strong>: A stack frame’s lifetime is tied to a method call, while the managed heap uses reachability and the GC to manage object lifetimes. The distinction should not be reduced to “stack fast, heap slow.”</li>
 <li><strong>Value types vs reference types</strong>: Value types contain data directly, while reference types store references to objects; you can think of a reference as a memory address that points to an object.</li>
-<li><strong>Array memory characteristics</strong>: Value-type arrays allocate elements contiguously (excellent cache locality); reference-type arrays store scattered references (can lead to increased GC pressure).</li>
+<li><strong>Array memory characteristics</strong>: Value-type arrays allocate elements contiguously (typically offering better cache locality); reference-type arrays store scattered references (which can increase GC pressure).</li>
 <li><strong>Boxing/unboxing</strong>: Boxing converts a value type to <code>object</code>; unboxing extracts the boxed value back to its original value type. Both can introduce extra cost.</li>
 <li><strong>Object copying</strong>: C# provides shallow copy only; deep copy requires manual work or serialization (for example, <code>System.Text.Json</code>).</li>
 </ul>
@@ -1022,46 +1020,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

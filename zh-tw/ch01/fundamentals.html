@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">第 5 章：錯誤處理與資源管理</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第 5 章：錯誤處理與資源管理</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -308,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-01</p>
+      <p class="date-modified">2026-09-05</p>
     </div>
   </div>
     
@@ -388,7 +387,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://dotnet.microsoft.com/download/dotnet/">.NET 10 SDK（或更新版本）</a>：開發 .NET 應用程式必備。</li>
 <li>開發工具（IDE、編輯器），選擇你覺得合用的：
 <ul>
-<li>Visual Studio 2026 Community：Windows 平台最強大的 IDE，適合大型專案與企業級開發。</li>
+<li>Visual Studio 2026 Community：功能完整的 IDE，提供深入的除錯、分析與視覺化工具，適合大型專案與企業級開發。</li>
 <li>Visual Studio Code：跨平台（Windows、macOS、Linux）、輕量且生態系豐富的編輯器，適合喜歡快速編輯與自訂 workflow 的開發者。</li>
 <li>JetBrains Rider：跨平台（Windows、macOS、Linux）的整合開發工具，非商業用途可免費使用。</li>
 </ul></li>
@@ -527,7 +526,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>這意味著你用 C# 寫的程式碼，只要不依賴特定平台的 API，就可以在這些平台上執行。</p>
+<p>只要不依賴特定平台的 API，你用 C# 寫的程式碼就可以在這些平台上執行。</p>
 <p>從執行環境往下看，下一個會直接影響程式行為與效能的基礎，就是記憶體如何配置。</p>
 </section>
 </section>
@@ -694,8 +693,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>如同一排信箱：打開第 0 號信箱，裡面只有一張紙條（參考），上面寫著包裹所在的位置。若每個信箱裡的紙條都指向不同位置，處理器存取資料時較不容易充分利用快取，因此實際效能可能不如資料直接連續存放的情況。</p>
 <p>這帶來兩個重要影響：</p>
 <ol type="1">
-<li><strong>記憶體區域性（locality）</strong>：value type 陣列的元素在記憶體中是連續存放，故 CPU 快取命中率高，存取效能更好。</li>
-<li><strong>GC 壓力</strong>：reference type 陣列會產生多個散落物件，增加垃圾回收的負擔。</li>
+<li><strong>記憶體區域性（locality）</strong>：value type 陣列的元素在記憶體中是連續存放，通常有利於 CPU 快取命中率與循序存取效能。</li>
+<li><strong>GC 壓力</strong>：reference type 陣列會產生多個散落物件，容易增加垃圾回收的負擔。</li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -912,7 +911,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>執行機制</strong>：一般 .NET 建置會先將 C# 原始碼編譯成 IL；在典型的 JIT 執行模式下，CLR 會在執行時將 IL 編譯成機器碼，並負責垃圾回收等執行期工作。</li>
 <li><strong>Stack 與 Heap</strong>：Stack frame 的生命週期跟方法呼叫綁在一起；managed heap 則由 GC 依物件是否仍然可達來管理。兩者不宜簡化成「stack 快、heap 慢」。</li>
 <li><strong>Value types vs Reference types</strong>：前者直接包含資料，後者儲存物件的參考（reference）；你可以把「參考」理解成用來找到物件的位置資訊。</li>
-<li><strong>陣列記憶體特性</strong>：Value type 陣列在記憶體中是連續的（效能佳）；Reference type 陣列則是儲存參考（可能增加 GC 壓力）。</li>
+<li><strong>陣列記憶體特性</strong>：Value type 陣列在記憶體中是連續存放（通常具備較佳的快取區域性）；Reference type 陣列則是儲存參考（元素分散可能增加 GC 壓力）。</li>
 <li><strong>Boxing/Unboxing</strong>：Boxing 是把 Value type 轉成 <code>object</code>；Unboxing 是把 boxed value 取回為原本的 Value type，兩者都可能帶來額外成本。</li>
 <li><strong>物件複製</strong>：C# 僅內建淺層複製。若需要深層複製，必須手動實作或透過序列化（如 <code>System.Text.Json</code>）達成。</li>
 </ul>
@@ -1036,46 +1035,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

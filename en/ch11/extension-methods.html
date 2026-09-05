@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5 Error handling and resource management</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5 Error handling and resource management</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -267,7 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#do-not-pollute-core-namespaces" id="toc-do-not-pollute-core-namespaces" class="nav-link" data-scroll-target="#do-not-pollute-core-namespaces">1. Do not pollute core namespaces</a></li>
   <li><a href="#prioritize-extending-interfaces-over-concrete-classes" id="toc-prioritize-extending-interfaces-over-concrete-classes" class="nav-link" data-scroll-target="#prioritize-extending-interfaces-over-concrete-classes">2. Prioritize extending interfaces over concrete classes</a></li>
   <li><a href="#use-generic-extensions-to-improve-reusability" id="toc-use-generic-extensions-to-improve-reusability" class="nav-link" data-scroll-target="#use-generic-extensions-to-improve-reusability">3. Use generic extensions to improve reusability</a></li>
-  <li><a href="#pay-attention-to-null-safety" id="toc-pay-attention-to-null-safety" class="nav-link" data-scroll-target="#pay-attention-to-null-safety">4. Pay attention to null safety</a></li>
+  <li><a href="#ensure-null-safety" id="toc-ensure-null-safety" class="nav-link" data-scroll-target="#ensure-null-safety">4. Ensure null safety</a></li>
   <li><a href="#performance-considerations" id="toc-performance-considerations" class="nav-link" data-scroll-target="#performance-considerations">5. Performance considerations</a></li>
   </ul></li>
   <li><a href="#sec-11-4" id="toc-sec-11-4" class="nav-link" data-scroll-target="#sec-11-4">11.4 Extension members (C# 14)</a>
@@ -318,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 23, 2026</p>
+      <p class="date-modified">September 5, 2026</p>
     </div>
   </div>
     
@@ -329,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>In software development, we often want to “borrow” existing classes and add some practical functionality to them. Traditional approaches typically involve either inheritance or writing a static helper class. Each approach has its own drawbacks: inheritance often complicates the class hierarchy, and static helper classes aren’t very intuitive. Writing <code>Helper.Do(obj)</code> feels much less natural than calling <code>obj.Do()</code> directly.</p>
+<p>In software development, we often want to extend existing classes with practical functionality. Traditional approaches typically involve either inheritance or writing a static helper class. Each approach has its own drawbacks: inheritance often complicates the class hierarchy, and static helper classes aren’t very intuitive. Writing <code>Helper.Do(obj)</code> feels much less natural than calling <code>obj.Do()</code> directly.</p>
 <p>C# 3.0 introduced <strong>extension methods</strong> to solve this problem. They allow you to add new methods to a class without modifying the original code (even for classes where you don’t have the source), and calling them feels exactly like using native instance methods. By C# 14, the syntax goes further with <strong>extension members</strong>, allowing you to extend not only methods but also properties and operators.</p>
 <p>This chapter starts with the practical problem extension methods are meant to solve, then moves through their syntax, operating principles, best practices, the new C# 14 syntax, and ways to resolve method conflicts. Finally, we will look at several practical examples of extension methods in real projects.</p>
 <section id="why-extension-methods" class="level2">
@@ -359,7 +358,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If we want to combine these two operations—reversing a string and then capitalizing its first letter—the code might look like this:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="dt">string</span> s1 <span class="op">=</span> <span class="st">"abcdefg"</span><span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="dt">string</span> s2 <span class="op">=</span> StringHelper<span class="op">.</span><span class="fu">Capitalize</span><span class="op">(</span>StringHelper<span class="op">.</span><span class="fu">Reverse</span><span class="op">(</span>s1<span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Where is the problem?</strong></p>
+<p><strong>Drawbacks of this approach:</strong></p>
 <ol type="1">
 <li><strong>Poor Readability</strong>: Nested calls make the execution order the reverse of the reading order.</li>
 <li><strong>Not Intuitive</strong>: It does not look like an operation on the string itself.</li>
@@ -533,8 +532,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-14"><a href="#cb14-14" aria-label="14"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"No data"</span><span class="op">);</span></span>
 <span id="cb14-15"><a href="#cb14-15" aria-label="15"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="pay-attention-to-null-safety" class="level3">
-<h3 class="anchored" data-anchor-id="pay-attention-to-null-safety">4. Pay attention to null safety</h3>
+<section id="ensure-null-safety" class="level3">
+<h3 class="anchored" data-anchor-id="ensure-null-safety">4. Ensure null safety</h3>
 <p>Extension methods can be called on <code>null</code> references (because they are actually static methods), so null cases must be handled:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a><span class="op">{</span></span>
@@ -569,7 +568,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-3"><a href="#cb17-3" aria-label="3"></a></span>
 <span id="cb17-4"><a href="#cb17-4" aria-label="4"></a><span class="co">// Compiled to static method call</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-label="5"></a>StaticClass<span class="op">.</span><span class="fu">Method</span><span class="op">(</span>arg0<span class="op">,</span> arg1<span class="op">,</span> arg2<span class="op">,</span> <span class="op">...);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This means:</p>
+<p>Because extension methods are fundamentally compiled into ordinary static method calls, they have the following architectural and performance characteristics:</p>
 <ul>
 <li><strong>No special dispatch mechanism</strong>: After compilation, an extension method is still just a normal static method call. The extension syntax itself does not introduce extra runtime lookup work.</li>
 <li><strong>You can reason about performance like any other static method</strong>: The JIT compiler evaluates extension methods the same way it evaluates other static methods, but whether a call is inlined still depends on the method body and runtime conditions.</li>
@@ -645,7 +644,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You can call it like this:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="dt">var</span> names <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="st">"Bob"</span><span class="op">,</span> <span class="kw">null</span> <span class="op">};</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-label="2"></a><span class="dt">var</span> validNames <span class="op">=</span> names<span class="op">.</span><span class="fu">WhereNotNull</span><span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Here, <code>names</code> is inferred as <code>string?[]</code>, while <code>validNames</code> is inferred as <code>IEnumerable&lt;string&gt;</code>. In other words, the method not only filters out null values at runtime, but also narrows the element type of the returned sequence to a non-nullable reference type. If you instead wrote the receiver as <code>IEnumerable&lt;TSource&gt;</code> together with <code>where TSource : class?</code>, you could still filter nulls at runtime, but the returned static type would usually remain nullable.</p>
+<p>Here, <code>names</code> is inferred as <code>string?[]</code>, while <code>validNames</code> is inferred as <code>IEnumerable&lt;string&gt;</code>. In other words, the method not only filters out null values at runtime, but also narrows the element type of the returned sequence to a non-nullable reference type. If you instead wrote the receiver as <code>IEnumerable&lt;TSource&gt;</code> together with <code>where TSource : class?</code>, you could still filter nulls at runtime, but the element type of the returned sequence would usually remain nullable, leaving callers unable to tell from the type annotations that nulls have already been eliminated.</p>
 </section>
 <section id="extension-static-members" class="level3">
 <h3 class="anchored" data-anchor-id="extension-static-members">Extension static members</h3>
@@ -784,7 +783,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="instance-methods-take-priority-over-extension-methods" class="level3">
 <h3 class="anchored" data-anchor-id="instance-methods-take-priority-over-extension-methods">Instance methods take priority over extension methods</h3>
 <p><strong>Important Rule</strong>: Any compatible instance method always takes priority over extension methods, even if the extension method has more specific parameter types.</p>
-<p>This design preserves the behavior of existing types. Otherwise, adding a same-named extension method in some library or third-party package could unexpectedly change how calls that used to bind to an instance method are resolved, creating a subtle breaking change. In that sense, extension methods are meant to be a fallback convenience syntax, not a mechanism for overriding existing APIs.</p>
+<p>This design preserves the behavior of existing types. Otherwise, adding a same-named extension method in some library or third-party package could unexpectedly change how calls that used to bind to an instance method are resolved, creating a subtle breaking change. Therefore, extension methods serve as a fallback convenience syntax rather than a mechanism for overriding existing APIs.</p>
 <p>The following example shows this rule in action:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="kw">class</span> Test</span>
 <span id="cb25-2"><a href="#cb25-2" aria-label="2"></a><span class="op">{</span></span>
@@ -1129,7 +1128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb36-16"><a href="#cb36-16" aria-label="16"></a><span class="co">// Hello 0</span></span>
 <span id="cb36-17"><a href="#cb36-17" aria-label="17"></a><span class="co">// Hello 1</span></span>
 <span id="cb36-18"><a href="#cb36-18" aria-label="18"></a><span class="co">// Hello 2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This style is somewhat tricky, so it works best in clear and narrow scenarios. If used too broadly, it can make type behavior harder for readers to predict.</p>
+<p>This style is somewhat tricky, so it works best in clear and narrow scenarios. If used too broadly, it becomes difficult when reading code to predict which types can be used in <code>foreach</code> loops and what values each iteration will produce.</p>
 <blockquote class="blockquote">
 <p><strong>Example project:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch11/DemoForeachDuckTyping">DemoForeachDuckTyping</a></p>
 </blockquote>
@@ -1185,7 +1184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Extension Methods</strong> allow you to add new methods to a class without modifying the original class, while maintaining an object-oriented calling style.</li>
 <li><strong>Syntax Points</strong>: Static class, static method, <code>this</code> modifies the first parameter.</li>
 <li><strong>C# 14 Extension Members</strong>: New <code>extension</code> block syntax, supporting extension properties, extension static methods, and extension operators.</li>
-<li><strong>Best Practices</strong>: Avoid namespace pollution, prioritize extending interfaces, use generics, pay attention to null safety.</li>
+<li><strong>Best Practices</strong>: Avoid namespace pollution, prioritize extending interfaces, use generics, and ensure null safety.</li>
 <li><strong>Local Functions</strong> are suitable for organizing helper logic within methods and can access outer variables.</li>
 <li><strong>Practical Applications</strong>: Fluent API design, extending LINQ, refactoring with AI collaboration.</li>
 </ul>
@@ -1291,46 +1290,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

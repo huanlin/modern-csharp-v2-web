@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">第 5 章：錯誤處理與資源管理</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第 5 章：錯誤處理與資源管理</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -316,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#練習-1實作泛型堆疊" id="toc-練習-1實作泛型堆疊" class="nav-link" data-scroll-target="#練習-1實作泛型堆疊">練習 1：實作泛型堆疊</a></li>
   <li><a href="#練習-2實作泛型配對" id="toc-練習-2實作泛型配對" class="nav-link" data-scroll-target="#練習-2實作泛型配對">練習 2：實作泛型配對</a></li>
-  <li><a href="#練習-3條件約束應用" id="toc-練習-3條件約束應用" class="nav-link" data-scroll-target="#練習-3條件約束應用">練習 3：條件約束應用</a></li>
+  <li><a href="#練習-3條件約束應用延伸挑戰" id="toc-練習-3條件約束應用延伸挑戰" class="nav-link" data-scroll-target="#練習-3條件約束應用延伸挑戰">練習 3：條件約束應用（延伸挑戰）</a></li>
   <li><a href="#練習-4共變性應用" id="toc-練習-4共變性應用" class="nav-link" data-scroll-target="#練習-4共變性應用">練習 4：共變性應用</a></li>
   </ul></li>
   <li><a href="#本章術語" id="toc-本章術語" class="nav-link" data-scroll-target="#本章術語">本章術語</a></li>
@@ -340,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-01</p>
+      <p class="date-modified">2026-09-05</p>
     </div>
   </div>
     
@@ -450,7 +449,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch07/DemoWhyGenerics">DemoWhyGenerics</a></p>
 </blockquote>
-<p>了解泛型的基本用法和優點之後，接著來看泛型語法。</p>
 </section>
 </section>
 <section id="細說泛型" class="level2">
@@ -458,7 +456,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>若單從「泛型」這個詞彙的字面來解釋，也可以說是「可廣泛應用的型別」。為什麼說廣泛應用呢？因為你只需要定義一個型別，就可以套用在各種類似的情境或用途。簡言之：寫一次，重複套用。</p>
 <p>拿前面的例子來說，當我們的應用程式需要各種串列，例如整數串列、字串串列、員工串列、客戶串列……等等，既然它們都是串列，且都具有串列的共同屬性和行為，那麼最理想的做法，通常是寫一個通用的串列類別，然後套用到任何需要使用串列的場合。當然，它還得具備編譯時期的型別安全檢查才行。</p>
 <p>剛才舉例的那些串列類別，彼此共同且不變的特徵是「串列」，唯一差異則是串列裡儲存的元素型別：可能是字串、整數、員工、客戶等等。泛型可以把這些會變動的部分抽離出來，定義成參數。如此一來，固定不變的部分只需要寫一次，其餘變動的部分則在使用時帶入。</p>
-<p>接著來看如何用泛型語法定義自己的泛型類別。</p>
 <section id="泛型型別參數建構的型別" class="level3">
 <h3 class="anchored" data-anchor-id="泛型型別參數建構的型別">泛型、型別參數、建構的型別</h3>
 <p>泛型可用於類別、介面、委派、和方法。這裡要先介紹的是宣告泛型類別的基本語法：</p>
@@ -1321,12 +1318,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Repository 模式</li>
 <li>Result/Option 型別</li>
 </ol>
-<p><strong>不適合使用泛型的場景</strong>：</p>
-<ol type="1">
-<li>型別參數超過 3 個（過於複雜）</li>
-<li>邏輯高度依賴特定型別（應使用繼承）</li>
-<li>需要頻繁使用反射（泛型會增加複雜度）</li>
-</ol>
+<p><strong>需要謹慎評估或不適合的場景</strong>：</p>
+<ul>
+<li><strong>型別參數過多且責任混雜</strong>：當類別或方法需要 3 個以上的型別參數時，往往是 API 責任過重的警訊。應先檢視這些型別參數是否真為獨立的資料合約；若其中包含組態、記錄器或輔助服務，通常應改由介面、建構函式注入或組合模式來表達，而非全塞進角括號裡（詳見下方的原則 1）。</li>
+<li><strong>邏輯高度依賴特定型別的具體實作</strong>：若方法內部需要大量存取特定型別的專屬欄位或私有邏輯，勉強使用泛型只會迫使你使用 <code>is</code>、<code>as</code> 或強制轉型來檢查型別，破壞編譯期型別安全的初衷。此時應考慮直接撰寫一般具體方法、定義介面合約，或透過組合／策略模式（甚至在真有 is-a 關係時採用繼承）來表達差異。</li>
+<li><strong>過度依賴動態反射或不利於 Native AOT 編譯</strong>：如果演算法高度依賴動態型別檢查，且必須在執行期頻繁透過反射建立泛型型別（如 <code>MakeGenericType</code>），泛型不僅增加程式複雜度與執行開銷，還可能引發 Native AOT 剪裁（trimming）與動態程式碼產生的相容性風險。在這種場景下，單純的介面或多型設計往往更務實。</li>
+</ul>
 </section>
 <section id="設計泛型-api-的原則" class="level3">
 <h3 class="anchored" data-anchor-id="設計泛型-api-的原則">設計泛型 API 的原則</h3>
@@ -1411,19 +1408,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb72-10"><a href="#cb72-10" aria-label="10"></a><span class="co">// 提示詞應明確要求</span></span>
 <span id="cb72-11"><a href="#cb72-11" aria-label="11"></a><span class="co">// "請實作一個泛型比較器，T 必須實作 IComparable&lt;T&gt;"</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="陷阱-2ai-可能建議過時的寫法" class="level4">
-<h4 class="anchored" data-anchor-id="陷阱-2ai-可能建議過時的寫法">陷阱 2：AI 可能建議過時的寫法</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb73-1"><a href="#cb73-1" aria-label="1"></a><span class="co">// ✗ AI 可能給出 C# 2.0 的寫法</span></span>
+<section id="注意語法簡寫與風格偏好" class="level4">
+<h4 class="anchored" data-anchor-id="注意語法簡寫與風格偏好">注意：語法簡寫與風格偏好</h4>
+<p>AI 生成的程式碼有時會偏向較早期的語法風格。例如回傳型別預設值時：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb73-1"><a href="#cb73-1" aria-label="1"></a><span class="co">// 早期語法（C# 2.0+，完全有效，但較為冗長）</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-label="2"></a><span class="kw">public</span> T GetDefault<span class="op">&lt;</span>T<span class="op">&gt;()</span></span>
 <span id="cb73-3"><a href="#cb73-3" aria-label="3"></a><span class="op">{</span></span>
 <span id="cb73-4"><a href="#cb73-4" aria-label="4"></a>    <span class="kw">return</span> <span class="kw">default</span><span class="op">(</span>T<span class="op">);</span></span>
 <span id="cb73-5"><a href="#cb73-5" aria-label="5"></a><span class="op">}</span></span>
 <span id="cb73-6"><a href="#cb73-6" aria-label="6"></a></span>
-<span id="cb73-7"><a href="#cb73-7" aria-label="7"></a><span class="co">// ✓ C# 7.1+ 的現代寫法</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-label="7"></a><span class="co">// 現代簡寫（C# 7.1+，可省略型別）</span></span>
 <span id="cb73-8"><a href="#cb73-8" aria-label="8"></a><span class="kw">public</span> T GetDefault<span class="op">&lt;</span>T<span class="op">&gt;()</span></span>
 <span id="cb73-9"><a href="#cb73-9" aria-label="9"></a><span class="op">{</span></span>
-<span id="cb73-10"><a href="#cb73-10" aria-label="10"></a>    <span class="kw">return</span> <span class="kw">default</span><span class="op">;</span>  <span class="co">// 可省略型別</span></span>
+<span id="cb73-10"><a href="#cb73-10" aria-label="10"></a>    <span class="kw">return</span> <span class="kw">default</span><span class="op">;</span></span>
 <span id="cb73-11"><a href="#cb73-11" aria-label="11"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<p>這兩者在執行期的行為完全相同，<code>default(T)</code> 並非技術錯誤，只是現代 C# 允許更簡潔的寫法。審閱 AI 產生的泛型程式碼時，重點應優先放在<strong>型別約束是否充足、是否符合業務合約</strong>（如陷阱 1），而非僅停留在語法簡寫的偏好替換。</p>
 <p><strong>參考提示詞</strong>：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb74"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb74-1"><a href="#cb74-1" aria-label="1"></a>請使用 C# 12 之後的語法實作一個泛型 Repository&lt;T&gt;，</span>
 <span id="cb74-2"><a href="#cb74-2" aria-label="2"></a>其中 T 必須是參考型別且實作 IEntity 介面。</span>
@@ -1467,9 +1466,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="練習-2實作泛型配對">練習 2：實作泛型配對</h3>
 <p>實作一個 <code>Pair&lt;T1, T2&gt;</code> 類別，能夠儲存兩個不同型別的值，並實作 <code>IEquatable&lt;Pair&lt;T1, T2&gt;&gt;</code>，使其支援相等性比較。</p>
 </section>
-<section id="練習-3條件約束應用" class="level3">
-<h3 class="anchored" data-anchor-id="練習-3條件約束應用">練習 3：條件約束應用</h3>
-<p>實作一個 <code>Calculator&lt;T&gt;</code> 類別，提供 <code>Add</code>、<code>Subtract</code>、<code>Multiply</code> 方法。 思考：應該使用什麼條件約束？（提示：考慮數值型別）</p>
+<section id="練習-3條件約束應用延伸挑戰" class="level3">
+<h3 class="anchored" data-anchor-id="練習-3條件約束應用延伸挑戰">練習 3：條件約束應用（延伸挑戰）</h3>
+<p>實作一個 <code>Calculator&lt;T&gt;</code> 類別，提供 <code>Add</code>、<code>Subtract</code>、<code>Multiply</code> 方法。</p>
+<p>思考：</p>
+<ol type="1">
+<li>若只加上 <code>where T : struct</code>，嘗試編譯 <code>a + b</code> 時會發生什麼事？為什麼 C# 編譯器不允許對任意泛型型別直接使用算術運算子？</li>
+<li>在現代 C#（.NET 7+）中，微軟引入了「泛型數學」（Generic Math），透過靜態抽象介面成員解決了此問題。請參考官方文件 <a href="https://learn.microsoft.com/dotnet/standard/generics/math">Generic math</a>，使用 <code>where T : INumber&lt;T&gt;</code> 完成實作。</li>
+<li>（替代解法思考）若在不使用 <code>INumber&lt;T&gt;</code> 的前提下（例如較舊的 .NET 版本），你如何透過建構函式注入運算委派（如 <code>Func&lt;T, T, T&gt;</code>）或運算策略物件來達成泛型運算？</li>
+</ol>
 </section>
 <section id="練習-4共變性應用" class="level3">
 <h3 class="anchored" data-anchor-id="練習-4共變性應用">練習 4：共變性應用</h3>
@@ -1604,46 +1609,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

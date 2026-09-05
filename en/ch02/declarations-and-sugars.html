@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5 Error handling and resource management</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5 Error handling and resource management</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -327,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">May 3, 2026</p>
+      <p class="date-modified">September 5, 2026</p>
     </div>
   </div>
     
@@ -922,7 +921,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="value-equality" class="level3">
 <h3 class="anchored" data-anchor-id="value-equality">Value equality</h3>
-<p>Anonymous types also have a practical feature: the compiler implements <code>Equals</code> and <code>GetHashCode</code> for them. That means two instances are considered equal when they are instances of <strong>the same anonymous type</strong> (that is, the compiler reused the type because the property names, types, and order all match) and <strong>all property values are equal</strong>:</p>
+<p>Anonymous types also have a practical feature: the compiler implements <code>Equals</code> and <code>GetHashCode</code> for them. Therefore, two instances are considered equal when they are instances of <strong>the same anonymous type</strong> (that is, the compiler reused the type because the property names, types, and order all match) and <strong>all property values are equal</strong>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb46-1"><a href="#cb46-1" aria-label="1"></a><span class="dt">var</span> p1 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> X <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">2</span> <span class="op">};</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-label="2"></a><span class="dt">var</span> p2 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> X <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">2</span> <span class="op">};</span></span>
 <span id="cb46-3"><a href="#cb46-3" aria-label="3"></a></span>
@@ -1350,46 +1349,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

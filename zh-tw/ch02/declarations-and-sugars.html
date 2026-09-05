@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">第 5 章：錯誤處理與資源管理</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第 5 章：錯誤處理與資源管理</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -327,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-05-03</p>
+      <p class="date-modified">2026-09-05</p>
     </div>
   </div>
     
@@ -376,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> i <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> j <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>  <span class="co">// ✗ 編譯失敗！</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>雖然 <code>var</code> 不能用於一般方法的參數，但是可以用在 lambda 運算式的參數，像這樣：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Func<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> add <span class="op">=</span> <span class="op">(</span><span class="dt">var</span> x<span class="op">,</span> <span class="dt">var</span> y<span class="op">)</span> <span class="op">=&gt;</span> x <span class="op">+</span> y<span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>這個語法主要在需要為 lambda 參數加上修飾屬性（attribute）時才有實際用途，例如 <code>([NotNull] var x, var y) =&gt; ...</code>。若只是一般情況，直接寫出參數型別通常會更清楚。</p>
+<p>這個語法主要在需要為 lambda 參數加上 attribute 時才有實際用途，例如 <code>([NotNull] var x, var y) =&gt; ...</code>。若只是一般情況，直接寫出參數型別通常會更清楚。</p>
 <blockquote class="blockquote">
 <p>Lambda 運算式的完整介紹，請參閱第 8 章〈委派與 Lambda 運算式〉。</p>
 </blockquote>
@@ -939,7 +938,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="值相等性value-equality" class="level3">
 <h3 class="anchored" data-anchor-id="值相等性value-equality">值相等性（Value Equality）</h3>
-<p>匿名型別還有一個很實用的特性：編譯器會為它們實作 <code>Equals</code> 和 <code>GetHashCode</code> 方法。這意味著，如果有兩個匿名型別的實例（instances），而且它們本來就是<strong>同一個匿名型別</strong>（亦即屬性名稱、型別、順序皆相同，因而被編譯器重用），那麼只要它們的<strong>屬性值都相同</strong>，它們就會被視為相等：</p>
+<p>匿名型別還有一個很實用的特性：編譯器會為它們實作 <code>Equals</code> 和 <code>GetHashCode</code> 方法。因此，如果有兩個匿名型別的實例（instances），而且它們本來就是<strong>同一個匿名型別</strong>（亦即屬性名稱、型別、順序皆相同，因而被編譯器重用），那麼只要它們的<strong>屬性值都相同</strong>，它們就會被視為相等：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb46-1"><a href="#cb46-1" aria-label="1"></a><span class="dt">var</span> p1 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> X <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">2</span> <span class="op">};</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-label="2"></a><span class="dt">var</span> p2 <span class="op">=</span> <span class="kw">new</span> <span class="op">{</span> X <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">2</span> <span class="op">};</span></span>
 <span id="cb46-3"><a href="#cb46-3" aria-label="3"></a></span>
@@ -1392,46 +1391,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

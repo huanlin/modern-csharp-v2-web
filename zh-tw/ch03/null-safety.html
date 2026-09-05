@@ -190,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">第 5 章：錯誤處理與資源管理</span></a>
+  <a href="../ch05/error-handling-and-res-mgmt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第 5 章：錯誤處理與資源管理</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -319,7 +318,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-01</p>
+      <p class="date-modified">2026-09-05</p>
     </div>
   </div>
     
@@ -611,7 +610,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">// C# 14：null-conditional assignment</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>customer<span class="op">?.</span><span class="fu">Order</span> <span class="op">=</span> <span class="fu">GetCurrentOrder</span><span class="op">();</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這行程式碼的意思是：「只有當 <code>customer</code> 不是 null 時，才將 <code>GetCurrentOrder()</code> 的結果指派給 <code>customer.Order</code>。」</p>
-<p><strong>重要細節</strong>：右側的運算式只有在左側不是 null 時才會被求值。這意味著如果 <code>customer</code> 是 null，<code>GetCurrentOrder()</code> 根本不會被呼叫。</p>
+<p><strong>重要細節</strong>：右側的運算式只有在左側不是 null 時才會被求值；如果 <code>customer</code> 是 null，<code>GetCurrentOrder()</code> 根本不會被呼叫。</p>
 <p>此功能也支援複合指派運算子：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1" aria-label="1"></a><span class="co">// 也可以搭配 += 等複合指派</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-label="2"></a>customer<span class="op">?.</span><span class="fu">Points</span> <span class="op">+=</span> <span class="dv">100</span><span class="op">;</span>  <span class="co">// 只有 customer 不是 null 時才加分</span></span>
@@ -715,7 +714,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb38-9"><a href="#cb38-9" aria-label="9"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>流程分析（flow analysis）的限制在於：<strong>如果沒有額外的 nullable 契約資訊，它通常只會根據目前可見的流程與已知規則來推斷 null 狀態</strong>，無法直接「看穿」一般方法的內部實作。</p>
 <p>因此，雖然 <code>ValidateName</code> 方法內部會檢查參數是否為 null，並在碰到 null 時拋出例外（第 8 行），編譯器並不知道這點。當它檢查第 4 行時，仍無法判斷程式執行到這裡時 <code>name</code> 到底是不是 null，所以就發出警告了。</p>
-<p>這時你可以使用 <code>[NotNull]</code> 特性（attribute）來幫助編譯器理解：</p>
+<p>這時你可以使用 <code>[NotNull]</code> attribute 來幫助編譯器理解：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb39-1"><a href="#cb39-1" aria-label="1"></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Diagnostics</span><span class="op">.</span><span class="fu">CodeAnalysis</span><span class="op">;</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-label="2"></a></span>
 <span id="cb39-3"><a href="#cb39-3" aria-label="3"></a><span class="dt">void</span> <span class="fu">ValidateName</span><span class="op">([</span>NotNull<span class="op">]</span> <span class="dt">string</span><span class="op">?</span> n<span class="op">)</span></span>
@@ -886,7 +885,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="與舊程式碼的相容性" class="level3">
 <h3 class="anchored" data-anchor-id="與舊程式碼的相容性">與舊程式碼的相容性</h3>
-<p>NRT 是<strong>編譯時期檢查</strong>，並不會影響執行時期的行為。這意味著：</p>
+<p>NRT 是<strong>編譯時期檢查</strong>，並不會影響執行時期的行為。這表示：</p>
 <ul>
 <li>現有的程式碼不會因為啟用 NRT 而停止運作。</li>
 <li>即使有 NRT 編譯警告，專案仍然可以編譯成功並執行（除非你開啟了「將警告視為錯誤」選項，稍後就會介紹）。</li>
@@ -1063,7 +1062,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="使用-nullability-attributes進階" class="level3">
 <h3 class="anchored" data-anchor-id="使用-nullability-attributes進階">3. 使用 nullability attributes（進階）</h3>
-<p>對於無法只靠 NRT 標註完整表達的情況，可以使用這些特性（attributes）來提供額外資訊，例如 <code>[NotNull]</code>、<code>[MaybeNull]</code>、<code>[NotNullWhen]</code> 等：</p>
+<p>對於無法只靠 NRT 標註完整表達的情況，可以使用這些 attributes 來提供額外資訊，例如 <code>[NotNull]</code>、<code>[MaybeNull]</code>、<code>[NotNullWhen]</code> 等：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb59-1"><a href="#cb59-1" aria-label="1"></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Diagnostics</span><span class="op">.</span><span class="fu">CodeAnalysis</span><span class="op">;</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-label="2"></a></span>
 <span id="cb59-3"><a href="#cb59-3" aria-label="3"></a><span class="kw">public</span> <span class="dt">bool</span> <span class="fu">TryGetUser</span><span class="op">(</span><span class="dt">int</span> id<span class="op">,</span> <span class="op">[</span><span class="fu">NotNullWhen</span><span class="op">(</span><span class="kw">true</span><span class="op">)]</span> <span class="kw">out</span> User<span class="op">?</span> user<span class="op">)</span></span>
@@ -1077,7 +1076,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb59-11"><a href="#cb59-11" aria-label="11"></a><span class="op">{</span></span>
 <span id="cb59-12"><a href="#cb59-12" aria-label="12"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>user<span class="op">.</span><span class="fu">Name</span><span class="op">);</span>  <span class="co">// 編譯器知道這裡 user 不是 null</span></span>
 <span id="cb59-13"><a href="#cb59-13" aria-label="13"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>使用 <code>[NotNullWhen(true)]</code> 特性後，編譯器就能了解：當方法回傳 <code>true</code> 時，<code>out</code> 參數絕對不會是 <code>null</code>。</p>
+<p>使用 <code>[NotNullWhen(true)]</code> attribute 後，編譯器就能了解：當方法回傳 <code>true</code> 時，<code>out</code> 參數絕對不會是 <code>null</code>。</p>
 </section>
 <section id="善用現代語法組合" class="level3">
 <h3 class="anchored" data-anchor-id="善用現代語法組合">4. 善用現代語法組合</h3>
@@ -1108,7 +1107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Null 運算子（<code>??</code>、<code>??=</code>、<code>?.</code>、<code>?[]</code>）</strong>：簡化 null 處理邏輯，讓程式碼更簡潔安全。C# 14 更進一步支援 null 條件指派。</li>
 <li><strong>Nullable Reference Types（C# 8+）</strong>：編譯時期就能發現 null 參考錯誤，這是現代 C# 的核心安全特性。</li>
 <li><strong>Pattern Matching</strong>：<code>is null</code>、<code>is not null</code>、switch expression 提供更清晰的 null 檢查方式。</li>
-<li><strong>最佳實務</strong>：明確標註、提早檢查、善用現代語法，讓 <code>NullReferenceException</code> 從你的程式碼中消失。</li>
+<li><strong>最佳實務</strong>：明確標註、提早檢查、善用現代語法來大幅降低 null 風險；但須牢記 NRT 是編譯時期防線，面對外部輸入或未啟用 NRT 的舊程式庫時，仍應有適當防護。</li>
 </ul>
 <hr>
 <p>下一章，我們將把目光轉向不可變設計，探討 <code>record</code> 型別、<code>init</code> 存取子，以及讓類別設計更嚴謹的現代語法。</p>
@@ -1217,46 +1216,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   link.className = "language-switch";
 
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
