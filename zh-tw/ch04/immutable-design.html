@@ -625,6 +625,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>data<span class="op">.</span><span class="fu">Value</span><span class="op">);</span>   <span class="co">// 也會觸發防禦性複製</span></span>
 <span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoDefensiveCopy">DemoDefensiveCopy</a></p>
+</blockquote>
 <p>在這個例子裡，<code>Holder</code> 建構式的參數 <code>data</code> 是一般的「以值傳遞」（by-value）參數，而 <code>Data = data;</code> 也只是一般的值複製；它們都不是為了保護 <code>readonly</code> 語意而額外產生的暫時副本，因此<strong>不算</strong>防禦性複製。</p>
 <p>如果把 <code>Value</code> 的 getter 明確標示為 <code>readonly</code>，像這樣：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">readonly</span> <span class="dt">int</span> Value</span>
@@ -633,28 +636,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>或者乾脆把整個 <code>Measurement</code> 宣告成 <code>readonly struct</code>，就能避免在此過程當中觸發編譯器的防禦性複製。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoDefensiveCopy">DemoDefensiveCopy</a></p>
 <p><strong>延伸閱讀</strong></p>
 <p>微軟文件 Structure types (C# reference) 的 <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-instance-members">readonly instance members</a> 小節提到：在 <code>readonly</code> instance 成員中，如果呼叫了非 <code>readonly</code> 成員，編譯器會先建立結構的副本，再在副本上呼叫該成員，因此原始執行個體不會被修改。</p>
 <p>這段話說明了防禦性複製的核心機制，而 <code>readonly</code> 欄位與 <code>in</code> 參數則是同樣原理在其他唯讀脈絡中的表現。</p>
 </blockquote>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>如何驗證防禦性複製？
-</div>
-</div>
-<div class="callout-body-container callout-body">
+</section>
+<section id="如何驗證防禦性複製" class="level4">
+<h4 class="anchored" data-anchor-id="如何驗證防禦性複製">如何驗證防禦性複製？</h4>
 <ol type="1">
 <li><strong>編譯器警告</strong>：當 <code>readonly</code> 成員內部呼叫非 <code>readonly</code> 成員時，編譯器常發出 <code>CS8656</code> 診斷警告（建議使用 <code>dotnet build -t:Rebuild</code> 避免增量建置略過）。但請注意：<strong>沒有警告不代表沒有複製</strong>，例如透過 <code>readonly</code> 欄位或 <code>in</code> 參數間接呼叫非 readonly 成員時，編譯器目前不一定發出警告。</li>
 <li><strong>副作用觀察</strong>：在 struct 中設計遞增欄位的方法，若透過 <code>readonly</code> 欄位多次呼叫皆回傳相同初始值，即證明每次都在新的防禦性複本上執行。</li>
 <li><strong>IL 反組譯檢查</strong>：透過 SharpLab 或 ILSpy 觀察編譯後的 IL，可最精確地確認編譯器是否產生了額外的區域複本配置指令。</li>
 </ol>
-</div>
-</div>
 </section>
 <section id="效能影響" class="level4">
 <h4 class="anchored" data-anchor-id="效能影響">效能影響</h4>

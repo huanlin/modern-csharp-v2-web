@@ -659,6 +659,9 @@ window.Quarto = {
 <span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>data<span class="op">.</span><span class="fu">Value</span><span class="op">);</span>   <span class="co">// Also triggers a defensive copy</span></span>
 <span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoDefensiveCopy">DemoDefensiveCopy</a></p>
+</blockquote>
 <p>In this example, the constructor parameter <code>data</code> in <code>Holder</code> is an ordinary by-value parameter, and <code>Data = data;</code> is also just an ordinary value copy. Neither of them is a temporary copy created to preserve readonly semantics, so they do <strong>not</strong> count as defensive copies.</p>
 <p>If you explicitly mark the getter for <code>Value</code> as <code>readonly</code>, like this:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">readonly</span> <span class="dt">int</span> Value</span>
@@ -667,28 +670,18 @@ window.Quarto = {
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>or if you declare the entire <code>Measurement</code> type as a <code>readonly struct</code>, then the compiler no longer needs to create a defensive copy in this case.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoDefensiveCopy">DemoDefensiveCopy</a></p>
 <p><strong>Further reading</strong></p>
 <p>In Microsoft’s article <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-instance-members">readonly instance members</a> under <em>Structure types (C# reference)</em>, it says that when a <code>readonly</code> instance member calls a non-<code>readonly</code> member, the compiler creates a copy of the struct and calls the non-<code>readonly</code> member on that copy, so the original instance is not modified.</p>
 <p>That explains the core mechanism behind defensive copies. <code>readonly</code> fields and <code>in</code> parameters are the same principle applied in other readonly contexts.</p>
 </blockquote>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>How to verify whether a defensive copy occurred
-</div>
-</div>
-<div class="callout-body-container callout-body">
+</section>
+<section id="how-to-verify-whether-a-defensive-copy-occurred" class="level4">
+<h4 class="anchored" data-anchor-id="how-to-verify-whether-a-defensive-copy-occurred">How to verify whether a defensive copy occurred</h4>
 <ol type="1">
 <li><strong>Compiler warnings</strong>: When a <code>readonly</code> member calls a non-<code>readonly</code> member, the compiler often emits warning <code>CS8656</code> (use <code>dotnet build -t:Rebuild</code> to avoid incremental builds skipping diagnostics). Note that <strong>no warning does not mean no copy</strong>—for example, indirect calls through <code>readonly</code> fields or <code>in</code> parameters currently don’t always trigger compiler warnings.</li>
 <li><strong>Observable side effects</strong>: Add a mutating method to a struct; if calling it repeatedly via a <code>readonly</code> field returns the same initial state every time, it proves each call executes on a newly synthesized defensive copy.</li>
 <li><strong>IL disassembly</strong>: Inspecting compiled IL via SharpLab or ILSpy confirms directly whether the compiler emitted additional local copy instructions.</li>
 </ol>
-</div>
-</div>
 </section>
 <section id="performance-impact" class="level4">
 <h4 class="anchored" data-anchor-id="performance-impact">Performance impact</h4>
