@@ -111,6 +111,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="../styles-html.css">
@@ -272,6 +301,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#sec-11-4" id="toc-sec-11-4" class="nav-link" data-scroll-target="#sec-11-4">11.4 擴充成員 (C# 14)</a>
   <ul class="collapse">
   <li><a href="#extension-區塊" id="toc-extension-區塊" class="nav-link" data-scroll-target="#extension-區塊"><code>extension</code> 區塊</a></li>
+  <li><a href="#擴充索引子c-15" id="toc-擴充索引子c-15" class="nav-link" data-scroll-target="#擴充索引子c-15">擴充索引子（C# 15）</a></li>
   <li><a href="#擴充靜態成員" id="toc-擴充靜態成員" class="nav-link" data-scroll-target="#擴充靜態成員">擴充靜態成員</a></li>
   <li><a href="#實用範例為-datetime-新增擴充屬性" id="toc-實用範例為-datetime-新增擴充屬性" class="nav-link" data-scroll-target="#實用範例為-datetime-新增擴充屬性">實用範例：為 <code>DateTime</code> 新增擴充屬性</a></li>
   </ul></li>
@@ -282,10 +312,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#命名空間的重要性" id="toc-命名空間的重要性" class="nav-link" data-scroll-target="#命名空間的重要性">命名空間的重要性</a></li>
   <li><a href="#降級擴充方法demoting" id="toc-降級擴充方法demoting" class="nav-link" data-scroll-target="#降級擴充方法demoting">降級擴充方法（demoting）</a></li>
   </ul></li>
-  <li><a href="#區域函式local-functions" id="toc-區域函式local-functions" class="nav-link" data-scroll-target="#區域函式local-functions">11.6 區域函式（local functions）</a>
+  <li><a href="#區域函式在擴充方法中的應用" id="toc-區域函式在擴充方法中的應用" class="nav-link" data-scroll-target="#區域函式在擴充方法中的應用">11.6 區域函式在擴充方法中的應用</a>
   <ul class="collapse">
-  <li><a href="#與擴充方法的差異" id="toc-與擴充方法的差異" class="nav-link" data-scroll-target="#與擴充方法的差異">與擴充方法的差異</a></li>
-  <li><a href="#適用場景" id="toc-適用場景" class="nav-link" data-scroll-target="#適用場景">適用場景</a></li>
+  <li><a href="#核心應用迭代器前置參數驗證分割" id="toc-核心應用迭代器前置參數驗證分割" class="nav-link" data-scroll-target="#核心應用迭代器前置參數驗證分割">核心應用：迭代器前置參數驗證分割</a></li>
   </ul></li>
   <li><a href="#實戰範例" id="toc-實戰範例" class="nav-link" data-scroll-target="#實戰範例">11.7 實戰範例</a>
   <ul class="collapse">
@@ -590,6 +619,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>前面介紹的 <code>this</code> 參數語法已經能處理多數需求，但它有個限制：只能定義擴充「方法」，無法擴充屬性或運算子。C# 14 引入了全新的 <code>extension</code> 區塊語法，擴展了擴充方法的能力。現在不只可以定義擴充方法，還可以定義：</p>
 <ul>
 <li><strong>擴充屬性</strong>（extension properties）</li>
+<li><strong>擴充索引子</strong>（extension indexers，C# 15）</li>
 <li><strong>擴充靜態方法</strong>（extension static methods）</li>
 <li><strong>擴充靜態屬性</strong>（extension static properties）</li>
 <li><strong>擴充運算子</strong>（extension operators）</li>
@@ -657,31 +687,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-2"><a href="#cb21-2" aria-label="2"></a><span class="dt">var</span> validNames <span class="op">=</span> names<span class="op">.</span><span class="fu">WhereNotNull</span><span class="op">();</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡的變數 <code>names</code> 型別會被推斷為 <code>string?[]</code>，而 <code>validNames</code> 的型別則是 <code>IEnumerable&lt;string&gt;</code>。也就是說，這個方法不只在執行時過濾掉 null，也會把回傳序列的元素型別收斂成 non-nullable 參考型別。若你把接收者寫成 <code>IEnumerable&lt;TSource&gt;</code> 並搭配 <code>where TSource : class?</code>，雖然仍可在執行時過濾 null，但回傳序列的元素型別通常還是 nullable，呼叫端便無法從型別標註得知結果已經排除了 null。</p>
 </section>
+<section id="擴充索引子c-15" class="level3">
+<h3 class="anchored" data-anchor-id="擴充索引子c-15">擴充索引子（C# 15）</h3>
+<p>C# 14 引入的擴充區塊補齊了擴充屬性與擴充運算子，但當時仍留下了一項缺憾：<strong>無法為既有型別新增索引子（indexers）</strong>。</p>
+<p>舉例來說，在處理自訂的資料流、序列包裝器或第三方集合介面（如 <code>IEnumerable&lt;T&gt;</code>）時，若想要提供類似陣列下標 <code>[index]</code> 的直覺存取語法，過去只能手動撰寫 <code>GetAt(int index)</code> 擴充方法。</p>
+<p>到了 C# 15，<code>extension</code> 區塊補齊了這項能力，允許我們直接在實例擴充成員中宣告索引子：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> SequenceExtensions</span>
+<span id="cb22-2"><a href="#cb22-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-label="3"></a>    <span class="co">// 為泛型序列定義擴充成員</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-label="4"></a>    extension<span class="op">&lt;</span>T<span class="op">&gt;(</span>IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> sequence<span class="op">)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-label="5"></a>    <span class="op">{</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-label="6"></a>        <span class="co">// C# 15 擴充索引子：提供方括弧下標存取語法</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-label="7"></a>        <span class="kw">public</span> T <span class="kw">this</span><span class="op">[</span><span class="dt">int</span> index<span class="op">]</span> <span class="op">=&gt;</span> sequence<span class="op">.</span><span class="fu">ElementAt</span><span class="op">(</span>index<span class="op">);</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-label="8"></a>    <span class="op">}</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-label="9"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<p>在呼叫端，只要引入該命名空間，就能享受如原生陣列般的下標存取體驗：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a>IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> stream <span class="op">=</span> <span class="fu">GetEventStream</span><span class="op">();</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-label="2"></a><span class="dt">int</span> thirdEvent <span class="op">=</span> stream<span class="op">[</span><span class="dv">2</span><span class="op">];</span> <span class="co">// 直覺以索引子讀取第三筆事件</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>避坑指南：注意索引子的運算複雜度</strong></p>
+<p>原生陣列或 <code>List&lt;T&gt;</code> 的索引子通常具備 <span class="math inline">\(O(1)\)</span> 的常數存取時間。然而，當你為 <code>IEnumerable&lt;T&gt;</code> 等僅支援循序巡訪的序列定義擴充索引子時，底層的 <code>ElementAt</code> 必須從頭走訪，其運算複雜度為 <span class="math inline">\(O(n)\)</span>。</p>
+<p>因此，在設計擴充索引子時，務必在 XML 文件或命名約定中清楚揭示效能特性，避免呼叫端在密集迴圈中不經意頻繁使用 <code>stream[i]</code> 而引發 <span class="math inline">\(O(n^2)\)</span> 的效能災難。</p>
+</blockquote>
+</section>
 <section id="擴充靜態成員" class="level3">
 <h3 class="anchored" data-anchor-id="擴充靜態成員">擴充靜態成員</h3>
 <p>前面介紹的 <code>extension</code> 區塊都有參數名稱（如 <code>string s</code>），這樣定義的是實例成員。如果只指定型別而不指定參數名稱，則定義的是<strong>靜態擴充成員</strong>。以下以 <code>IEnumerable&lt;TSource&gt;</code> 為例：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
-<span id="cb22-2"><a href="#cb22-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-label="3"></a>    <span class="co">// 擴充靜態成員（注意：沒有參數名稱）</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-label="4"></a>    extension<span class="op">&lt;</span>TSource<span class="op">&gt;(</span>IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;)</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-label="5"></a>    <span class="op">{</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-label="6"></a>        <span class="co">// 靜態擴充方法</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-label="7"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> <span class="fu">Combine</span><span class="op">(</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-label="8"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> first<span class="op">,</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-label="9"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> second<span class="op">)</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-label="10"></a>            <span class="op">=&gt;</span> first<span class="op">.</span><span class="fu">Concat</span><span class="op">(</span>second<span class="op">);</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-label="11"></a></span>
-<span id="cb22-12"><a href="#cb22-12" aria-label="12"></a>        <span class="co">// 靜態擴充屬性</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-label="13"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> Empty</span>
-<span id="cb22-14"><a href="#cb22-14" aria-label="14"></a>            <span class="op">=&gt;</span> Enumerable<span class="op">.</span><span class="fu">Empty</span><span class="op">&lt;</span>TSource<span class="op">&gt;();</span></span>
-<span id="cb22-15"><a href="#cb22-15" aria-label="15"></a></span>
-<span id="cb22-16"><a href="#cb22-16" aria-label="16"></a>        <span class="co">// 擴充運算子 +</span></span>
-<span id="cb22-17"><a href="#cb22-17" aria-label="17"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> <span class="kw">operator</span> <span class="op">+(</span></span>
-<span id="cb22-18"><a href="#cb22-18" aria-label="18"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> left<span class="op">,</span></span>
-<span id="cb22-19"><a href="#cb22-19" aria-label="19"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> right<span class="op">)</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-label="20"></a>            <span class="op">=&gt;</span> left<span class="op">.</span><span class="fu">Concat</span><span class="op">(</span>right<span class="op">);</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-label="21"></a>    <span class="op">}</span></span>
-<span id="cb22-22"><a href="#cb22-22" aria-label="22"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
+<span id="cb24-2"><a href="#cb24-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-label="3"></a>    <span class="co">// 擴充靜態成員（注意：沒有參數名稱）</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-label="4"></a>    extension<span class="op">&lt;</span>TSource<span class="op">&gt;(</span>IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;)</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-label="5"></a>    <span class="op">{</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-label="6"></a>        <span class="co">// 靜態擴充方法</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-label="7"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> <span class="fu">Combine</span><span class="op">(</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-label="8"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> first<span class="op">,</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-label="9"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> second<span class="op">)</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-label="10"></a>            <span class="op">=&gt;</span> first<span class="op">.</span><span class="fu">Concat</span><span class="op">(</span>second<span class="op">);</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-label="11"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-label="12"></a>        <span class="co">// 靜態擴充屬性</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-label="13"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> Empty</span>
+<span id="cb24-14"><a href="#cb24-14" aria-label="14"></a>            <span class="op">=&gt;</span> Enumerable<span class="op">.</span><span class="fu">Empty</span><span class="op">&lt;</span>TSource<span class="op">&gt;();</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-label="15"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-label="16"></a>        <span class="co">// 擴充運算子 +</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-label="17"></a>        <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> <span class="kw">operator</span> <span class="op">+(</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-label="18"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> left<span class="op">,</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-label="19"></a>            IEnumerable<span class="op">&lt;</span>TSource<span class="op">&gt;</span> right<span class="op">)</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-label="20"></a>            <span class="op">=&gt;</span> left<span class="op">.</span><span class="fu">Concat</span><span class="op">(</span>right<span class="op">);</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-label="21"></a>    <span class="op">}</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-label="22"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>語法重點：</p>
 <ul>
 <li><code>extension&lt;TSource&gt;(IEnumerable&lt;TSource&gt;)</code> 沒有參數名稱，表示區塊內的成員都是靜態的。</li>
@@ -689,52 +742,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>運算子也可以擴充。此範例是加法運算子： <code>public static ... operator +(...)</code>。</li>
 </ul>
 <p>呼叫方式如下：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a><span class="co">// 靜態擴充方法：透過型別名稱呼叫</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-label="2"></a><span class="dt">var</span> combined <span class="op">=</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;.</span><span class="fu">Combine</span><span class="op">(</span>first<span class="op">,</span> second<span class="op">);</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-label="3"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-label="4"></a><span class="co">// 靜態擴充屬性</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-label="5"></a><span class="dt">var</span> empty <span class="op">=</span> IEnumerable<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;.</span><span class="fu">Empty</span><span class="op">;</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-label="6"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-label="7"></a><span class="co">// 擴充運算子</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-label="8"></a><span class="dt">var</span> merged <span class="op">=</span> list1 <span class="op">+</span> list2<span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="co">// 靜態擴充方法：透過型別名稱呼叫</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-label="2"></a><span class="dt">var</span> combined <span class="op">=</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;.</span><span class="fu">Combine</span><span class="op">(</span>first<span class="op">,</span> second<span class="op">);</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-label="3"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-label="4"></a><span class="co">// 靜態擴充屬性</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-label="5"></a><span class="dt">var</span> empty <span class="op">=</span> IEnumerable<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;.</span><span class="fu">Empty</span><span class="op">;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-label="6"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-label="7"></a><span class="co">// 擴充運算子</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-label="8"></a><span class="dt">var</span> merged <span class="op">=</span> list1 <span class="op">+</span> list2<span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這讓你可以為介面新增靜態方法。雖然 C# 11+ 已支援靜態抽象與靜態虛擬介面成員，但那需要修改介面定義；而擴充語法則可以在不修改原始型別的情況下達成類似效果。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionStatic">DemoExtensionStatic</a></p>
 </blockquote>
-<p>下表整理了傳統擴充方法跟擴充成員的重點差異：</p>
+<p>下表整理了傳統擴充方法跟現代擴充成員的重點差異：</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>特性</th>
-<th>傳統擴充方法（C# 3.0）</th>
-<th>擴充成員（C# 14）</th>
+<th style="text-align: center;">傳統擴充方法（C# 3.0）</th>
+<th style="text-align: center;">擴充成員（C# 14/15）</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>擴充方法</td>
-<td>✓</td>
-<td>✓</td>
+<td style="text-align: center;">✔</td>
+<td style="text-align: center;">✔</td>
 </tr>
 <tr class="even">
 <td>擴充屬性</td>
-<td>✗</td>
-<td>✓</td>
+<td style="text-align: center;">✘</td>
+<td style="text-align: center;">✔（C# 14）</td>
 </tr>
 <tr class="odd">
 <td>擴充靜態方法</td>
-<td>✗</td>
-<td>✓</td>
+<td style="text-align: center;">✘</td>
+<td style="text-align: center;">✔（C# 14）</td>
 </tr>
 <tr class="even">
 <td>擴充運算子</td>
-<td>✗</td>
-<td>✓</td>
+<td style="text-align: center;">✘</td>
+<td style="text-align: center;">✔（C# 14）</td>
 </tr>
 <tr class="odd">
-<td>語法</td>
-<td><code>this</code> 參數</td>
-<td><code>extension</code> 區塊</td>
+<td>擴充索引子</td>
+<td style="text-align: center;">✘</td>
+<td style="text-align: center;">✔（C# 15）</td>
+</tr>
+<tr class="even">
+<td>語法形式</td>
+<td style="text-align: center;"><code>this</code> 參數</td>
+<td style="text-align: center;"><code>extension</code> 區塊</td>
 </tr>
 </tbody>
 </table>
@@ -742,34 +800,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="實用範例為-datetime-新增擴充屬性" class="level3">
 <h3 class="anchored" data-anchor-id="實用範例為-datetime-新增擴充屬性">實用範例：為 <code>DateTime</code> 新增擴充屬性</h3>
 <p>看過語法後，再用 <code>DateTime</code> 做一個比較完整的例子。以下擴充成員提供週末判斷、月份邊界，以及可排序字串格式：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> DateTimeExtensions</span>
-<span id="cb24-2"><a href="#cb24-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-label="3"></a>   <span class="fu">extension</span><span class="op">(</span>DateTime dt<span class="op">)</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-label="4"></a>   <span class="op">{</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-label="5"></a>      <span class="co">// 擴充屬性：判斷是否為週末</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-label="6"></a>      <span class="kw">public</span> <span class="dt">bool</span> IsWeekend <span class="op">=&gt;</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-label="7"></a>         dt<span class="op">.</span><span class="fu">DayOfWeek</span> <span class="kw">is</span> DayOfWeek<span class="op">.</span><span class="fu">Saturday</span> or DayOfWeek<span class="op">.</span><span class="fu">Sunday</span><span class="op">;</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-label="8"></a></span>
-<span id="cb24-9"><a href="#cb24-9" aria-label="9"></a>      <span class="co">// 擴充屬性：取得該月的第一天</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-label="10"></a>      <span class="kw">public</span> DateTime FirstDayOfMonth <span class="op">=&gt;</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-label="11"></a>                        <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span>dt<span class="op">.</span><span class="fu">Year</span><span class="op">,</span> dt<span class="op">.</span><span class="fu">Month</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-label="12"></a></span>
-<span id="cb24-13"><a href="#cb24-13" aria-label="13"></a>      <span class="co">// 擴充屬性：取得該月的最後一天（必須透過 dt 呼叫其他擴充屬性）</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-label="14"></a>      <span class="kw">public</span> DateTime LastDayOfMonth <span class="op">=&gt;</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-label="15"></a>                        dt<span class="op">.</span><span class="fu">FirstDayOfMonth</span><span class="op">.</span><span class="fu">AddMonths</span><span class="op">(</span><span class="dv">1</span><span class="op">).</span><span class="fu">AddDays</span><span class="op">(-</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-label="16"></a></span>
-<span id="cb24-17"><a href="#cb24-17" aria-label="17"></a>      <span class="co">// 擴充方法：格式化為可排序的日期時間字串</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-label="18"></a>      <span class="kw">public</span> <span class="dt">string</span> <span class="fu">ToSortableDateTimeString</span><span class="op">()</span> <span class="op">=&gt;</span> dt<span class="op">.</span><span class="fu">ToString</span><span class="op">(</span><span class="st">"s"</span><span class="op">);</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-label="19"></a>   <span class="op">}</span></span>
-<span id="cb24-20"><a href="#cb24-20" aria-label="20"></a><span class="op">}</span></span>
-<span id="cb24-21"><a href="#cb24-21" aria-label="21"></a></span>
-<span id="cb24-22"><a href="#cb24-22" aria-label="22"></a><span class="co">// 用法示範</span></span>
-<span id="cb24-23"><a href="#cb24-23" aria-label="23"></a><span class="dt">var</span> today <span class="op">=</span> DateTime<span class="op">.</span><span class="fu">Today</span><span class="op">;</span></span>
-<span id="cb24-24"><a href="#cb24-24" aria-label="24"></a><span class="kw">if</span> <span class="op">(</span>today<span class="op">.</span><span class="fu">IsWeekend</span><span class="op">)</span></span>
-<span id="cb24-25"><a href="#cb24-25" aria-label="25"></a><span class="op">{</span></span>
-<span id="cb24-26"><a href="#cb24-26" aria-label="26"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"今天是週末！"</span><span class="op">);</span></span>
-<span id="cb24-27"><a href="#cb24-27" aria-label="27"></a><span class="op">}</span></span>
-<span id="cb24-28"><a href="#cb24-28" aria-label="28"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"本月第一天：{today.FirstDayOfMonth:yyyy-MM-dd}"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb26-1"><a href="#cb26-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> DateTimeExtensions</span>
+<span id="cb26-2"><a href="#cb26-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-label="3"></a>   <span class="fu">extension</span><span class="op">(</span>DateTime dt<span class="op">)</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-label="4"></a>   <span class="op">{</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-label="5"></a>      <span class="co">// 擴充屬性：判斷是否為週末</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-label="6"></a>      <span class="kw">public</span> <span class="dt">bool</span> IsWeekend <span class="op">=&gt;</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-label="7"></a>         dt<span class="op">.</span><span class="fu">DayOfWeek</span> <span class="kw">is</span> DayOfWeek<span class="op">.</span><span class="fu">Saturday</span> or DayOfWeek<span class="op">.</span><span class="fu">Sunday</span><span class="op">;</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-label="8"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-label="9"></a>      <span class="co">// 擴充屬性：取得該月的第一天</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-label="10"></a>      <span class="kw">public</span> DateTime FirstDayOfMonth <span class="op">=&gt;</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-label="11"></a>                        <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span>dt<span class="op">.</span><span class="fu">Year</span><span class="op">,</span> dt<span class="op">.</span><span class="fu">Month</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-label="12"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-label="13"></a>      <span class="co">// 擴充屬性：取得該月的最後一天（必須透過 dt 呼叫其他擴充屬性）</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-label="14"></a>      <span class="kw">public</span> DateTime LastDayOfMonth <span class="op">=&gt;</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-label="15"></a>                        dt<span class="op">.</span><span class="fu">FirstDayOfMonth</span><span class="op">.</span><span class="fu">AddMonths</span><span class="op">(</span><span class="dv">1</span><span class="op">).</span><span class="fu">AddDays</span><span class="op">(-</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-label="16"></a></span>
+<span id="cb26-17"><a href="#cb26-17" aria-label="17"></a>      <span class="co">// 擴充方法：格式化為可排序的日期時間字串</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-label="18"></a>      <span class="kw">public</span> <span class="dt">string</span> <span class="fu">ToSortableDateTimeString</span><span class="op">()</span> <span class="op">=&gt;</span> dt<span class="op">.</span><span class="fu">ToString</span><span class="op">(</span><span class="st">"s"</span><span class="op">);</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-label="19"></a>   <span class="op">}</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-label="20"></a><span class="op">}</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-label="21"></a></span>
+<span id="cb26-22"><a href="#cb26-22" aria-label="22"></a><span class="co">// 用法示範</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-label="23"></a><span class="dt">var</span> today <span class="op">=</span> DateTime<span class="op">.</span><span class="fu">Today</span><span class="op">;</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-label="24"></a><span class="kw">if</span> <span class="op">(</span>today<span class="op">.</span><span class="fu">IsWeekend</span><span class="op">)</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-label="25"></a><span class="op">{</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-label="26"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"今天是週末！"</span><span class="op">);</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-label="27"></a><span class="op">}</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-label="28"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"本月第一天：{today.FirstDayOfMonth:yyyy-MM-dd}"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡刻意將方法命名為 <code>ToSortableDateTimeString()</code>，因為 <code>s</code> 標準格式會輸出像 <code>2026-03-25T08:30:00</code> 這樣的可排序字串。它的外觀符合 ISO 8601 常見格式，但<strong>不會保留時區或 <code>DateTime.Kind</code> 資訊</strong>。如果你的需求是序列化後可 round-trip 還原，通常應優先考慮 <code>"O"</code>（round-trip）格式。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionMembers">DemoExtensionMembers</a></p>
@@ -795,52 +853,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>重要規則</strong>：任何相容的實例方法永遠優先於擴充方法，即使擴充方法的參數型別更具體。</p>
 <p>這樣設計是為了維持既有型別的行為一致性。否則，一旦某個程式庫或第三方套件新增了同名擴充方法，就可能意外改變原本呼叫實例方法的結果，形成難以察覺的破壞性變更。因此，擴充方法的角色是「後補的便利語法」，而非覆蓋既有 API 的機制。</p>
 <p>以下範例可以看出這個規則：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="kw">class</span> Test</span>
-<span id="cb25-2"><a href="#cb25-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Foo</span><span class="op">(</span><span class="dt">object</span> x<span class="op">)</span>  <span class="co">// 實例方法，參數是 object</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-label="4"></a>    <span class="op">{</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-label="5"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"實例方法"</span><span class="op">);</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-label="6"></a>    <span class="op">}</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-label="7"></a><span class="op">}</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-label="8"></a></span>
-<span id="cb25-9"><a href="#cb25-9" aria-label="9"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> Extensions</span>
-<span id="cb25-10"><a href="#cb25-10" aria-label="10"></a><span class="op">{</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-label="11"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Foo</span><span class="op">(</span><span class="kw">this</span> Test t<span class="op">,</span> <span class="dt">int</span> x<span class="op">)</span>  <span class="co">// 擴充方法，參數是 int</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-label="12"></a>    <span class="op">{</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-label="13"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"擴充方法"</span><span class="op">);</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-label="14"></a>    <span class="op">}</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-label="15"></a><span class="op">}</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-label="16"></a></span>
-<span id="cb25-17"><a href="#cb25-17" aria-label="17"></a><span class="co">// 用法示範</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-label="18"></a><span class="dt">var</span> test <span class="op">=</span> <span class="kw">new</span> <span class="fu">Test</span><span class="op">();</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-label="19"></a>test<span class="op">.</span><span class="fu">Foo</span><span class="op">(</span><span class="dv">123</span><span class="op">);</span>  <span class="co">// 輸出：「實例方法」（即使 123 是 int）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a><span class="kw">class</span> Test</span>
+<span id="cb27-2"><a href="#cb27-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Foo</span><span class="op">(</span><span class="dt">object</span> x<span class="op">)</span>  <span class="co">// 實例方法，參數是 object</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-label="5"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"實例方法"</span><span class="op">);</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-label="6"></a>    <span class="op">}</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-label="7"></a><span class="op">}</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-label="8"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-label="9"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> Extensions</span>
+<span id="cb27-10"><a href="#cb27-10" aria-label="10"></a><span class="op">{</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-label="11"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Foo</span><span class="op">(</span><span class="kw">this</span> Test t<span class="op">,</span> <span class="dt">int</span> x<span class="op">)</span>  <span class="co">// 擴充方法，參數是 int</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-label="12"></a>    <span class="op">{</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-label="13"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"擴充方法"</span><span class="op">);</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-label="14"></a>    <span class="op">}</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-label="15"></a><span class="op">}</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-label="16"></a></span>
+<span id="cb27-17"><a href="#cb27-17" aria-label="17"></a><span class="co">// 用法示範</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-label="18"></a><span class="dt">var</span> test <span class="op">=</span> <span class="kw">new</span> <span class="fu">Test</span><span class="op">();</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-label="19"></a>test<span class="op">.</span><span class="fu">Foo</span><span class="op">(</span><span class="dv">123</span><span class="op">);</span>  <span class="co">// 輸出：「實例方法」（即使 123 是 int）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>在此情況下，唯一能呼叫擴充方法的方式是透過靜態語法：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Extensions<span class="op">.</span><span class="fu">Foo</span><span class="op">(</span>test<span class="op">,</span> <span class="dv">123</span><span class="op">);</span>  <span class="co">// 輸出：「擴充方法」</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Extensions<span class="op">.</span><span class="fu">Foo</span><span class="op">(</span>test<span class="op">,</span> <span class="dv">123</span><span class="op">);</span>  <span class="co">// 輸出：「擴充方法」</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="擴充方法之間的衝突" class="level3">
 <h3 class="anchored" data-anchor-id="擴充方法之間的衝突">擴充方法之間的衝突</h3>
 <p>如果兩個擴充方法有<strong>完全相同</strong>的簽章（signature），使用時必須透過靜態語法明確指定要呼叫哪一個。但如果兩個擴充方法的名稱相同，而目標型別是「相容的」，則編譯器會優先選擇比較具體的方法。這通常代表更精確的型別匹配，也比較符合型別安全與可預測性的原則。</p>
 <p>單看文字描述不太容易掌握，請搭配以下範例來理解：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
-<span id="cb27-2"><a href="#cb27-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-label="4"></a>    <span class="op">{</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-label="5"></a>        <span class="kw">return</span> <span class="op">!</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-label="6"></a>    <span class="op">}</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-label="7"></a><span class="op">}</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-label="8"></a></span>
-<span id="cb27-9"><a href="#cb27-9" aria-label="9"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> ObjectHelper</span>
-<span id="cb27-10"><a href="#cb27-10" aria-label="10"></a><span class="op">{</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-label="11"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">object</span> s<span class="op">)</span></span>
-<span id="cb27-12"><a href="#cb27-12" aria-label="12"></a>    <span class="op">{</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-label="13"></a>        <span class="kw">return</span> s<span class="op">?.</span><span class="fu">ToString</span><span class="op">()</span> <span class="kw">is</span> <span class="dt">string</span> str</span>
-<span id="cb27-14"><a href="#cb27-14" aria-label="14"></a>            <span class="op">&amp;&amp;</span> str<span class="op">.</span><span class="fu">Length</span> <span class="op">&gt;</span> <span class="dv">0</span></span>
-<span id="cb27-15"><a href="#cb27-15" aria-label="15"></a>            <span class="op">&amp;&amp;</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>str<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-label="16"></a>    <span class="op">}</span></span>
-<span id="cb27-17"><a href="#cb27-17" aria-label="17"></a><span class="op">}</span></span>
-<span id="cb27-18"><a href="#cb27-18" aria-label="18"></a></span>
-<span id="cb27-19"><a href="#cb27-19" aria-label="19"></a><span class="co">// 用法示範</span></span>
-<span id="cb27-20"><a href="#cb27-20" aria-label="20"></a><span class="dt">bool</span> test1 <span class="op">=</span> <span class="st">"Perth"</span><span class="op">.</span><span class="fu">IsCapitalized</span><span class="op">();</span>  <span class="co">// 呼叫 StringHelper 的版本</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb29-1"><a href="#cb29-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
+<span id="cb29-2"><a href="#cb29-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-label="5"></a>        <span class="kw">return</span> <span class="op">!</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-label="6"></a>    <span class="op">}</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-label="7"></a><span class="op">}</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-label="8"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-label="9"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> ObjectHelper</span>
+<span id="cb29-10"><a href="#cb29-10" aria-label="10"></a><span class="op">{</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-label="11"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">object</span> s<span class="op">)</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-label="12"></a>    <span class="op">{</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-label="13"></a>        <span class="kw">return</span> s<span class="op">?.</span><span class="fu">ToString</span><span class="op">()</span> <span class="kw">is</span> <span class="dt">string</span> str</span>
+<span id="cb29-14"><a href="#cb29-14" aria-label="14"></a>            <span class="op">&amp;&amp;</span> str<span class="op">.</span><span class="fu">Length</span> <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-label="15"></a>            <span class="op">&amp;&amp;</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>str<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-label="16"></a>    <span class="op">}</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-label="17"></a><span class="op">}</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-label="18"></a></span>
+<span id="cb29-19"><a href="#cb29-19" aria-label="19"></a><span class="co">// 用法示範</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-label="20"></a><span class="dt">bool</span> test1 <span class="op">=</span> <span class="st">"Perth"</span><span class="op">.</span><span class="fu">IsCapitalized</span><span class="op">();</span>  <span class="co">// 呼叫 StringHelper 的版本</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>StringHelper</code> 和 <code>ObjectHelper</code> 都有定義 <code>IsCapitalized</code> 擴充方法，但它們擴充的對象不一樣：一個是 <code>string</code>，一個是 <code>object</code>。由於 <code>object</code> 型別比較泛化，<code>string</code> 是更具體的型別，所以編譯器在替最後一行程式碼決定該使用哪個方法時，會選擇 <code>StringHelper</code> 的版本。你可以把它理解成「在多個可行候選中，優先挑選最貼近接收者真實型別的那一個」，這樣呼叫結果通常更直觀。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionConflicts">DemoExtensionConflicts</a></p>
@@ -855,48 +913,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="命名空間的重要性" class="level3">
 <h3 class="anchored" data-anchor-id="命名空間的重要性">命名空間的重要性</h3>
 <p>擴充方法必須在範圍內才能使用，通常需要匯入定義該擴充方法的命名空間：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1" aria-label="1"></a><span class="kw">namespace</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
-<span id="cb28-4"><a href="#cb28-4" aria-label="4"></a>    <span class="op">{</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-label="5"></a>        <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-label="6"></a>        <span class="op">{</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-label="7"></a>            <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-label="8"></a>            <span class="kw">return</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-label="9"></a>        <span class="op">}</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-label="10"></a>    <span class="op">}</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-label="11"></a><span class="op">}</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-label="12"></a></span>
-<span id="cb28-13"><a href="#cb28-13" aria-label="13"></a><span class="co">// 在其他檔案中使用</span></span>
-<span id="cb28-14"><a href="#cb28-14" aria-label="14"></a><span class="kw">namespace</span> MyApp</span>
-<span id="cb28-15"><a href="#cb28-15" aria-label="15"></a><span class="op">{</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-label="16"></a>    <span class="kw">using</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span><span class="op">;</span>  <span class="co">// 必須匯入命名空間！</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-label="17"></a></span>
-<span id="cb28-18"><a href="#cb28-18" aria-label="18"></a>    <span class="kw">class</span> Program</span>
-<span id="cb28-19"><a href="#cb28-19" aria-label="19"></a>    <span class="op">{</span></span>
-<span id="cb28-20"><a href="#cb28-20" aria-label="20"></a>        <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">()</span></span>
-<span id="cb28-21"><a href="#cb28-21" aria-label="21"></a>        <span class="op">{</span></span>
-<span id="cb28-22"><a href="#cb28-22" aria-label="22"></a>            Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Perth"</span><span class="op">.</span><span class="fu">IsCapitalized</span><span class="op">());</span>  <span class="co">// 現在可以用了</span></span>
-<span id="cb28-23"><a href="#cb28-23" aria-label="23"></a>        <span class="op">}</span></span>
-<span id="cb28-24"><a href="#cb28-24" aria-label="24"></a>    <span class="op">}</span></span>
-<span id="cb28-25"><a href="#cb28-25" aria-label="25"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb30-1"><a href="#cb30-1" aria-label="1"></a><span class="kw">namespace</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-label="3"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringHelper</span>
+<span id="cb30-4"><a href="#cb30-4" aria-label="4"></a>    <span class="op">{</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-label="5"></a>        <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> <span class="fu">IsCapitalized</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-label="6"></a>        <span class="op">{</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-label="7"></a>            <span class="kw">if</span> <span class="op">(</span><span class="dt">string</span><span class="op">.</span><span class="fu">IsNullOrEmpty</span><span class="op">(</span>s<span class="op">))</span> <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-label="8"></a>            <span class="kw">return</span> <span class="dt">char</span><span class="op">.</span><span class="fu">IsUpper</span><span class="op">(</span>s<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-label="9"></a>        <span class="op">}</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-label="10"></a>    <span class="op">}</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-label="11"></a><span class="op">}</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-label="12"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-label="13"></a><span class="co">// 在其他檔案中使用</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-label="14"></a><span class="kw">namespace</span> MyApp</span>
+<span id="cb30-15"><a href="#cb30-15" aria-label="15"></a><span class="op">{</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-label="16"></a>    <span class="kw">using</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span><span class="op">;</span>  <span class="co">// 必須匯入命名空間！</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-label="17"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-label="18"></a>    <span class="kw">class</span> Program</span>
+<span id="cb30-19"><a href="#cb30-19" aria-label="19"></a>    <span class="op">{</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-label="20"></a>        <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">()</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-label="21"></a>        <span class="op">{</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-label="22"></a>            Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Perth"</span><span class="op">.</span><span class="fu">IsCapitalized</span><span class="op">());</span>  <span class="co">// 現在可以用了</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-label="23"></a>        <span class="op">}</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-label="24"></a>    <span class="op">}</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-label="25"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>如果沒有 <code>using MyCompany.Extensions;</code>，程式將無法編譯。這是刻意的設計：編譯器只會考慮目前範圍內可見的擴充方法，如此可避免所有擴充方法一股腦暴露到全域範圍，減少 IntelliSense 污染與名稱衝突。這也是為什麼將擴充方法放在專屬命名空間是最佳實務——使用者可以依需求選擇是否匯入。</p>
 </section>
 <section id="降級擴充方法demoting" class="level3">
 <h3 class="anchored" data-anchor-id="降級擴充方法demoting">降級擴充方法（demoting）</h3>
 <p>當 Microsoft 在新版 .NET 中加入的擴充方法與你自己定義的擴充方法名稱衝突時，你可以透過手動「降級」來處理這個問題，而不破壞現有程式碼的二進位相容性。</p>
 <p><strong>解決方法</strong>：移除 <code>this</code> 關鍵字，將擴充方法降級為普通靜態方法。例如：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb29-1"><a href="#cb29-1" aria-label="1"></a><span class="co">// 原本的擴充方法</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-label="2"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> MyExtensions</span>
-<span id="cb29-3"><a href="#cb29-3" aria-label="3"></a><span class="op">{</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-label="4"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-label="5"></a><span class="op">}</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-label="6"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-label="7"></a><span class="co">// 降級後（移除 this）</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-label="8"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> MyExtensions</span>
-<span id="cb29-9"><a href="#cb29-9" aria-label="9"></a><span class="op">{</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-label="10"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span>  <span class="co">// 不再是擴充方法</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-label="11"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb31-1"><a href="#cb31-1" aria-label="1"></a><span class="co">// 原本的擴充方法</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-label="2"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> MyExtensions</span>
+<span id="cb31-3"><a href="#cb31-3" aria-label="3"></a><span class="op">{</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-label="4"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-label="5"></a><span class="op">}</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-label="6"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-label="7"></a><span class="co">// 降級後（移除 this）</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-label="8"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> MyExtensions</span>
+<span id="cb31-9"><a href="#cb31-9" aria-label="9"></a><span class="op">{</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-label="10"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Capitalize</span><span class="op">(</span><span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span>  <span class="co">// 不再是擴充方法</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-label="11"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這種手動降級的作法有下列優點：</p>
 <ul>
 <li>已編譯的組件（assembly）仍然可以正常運作（因為擴充方法在編譯時就轉換成靜態方法呼叫）。</li>
@@ -906,111 +964,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>這種技巧在維護開源程式庫時特別有用。</p>
 </section>
 </section>
-<section id="區域函式local-functions" class="level2">
-<h2 class="anchored" data-anchor-id="區域函式local-functions">11.6 區域函式（local functions）</h2>
-<p>區域函式跟擴充方法不是同一件事。不過它們都屬於方法層級的進階用法，而且在撰寫擴充方法時，確實可能順手用區域函式來整理內部邏輯，所以這裡一併介紹。</p>
-<p>簡單來說，區域函式（local function，亦稱區域方法）就是「寫在方法裡面的方法」。第 8 章介紹過它與 Lambda 運算式的差異，先看一個基本範例：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb30-1"><a href="#cb30-1" aria-label="1"></a><span class="dt">void</span> <span class="fu">Demo</span><span class="op">()</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-label="3"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">));</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-label="4"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">));</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-label="5"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">9</span><span class="op">,</span> <span class="dv">9</span><span class="op">));</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-label="6"></a></span>
-<span id="cb30-7"><a href="#cb30-7" aria-label="7"></a>    <span class="dt">int</span> <span class="fu">Add</span><span class="op">(</span><span class="dt">int</span> m<span class="op">,</span> <span class="dt">int</span> n<span class="op">)</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-label="8"></a>    <span class="op">{</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-label="9"></a>        <span class="kw">return</span> m <span class="op">+</span> n<span class="op">;</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-label="10"></a>    <span class="op">}</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-label="11"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>其中的 <code>Add</code> 就是區域函式。這個範例也帶出一個基本規則：<strong>區域函式只能在其外層方法中呼叫</strong>，超出此範圍即不可用。以上面的範例來說，<code>Add</code> 方法就只能在 <code>Demo</code> 方法中使用。</p>
-<p>區域函式也可以直接存取外層方法的區域變數：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb31-1"><a href="#cb31-1" aria-label="1"></a><span class="dt">void</span> <span class="fu">DemoWithClosure</span><span class="op">()</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-label="3"></a>    <span class="dt">int</span> multiplier <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-label="4"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-label="5"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Multiply</span><span class="op">(</span><span class="dv">5</span><span class="op">));</span>   <span class="co">// 50</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-label="6"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Multiply</span><span class="op">(</span><span class="dv">3</span><span class="op">));</span>   <span class="co">// 30</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-label="7"></a></span>
-<span id="cb31-8"><a href="#cb31-8" aria-label="8"></a>    <span class="dt">int</span> <span class="fu">Multiply</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-label="9"></a>    <span class="op">{</span></span>
-<span id="cb31-10"><a href="#cb31-10" aria-label="10"></a>        <span class="kw">return</span> n <span class="op">*</span> multiplier<span class="op">;</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-label="11"></a>    <span class="op">}</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-label="12"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>在這個例子中，區域函式 <code>Multiply</code> 可以直接使用外層方法中的區域變數 <code>multiplier</code>。</p>
-<section id="與擴充方法的差異" class="level3">
-<h3 class="anchored" data-anchor-id="與擴充方法的差異">與擴充方法的差異</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>特性</th>
-<th>擴充方法</th>
-<th>區域函式</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>定義位置</td>
-<td>靜態類別中</td>
-<td>方法內部</td>
-</tr>
-<tr class="even">
-<td>可見範圍</td>
-<td>整個命名空間（需 <code>using</code>）</td>
-<td>僅限外層方法</td>
-</tr>
-<tr class="odd">
-<td>必須是 static</td>
-<td>是</td>
-<td>否（可選擇加上 <code>static</code>）</td>
-</tr>
-<tr class="even">
-<td>存取外層變數</td>
-<td>否</td>
-<td>是（若宣告 <code>static</code> 則否）</td>
-</tr>
-<tr class="odd">
-<td>用途</td>
-<td>擴充現有型別</td>
-<td>組織方法內的輔助邏輯</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="適用場景" class="level3">
-<h3 class="anchored" data-anchor-id="適用場景">適用場景</h3>
-<p>區域函式適合用於：</p>
-<ol type="1">
-<li><strong>避免重複程式碼</strong>：方法內有重複的邏輯，但又不值得提升為類別層級的方法</li>
-<li><strong>遞迴輔助函式</strong>：需要遞迴，但只在當前方法中使用</li>
-<li><strong>迭代器實作</strong>：提升可讀性</li>
-</ol>
-<p>以下範例示範如何用區域函式拆分參數驗證與實際迭代邏輯：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1" aria-label="1"></a><span class="kw">public</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="fu">GetEvenNumbers</span><span class="op">(</span><span class="dt">int</span> start<span class="op">,</span> <span class="dt">int</span> end<span class="op">)</span></span>
+<section id="區域函式在擴充方法中的應用" class="level2">
+<h2 class="anchored" data-anchor-id="區域函式在擴充方法中的應用">11.6 區域函式在擴充方法中的應用</h2>
+<p>區域函式（local function）與擴充方法雖然是不同維度的特性，但在實務開發中，撰寫自訂擴充方法（特別是 LINQ 類型的序列擴充）時，經常會搭配區域函式來解決架構上的痛點。</p>
+<blockquote class="blockquote">
+<p>區域函式的基礎語法、與 Lambda 的差異以及效能優勢（免配置委派與閉包物件），已在〈第 8 章：委派、Lambda 與事件〉8.3 節詳細說明。這裡我們專注於它在擴充方法與迭代器中的經典設計模式。</p>
+</blockquote>
+<section id="核心應用迭代器前置參數驗證分割" class="level3">
+<h3 class="anchored" data-anchor-id="核心應用迭代器前置參數驗證分割">核心應用：迭代器前置參數驗證分割</h3>
+<p>在設計 LINQ 風格的擴充方法時，常會結合 <code>yield return</code> 建立延遲執行的迭代器。然而，這會衍生一個隱蔽的臭蟲：<strong>參數驗證的延遲拋出</strong>。</p>
+<p>如果直接在包含 <code>yield return</code> 的方法開頭驗證參數，由於迭代器狀態機的機制，該驗證不會在方法被呼叫時執行，而會延遲到呼叫端首次執行 <code>MoveNext()</code>（例如進入 <code>foreach</code> 迴圈）時才拋出例外。這會使例外拋出的呼叫堆疊（call stack）遠離呼叫點，大幅增加排查難度。</p>
+<p>為了解決這個問題，標準實踐是將方法拆為兩部分：<strong>外層方法進行即時參數驗證</strong>，<strong>內部區域函式負責延遲迭代邏輯</strong>：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
 <span id="cb32-2"><a href="#cb32-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-label="3"></a>    <span class="fu">ValidateRange</span><span class="op">(</span>start<span class="op">,</span> end<span class="op">);</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-label="4"></a></span>
-<span id="cb32-5"><a href="#cb32-5" aria-label="5"></a>    <span class="kw">return</span> <span class="fu">GetEvenNumbersCore</span><span class="op">(</span>start<span class="op">,</span> end<span class="op">);</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-label="6"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-label="7"></a>    <span class="dt">void</span> <span class="fu">ValidateRange</span><span class="op">(</span><span class="dt">int</span> s<span class="op">,</span> <span class="dt">int</span> e<span class="op">)</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-label="8"></a>    <span class="op">{</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-label="9"></a>        <span class="kw">if</span> <span class="op">(</span>s <span class="op">&gt;</span> e<span class="op">)</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-label="10"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentException</span><span class="op">(</span><span class="st">"start 不可大於 end"</span><span class="op">);</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-label="11"></a>    <span class="op">}</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-label="12"></a></span>
-<span id="cb32-13"><a href="#cb32-13" aria-label="13"></a>    IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="fu">GetEvenNumbersCore</span><span class="op">(</span><span class="dt">int</span> s<span class="op">,</span> <span class="dt">int</span> e<span class="op">)</span></span>
-<span id="cb32-14"><a href="#cb32-14" aria-label="14"></a>    <span class="op">{</span></span>
-<span id="cb32-15"><a href="#cb32-15" aria-label="15"></a>        <span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> s<span class="op">;</span> i <span class="op">&lt;=</span> e<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-label="3"></a>    <span class="co">// 擴充方法：外層立即執行參數檢查</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-label="4"></a>    <span class="kw">public</span> <span class="kw">static</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="fu">GetEvenNumbers</span><span class="op">(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> source<span class="op">,</span> <span class="dt">int</span> start<span class="op">,</span> <span class="dt">int</span> end<span class="op">)</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-label="5"></a>    <span class="op">{</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-label="6"></a>        <span class="kw">if</span> <span class="op">(</span>source <span class="kw">is</span> <span class="kw">null</span><span class="op">)</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-label="7"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentNullException</span><span class="op">(</span><span class="fu">nameof</span><span class="op">(</span>source<span class="op">));</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-label="8"></a>        <span class="kw">if</span> <span class="op">(</span>start <span class="op">&gt;</span> end<span class="op">)</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-label="9"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentException</span><span class="op">(</span><span class="st">"start 不可大於 end"</span><span class="op">);</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-label="10"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-label="11"></a>        <span class="co">// 呼叫內部區域函式，此時才返回延遲列舉的迭代器</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-label="12"></a>        <span class="kw">return</span> <span class="fu">Core</span><span class="op">(</span>source<span class="op">,</span> start<span class="op">,</span> end<span class="op">);</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-label="13"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-label="14"></a>        <span class="co">// 區域函式：承擔 yield return 狀態機</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-label="15"></a>        <span class="kw">static</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="fu">Core</span><span class="op">(</span>IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> src<span class="op">,</span> <span class="dt">int</span> s<span class="op">,</span> <span class="dt">int</span> e<span class="op">)</span></span>
 <span id="cb32-16"><a href="#cb32-16" aria-label="16"></a>        <span class="op">{</span></span>
-<span id="cb32-17"><a href="#cb32-17" aria-label="17"></a>            <span class="kw">if</span> <span class="op">(</span>i <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb32-18"><a href="#cb32-18" aria-label="18"></a>                <span class="kw">yield</span> <span class="kw">return</span> i<span class="op">;</span></span>
-<span id="cb32-19"><a href="#cb32-19" aria-label="19"></a>        <span class="op">}</span></span>
-<span id="cb32-20"><a href="#cb32-20" aria-label="20"></a>    <span class="op">}</span></span>
-<span id="cb32-21"><a href="#cb32-21" aria-label="21"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>上面的範例使用了兩個區域函式：<code>ValidateRange</code> 和 <code>GetEvenNumbersCore</code>。這是一個常見的模式：</p>
-<ul>
-<li><code>ValidateRange</code> 負責參數驗證，如果驗證失敗會立刻拋出例外。因為它只在這個方法內使用，沒必要提升為類別層級的方法。</li>
-<li><code>GetEvenNumbersCore</code> 是真正執行迭代的方法。這裡之所以拆成兩個方法，是因為當方法使用 <code>yield return</code> 時，程式碼會被編譯為「延遲執行」的迭代器，意味著參數驗證也會被延遲到第一次枚舉時才執行。把驗證邏輯拆出來，可以確保參數錯誤在呼叫時立即被發現。</li>
-</ul>
-<p>這個模式在寫 LINQ 擴充方法時特別常見。</p>
+<span id="cb32-17"><a href="#cb32-17" aria-label="17"></a>            <span class="kw">foreach</span> <span class="op">(</span><span class="dt">var</span> item <span class="kw">in</span> src<span class="op">)</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-label="18"></a>            <span class="op">{</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-label="19"></a>                <span class="kw">if</span> <span class="op">(</span>item <span class="op">&gt;=</span> s <span class="op">&amp;&amp;</span> item <span class="op">&lt;=</span> e <span class="op">&amp;&amp;</span> item <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-label="20"></a>                    <span class="kw">yield</span> <span class="kw">return</span> item<span class="op">;</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-label="21"></a>            <span class="op">}</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-label="22"></a>        <span class="op">}</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-label="23"></a>    <span class="op">}</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-label="24"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<p>這個模式（Iterator/Async Validation Split）有兩大關鍵好處：</p>
+<ol type="1">
+<li><strong>立即失敗（Fail-fast）</strong>：當呼叫端傳入非法參數時，例外在呼叫當下立刻拋出，錯誤堆疊精確指向呼叫點。</li>
+<li><strong>封裝內部實作</strong>：將核心迭代邏輯宣告為內部的區域函式（搭配 <code>static</code> 避免意外閉包），無需在類別層級額外暴露輔助方法或污染命名空間。</li>
+</ol>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoLocalMethods">DemoLocalMethods</a></p>
 </blockquote>
@@ -1188,9 +1181,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><strong>擴充方法</strong>讓你能夠在不修改原始類別的情況下為其新增方法，同時保持物件導向的呼叫風格。</li>
 <li><strong>語法要點</strong>：靜態類別、靜態方法、<code>this</code> 修飾第一個參數。</li>
-<li><strong>C# 14 擴充成員</strong>：新的 <code>extension</code> 區塊語法，支援擴充屬性、擴充靜態方法、擴充運算子。</li>
-<li><strong>最佳實務</strong>：避免命名空間污染、優先擴充介面、使用泛型、注意 null 安全。</li>
-<li><strong>區域函式</strong>適合組織方法內的輔助邏輯，可存取外層變數。</li>
+<li><strong>現代擴充成員（C# 14/15）</strong>：使用 <code>extension</code> 區塊語法，全面支援擴充屬性、擴充靜態方法、擴充運算子以及 C# 15 新增的擴充索引子。</li>
+<li><strong>最佳實務</strong>：避免命名空間污染、優先擴充介面、使用泛型、注意 null 安全與擴充索引子的運算複雜度。</li>
+<li><strong>區域函式在擴充方法中的應用</strong>：適合搭配迭代器實踐前置參數驗證分割（Fail-fast），並封裝內部核心邏輯。</li>
 <li><strong>實戰應用</strong>：Fluent API 設計、擴充 LINQ、與 AI 協作重構。</li>
 </ul>
 <p>擴充方法是現代 C# 常用特性之一，LINQ、Fluent API、測試框架都大量使用。理解擴充方法，能讓你的程式碼更簡潔、更具表達力。</p>
@@ -1222,51 +1215,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>移除 <code>this</code> 關鍵字，將擴充方法轉為普通靜態方法</td>
 </tr>
 <tr class="odd">
+<td>Extension indexer</td>
+<td>擴充索引子</td>
+<td>C# 15 新增，在 extension 區塊中替型別定義下標存取語法</td>
+</tr>
+<tr class="even">
 <td>Extension method</td>
 <td>擴充方法</td>
 <td>在不修改原始類別的情況下為其新增方法</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Extension operator</td>
 <td>擴充運算子</td>
 <td>C# 14 新增，為型別新增擴充運算子</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Extension property</td>
 <td>擴充屬性</td>
 <td>C# 14 新增，為型別新增擴充屬性</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Fluent API</td>
 <td>流暢介面</td>
 <td>使用方法鏈設計的 API，提升程式碼可讀性</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Instance method</td>
 <td>實例方法</td>
 <td>必須透過物件實例呼叫的方法</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>IntelliSense</td>
 <td>智能提示</td>
 <td>IDE 提供的程式碼自動完成功能</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Local function</td>
 <td>區域函式</td>
 <td>定義在方法內部的輔助函式</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Method chaining</td>
 <td>方法鏈</td>
 <td>連續呼叫多個方法的技巧，常用於 Fluent API</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Method signature</td>
 <td>方法簽章</td>
 <td>方法的名稱、參數型別和數量的組合</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Static class</td>
 <td>靜態類別</td>
 <td>只包含靜態成員的類別，無法實例化</td>

@@ -382,37 +382,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>本節會建立一個最簡單的 .NET 專案，並觀察它如何編譯與執行。我們先使用命令列介面（CLI），藉此理解 .NET 專案結構與建置流程（build pipeline）。</p>
 <section id="必備工具" class="level3">
 <h3 class="anchored" data-anchor-id="必備工具">必備工具</h3>
-<p>在開始之前，請先安裝以下工具：</p>
-<ol type="1">
-<li><a href="https://dotnet.microsoft.com/download/dotnet/">.NET 10 SDK（或更新版本）</a>：開發 .NET 應用程式必備。</li>
-<li>開發工具（IDE、編輯器），選擇你覺得合用的：
-<ul>
-<li>Visual Studio 2026 Community：功能完整的 IDE，提供深入的除錯、分析與視覺化工具，適合大型專案與企業級開發。</li>
-<li>Visual Studio Code：跨平台（Windows、macOS、Linux）、輕量且生態系豐富的編輯器，適合喜歡快速編輯與自訂 workflow 的開發者。</li>
-<li>JetBrains Rider：跨平台（Windows、macOS、Linux）的整合開發工具，非商業用途可免費使用。</li>
-</ul></li>
-</ol>
+<p>在開始之前，請先安裝 <a href="https://dotnet.microsoft.com/download/dotnet/">.NET 10 SDK（或更新版本）</a>。開發工具可依個人偏好選擇：Visual Studio 2026 Community（功能完整的 IDE）、Visual Studio Code（輕量跨平台），或 JetBrains Rider。</p>
 </section>
 <section id="你的第一個-.net-專案" class="level3">
 <h3 class="anchored" data-anchor-id="你的第一個-.net-專案">你的第一個 .NET 專案</h3>
-<p>請暫且忘掉 <code>File &gt; New Project</code> 這類滑鼠操作，打開終端機（底下指令以 Windows 環境為例），按照以下步驟操作：</p>
-<p><strong>Step 1：</strong>建立 Console 應用程式</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> new console <span class="at">--name</span> HelloCSharp</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>這會以預設的 Console 專案範本建立一個名為「HelloCSharp」的 C# 專案，專案裡面會有一個預設的主程式，檔案名稱是 <code>Program.cs</code>，裡面只有一行程式碼（註解不算）：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// See https://aka.ms/new-console-template for more information</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Hello, World!"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Step 2：</strong>進入專案目錄</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> HelloCSharp</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Step 3：</strong>執行程式</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> run</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>當你輸入 <code>dotnet run</code> 時，.NET SDK 會自動還原套件（restore）、編譯（build），然後執行應用程式。接著，你會看到終端機輸出：</p>
+<p>打開終端機，執行以下指令建立並執行一個 Console 應用程式：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> new console <span class="at">--name</span> HelloCSharp</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> HelloCSharp</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> run</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<p>終端機會輸出：</p>
 <pre class="text"><code>Hello, World!</code></pre>
-<p>雖然你剛才實際輸入的 .NET CLI 命令只有 <code>dotnet new</code> 和 <code>dotnet run</code>（<code>cd</code> 不算），但整個流程包含三個階段：</p>
+<p>專案目錄中會產生兩個核心檔案：</p>
 <ul>
-<li><code>dotnet new</code>：根據範本產生專案檔（<code>.csproj</code>）和程式檔（<code>Program.cs</code>）。</li>
-<li><code>dotnet build</code>：將 C# 原始碼編譯成<strong>中介語言（IL）</strong>並打包成 <code>.dll</code> 或 <code>.exe</code>。</li>
-<li><code>dotnet run</code>：啟動 .NET Runtime（Common Language Runtime，CLR）執行編譯好的程式。</li>
+<li><code>HelloCSharp.csproj</code>：專案檔，定義目標架構與相依套件。</li>
+<li><code>Program.cs</code>：程式進入點，預設只有一行程式碼：</li>
 </ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// See https://aka.ms/new-console-template for more information</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Hello, World!"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<p>現代 C# 專案預設啟用「<a href="https://learn.microsoft.com/dotnet/csharp/tutorials/top-level-statements">頂層語句</a>（top-level statements）」，編譯器會自動為你產生包含 <code>Program</code> 類別與 <code>Main</code> 方法的外框，因此不需要手寫樣板程式碼。</p>
+<p>當你輸入 <code>dotnet run</code> 時，整個背後流程包含三個階段：</p>
+<ol type="1">
+<li><code>dotnet new</code>：根據範本產生專案檔（<code>.csproj</code>）與程式檔（<code>Program.cs</code>）。</li>
+<li><code>dotnet build</code>：將 C# 原始碼編譯成<strong>中介語言（IL）</strong>並打包成 <code>.dll</code> 或 <code>.exe</code>。</li>
+<li><code>dotnet run</code>：啟動 .NET Runtime（CLR）執行編譯好的程式。</li>
+</ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/compilation-pipeline.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
@@ -421,13 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><strong>什麼是 IL（Intermediate Language）？</strong></p>
 <p>C# 原始碼通常不會直接編譯成特定 CPU 的機器碼，而是先轉成 IL（Intermediate Language，中介語言）。IL 與特定 CPU 指令集無關，因此同一份編譯結果可以交給不同平台上的 .NET 執行環境處理。</p>
-<p>在最常見的 JIT（Just-In-Time）執行模式下，.NET Runtime 會在程式執行期間，視需要將 IL 編譯成目前平台可執行的機器碼。本章會先以這個基本模型來說明 .NET 程式如何執行。</p>
-<p>現代 .NET 也支援 <a href="https://learn.microsoft.com/dotnet/core/deploying/native-aot/">Native AOT</a>，可在發布階段預先產生特定平台的原生機器碼；這是另一種部署模式，不影響我們目前理解 JIT 基本流程。</p>
-</blockquote>
-<p>如果你想試試用整合開發環境（IDE）來編寫和執行剛才的範例程式，可參考微軟的線上教學文件：<a href="https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio">使用 Visual Studio 建立 .NET 控制台應用程式</a>。</p>
-<blockquote class="blockquote">
-<p><strong>Note</strong></p>
-<p>現代 C# 專案通常啟用「<a href="https://learn.microsoft.com/dotnet/csharp/tutorials/top-level-statements">頂層語句</a>（top-level statements）」，這就是為什麼你在 <code>Program.cs</code> 中看不到舊版 C# 的寫法，如 <code>class Program</code> 或 <code>static void Main</code>，而只有簡潔的一行 <code>Console.WriteLine("Hello, World!");</code>。</p>
+<p>在最常見的 JIT（Just-In-Time）執行模式下，.NET Runtime 會在程式執行期間，視需要將 IL 編譯成目前平台可執行的機器碼。現代 .NET 也支援 <a href="https://learn.microsoft.com/dotnet/core/deploying/native-aot/">Native AOT</a>，可在發布階段預先產生特定平台的原生機器碼；這是另一種部署模式，不影響我們目前理解 JIT 基本流程。</p>
 </blockquote>
 </section>
 </section>
@@ -601,10 +588,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>你可以把這想像成影印文件：當你把文件 A 影印一份給同事（變數賦值），同事在影本上塗寫（修改變數），並不會影響你原本的那份文件。</p>
 <p>以下範例展示了實值型別的特性，即指派時會複製值本身：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-label="2"></a><span class="dt">int</span> b <span class="op">=</span> a<span class="op">;</span>  <span class="co">// 複製一份 10 給 b</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>b <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>     <span class="co">// 修改 b 不會影響 a</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>a<span class="op">);</span> <span class="co">// 輸出 10</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a><span class="dt">int</span> b <span class="op">=</span> a<span class="op">;</span>  <span class="co">// 複製一份 10 給 b</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>b <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>     <span class="co">// 修改 b 不會影響 a</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>a<span class="op">);</span> <span class="co">// 輸出 10</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>第 3 行修改 <code>b</code> 的值並不會改變 <code>a</code> 的值，因為 <code>int</code> 是實值型別。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoValueTypes">DemoValueTypes</a></p>
@@ -635,10 +622,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>換成參考型別時，指派的效果就不同了。以下範例中，<code>user2</code> 取得的是同一個物件的參考：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="dt">var</span> user1 <span class="op">=</span> <span class="kw">new</span> User <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span> <span class="op">};</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="dt">var</span> user2 <span class="op">=</span> user1<span class="op">;</span>   <span class="co">// 複製參考，user1 和 user2 指向同一個物件</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-label="3"></a>user2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// 修改 user2 會影響 user1</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>user1<span class="op">.</span><span class="fu">Name</span><span class="op">);</span> <span class="co">// 輸出 Bob</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="dt">var</span> user1 <span class="op">=</span> <span class="kw">new</span> User <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span> <span class="op">};</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-label="2"></a><span class="dt">var</span> user2 <span class="op">=</span> user1<span class="op">;</span>   <span class="co">// 複製參考，user1 和 user2 指向同一個物件</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>user2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// 修改 user2 會影響 user1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>user1<span class="op">.</span><span class="fu">Name</span><span class="op">);</span> <span class="co">// 輸出 Bob</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>因此，透過 <code>user2</code> 修改 <code>Name</code> 時，<code>user1</code> 看到的也是同一個物件被修改後的狀態。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoReferenceTypes">DemoReferenceTypes</a></p>
@@ -664,10 +651,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="value-type-元素陣列" class="level4">
 <h4 class="anchored" data-anchor-id="value-type-元素陣列">Value Type 元素陣列</h4>
 <p>以底下的範例來說：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="dt">long</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="kw">new</span> <span class="dt">long</span><span class="op">[</span><span class="dv">3</span><span class="op">];</span> <span class="co">// 每個 long 是 8 bytes</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>numbers<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">12345</span><span class="op">;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-label="3"></a>numbers<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">54321</span><span class="op">;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-label="4"></a>numbers<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99999</span><span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="dt">long</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="kw">new</span> <span class="dt">long</span><span class="op">[</span><span class="dv">3</span><span class="op">];</span> <span class="co">// 每個 long 是 8 bytes</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>numbers<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">12345</span><span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>numbers<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">54321</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>numbers<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99999</span><span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>從一般的配置模型來看，runtime 會為陣列取得一塊<strong>連續的記憶體空間</strong>，三個 <code>long</code> 值直接儲存在陣列中。這類陣列物件通常配置在 managed heap。具體來說：</p>
 <ul>
 <li><strong>陣列結構</strong>：包含陣列長度等標頭資訊。</li>
@@ -679,10 +666,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="reference-type-元素陣列" class="level4">
 <h4 class="anchored" data-anchor-id="reference-type-元素陣列">Reference Type 元素陣列</h4>
 <p>接著看元素型別是 <code>StringBuilder</code> 的陣列：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a>StringBuilder<span class="op">[]</span> builders <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[</span><span class="dv">3</span><span class="op">];</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-label="2"></a>builders<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder1"</span><span class="op">);</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>builders<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder2"</span><span class="op">);</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-label="4"></a>builders<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder3"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a>StringBuilder<span class="op">[]</span> builders <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[</span><span class="dv">3</span><span class="op">];</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>builders<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder1"</span><span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-label="3"></a>builders<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder2"</span><span class="op">);</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-label="4"></a>builders<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder3"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>在這種情況下，陣列中<strong>不是直接存放物件本身，而是存放指向物件的參考</strong>。具體來說：</p>
 <ul>
 <li><strong>陣列結構</strong>：包含陣列長度等標頭資訊。</li>
@@ -722,8 +709,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>就好像你買了一顆蘋果（value type），原本是直接以「蘋果本體」來使用；但如果現在要把它當成一件可統一管理的「物件」送進倉庫（heap），你就必須把它<strong>裝進一個箱子</strong>（boxing），並且貼上標籤。這個「找箱子」和「打包」的過程，就是額外的成本。</p>
 <p>Boxing 過程發生了什麼事：CLR 會在 heap 上配置一塊記憶體，把 value type 的值複製進去。這個步驟是必要的，因為 <code>object</code> 是參考型別，需要在 heap 上有一個位址；而 <code>int</code> 等值型別本身沒有 heap 位址，所以必須先把它包裝成一個 heap 上的物件。</p>
 <p>先看一個最簡單的裝箱範例：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="dv">123</span><span class="op">;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-label="2"></a><span class="dt">object</span> o <span class="op">=</span> i<span class="op">;</span> <span class="co">// Boxing：將 int 封裝進 heap 上的 object</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="dv">123</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-label="2"></a><span class="dt">object</span> o <span class="op">=</span> i<span class="op">;</span> <span class="co">// Boxing：將 int 封裝進 heap 上的 object</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡的 <code>o</code> 是一個參考，指向 heap 上新建立的 boxed <code>int</code> 物件。</p>
 </section>
 <section id="unboxing拆箱" class="level3">
@@ -731,7 +718,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>跟 boxing（裝箱）相反，unboxing（拆箱）指的是將 <code>object</code> 轉回 <strong>value type</strong> 的過程。</p>
 <p>Unboxing 實際做的事情：檢查 object 裡面是否真的裝了該型別的值，如果是，便將裡面的值取出並複製到目標位置。</p>
 <p>拆箱時，必須明確指定要取回的實值型別：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> j <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>o<span class="op">;</span> <span class="co">// Unboxing</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> j <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>o<span class="op">;</span> <span class="co">// Unboxing</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>如果 <code>o</code> 裡面裝的不是 <code>int</code>，這行程式會在執行時期丟出例外。</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -747,12 +734,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>GC 壓力</strong>：Boxing 會產生額外的 heap 物件，增加垃圾回收的工作量。</li>
 </ol>
 <p>隱性 boxing 陷阱常見於舊式集合（如 <code>ArrayList</code>）或格式化字串。<code>ArrayList</code> 因為將所有元素存為 <code>object</code> 型別，所以加入值型別時都會自動觸發裝箱。以下是一個常見的例子：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-label="2"></a><span class="co">// 陷阱：string.Format 接受 object 參數</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-label="3"></a><span class="dt">string</span> s <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Format</span><span class="op">(</span><span class="st">"Score: {0}"</span><span class="op">,</span> x<span class="op">);</span> <span class="co">// x 被 boxing!</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-label="4"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-label="5"></a><span class="co">// 現代解法：字串插補（通常編譯器會優化）</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-label="6"></a><span class="dt">string</span> s2 <span class="op">=</span> $<span class="st">"Score: {x}"</span><span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-label="2"></a><span class="co">// 陷阱：string.Format 接受 object 參數</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-label="3"></a><span class="dt">string</span> s <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Format</span><span class="op">(</span><span class="st">"Score: {0}"</span><span class="op">,</span> x<span class="op">);</span> <span class="co">// x 被 boxing!</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-label="4"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-label="5"></a><span class="co">// 現代解法：字串插補（通常編譯器會優化）</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-label="6"></a><span class="dt">string</span> s2 <span class="op">=</span> $<span class="st">"Score: {x}"</span><span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoBoxingUnboxing">DemoBoxingUnboxing</a></p>
 </blockquote>
@@ -777,127 +764,123 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="物件的淺層複製與深層複製" class="level3">
 <h3 class="anchored" data-anchor-id="物件的淺層複製與深層複製">物件的淺層複製與深層複製</h3>
 <p><strong>淺層複製</strong>只複製物件本身，裡面的參考型別欄位還是指向同一個物件：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="kw">class</span> Team</span>
-<span id="cb14-2"><a href="#cb14-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Empty</span><span class="op">;</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-label="4"></a>    <span class="kw">public</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> Members <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="kw">new</span><span class="op">();</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-label="5"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-label="6"></a>    <span class="co">// 使用 object.MemberwiseClone() 逐一複製成員（淺層複製）</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-label="7"></a>    <span class="kw">public</span> Team <span class="fu">ShallowCopy</span><span class="op">()</span> <span class="op">=&gt;</span> <span class="op">(</span>Team<span class="op">)</span><span class="fu">MemberwiseClone</span><span class="op">();</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-label="8"></a><span class="op">}</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-label="9"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-label="10"></a><span class="dt">var</span> team1 <span class="op">=</span> <span class="kw">new</span> Team</span>
-<span id="cb14-11"><a href="#cb14-11" aria-label="11"></a><span class="op">{</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-label="12"></a>    Name <span class="op">=</span> <span class="st">"Dev"</span><span class="op">,</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-label="13"></a>    Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span> <span class="op">}</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-label="14"></a><span class="op">};</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-label="15"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-label="16"></a><span class="dt">var</span> team2 <span class="op">=</span> team1<span class="op">.</span><span class="fu">ShallowCopy</span><span class="op">();</span> <span class="co">// 淺層複製</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-label="17"></a>team2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"QA"</span><span class="op">;</span>               <span class="co">// team2 有自己的 Name 副本</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-label="18"></a>team2<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Add</span><span class="op">(</span><span class="st">"Charlie"</span><span class="op">);</span>    <span class="co">// 但 Members 仍指向同一個 List！</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-label="19"></a></span>
-<span id="cb14-20"><a href="#cb14-20" aria-label="20"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>team1<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Count</span><span class="op">);</span> <span class="co">// 輸出 3（受影響！）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="kw">class</span> Team</span>
+<span id="cb12-2"><a href="#cb12-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Empty</span><span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-label="4"></a>    <span class="kw">public</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> Members <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="kw">new</span><span class="op">();</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-label="5"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-label="6"></a>    <span class="co">// 使用 object.MemberwiseClone() 逐一複製成員（淺層複製）</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-label="7"></a>    <span class="kw">public</span> Team <span class="fu">ShallowCopy</span><span class="op">()</span> <span class="op">=&gt;</span> <span class="op">(</span>Team<span class="op">)</span><span class="fu">MemberwiseClone</span><span class="op">();</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-label="8"></a><span class="op">}</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-label="9"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-label="10"></a><span class="dt">var</span> team1 <span class="op">=</span> <span class="kw">new</span> Team</span>
+<span id="cb12-11"><a href="#cb12-11" aria-label="11"></a><span class="op">{</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-label="12"></a>    Name <span class="op">=</span> <span class="st">"Dev"</span><span class="op">,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-label="13"></a>    Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span> <span class="op">}</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-label="14"></a><span class="op">};</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-label="15"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-label="16"></a><span class="dt">var</span> team2 <span class="op">=</span> team1<span class="op">.</span><span class="fu">ShallowCopy</span><span class="op">();</span> <span class="co">// 淺層複製</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-label="17"></a>team2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"QA"</span><span class="op">;</span>               <span class="co">// team2 有自己的 Name 副本</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-label="18"></a>team2<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Add</span><span class="op">(</span><span class="st">"Charlie"</span><span class="op">);</span>    <span class="co">// 但 Members 仍指向同一個 List！</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-label="19"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-label="20"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>team1<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Count</span><span class="op">);</span> <span class="co">// 輸出 3（受影響！）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>此範例展示了淺層複製可能造成的潛在 bug：內層的參考物件只是複製參考，因此對 <code>team2.Members</code> 串列加入新元素時，等同於改動 <code>team1.Members</code> 串列。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoShallowCopy">DemoShallowCopy</a></p>
 </blockquote>
-<p>.NET 早期版本提供了 <code>ICloneable</code> 介面作為複製物件的標準做法：當類別需要提供複製操作時，只要實作該介面的 <code>Clone()</code> 方法即可。但此設計有個明顯缺點：<code>Clone()</code> 方法本身的語意不明確，它沒有明確規定是「淺層複製」還是「深層複製」。於是，當你呼叫一個第三方程式庫的 <code>Clone()</code>，往往需要去查文件來確認它到底是執行淺層複製，還是複製了整個物件樹。</p>
-<p>因此，實務上通常不建議把 <code>ICloneable</code> 當成公開 API 的複製契約；如果物件要提供複製功能，較好的做法是在類別裡面定義名稱明確的方法，例如 <code>ShallowCopy</code> 或 <code>DeepCopy</code>，就如前面範例所展示的。</p>
+<p>.NET 早期提供了 <code>ICloneable</code> 介面，但它的 <code>Clone()</code> 方法回傳 <code>object</code>（缺乏強型別）且合約不明確，無法從介面得知是淺層還是深層複製。因此實務上不建議將它作為公開契約，而應使用名稱明確的方法（如 <code>ShallowCopy</code>）或強型別的複製建構式。</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
-<p>其他複製物件的方法還有<strong>複製建構式</strong>（copy constructor），以及使用 <code>record</code> 型別搭配 <code>with</code> 運算式來做 non-destructive mutation（詳見本書第 4 章）。請注意：<code>with</code> 預設仍是<strong>淺層複製</strong>；如果成員裡面有可變的巢狀參考型別，仍然可能共用同一份內部物件。</p>
+<p>另一種常見寫法是使用 <code>record</code> 型別搭配 <code>with</code> 運算式（第 4 章）。但請特別注意：<code>with</code> 預設仍是<strong>淺層複製</strong>；若成員包含可變的巢狀參考型別，內部物件仍會被多方共用。</p>
 </blockquote>
-<p>如果要提供深層複製，就必須明確決定哪些成員需要建立新實例。以下範例示範的是以<strong>複製建構式</strong>（copy constructor）來實作深層複製。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="kw">class</span> Team</span>
-<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Empty</span><span class="op">;</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-label="4"></a>    <span class="kw">public</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> Members <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="kw">new</span><span class="op">();</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-label="5"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-label="6"></a>    <span class="kw">public</span> <span class="fu">Team</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-label="7"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-label="8"></a>    <span class="kw">public</span> <span class="fu">Team</span><span class="op">(</span>Team original<span class="op">)</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-label="9"></a>    <span class="op">{</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-label="10"></a>        <span class="co">// string 是 immutable，可直接複製參考。</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-label="11"></a>        Name <span class="op">=</span> original<span class="op">.</span><span class="fu">Name</span><span class="op">;</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-label="12"></a></span>
-<span id="cb15-13"><a href="#cb15-13" aria-label="13"></a>        <span class="co">// 建立新的 List，避免與原物件共用同一個 Members 集合。</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-label="14"></a>        Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;(</span>original<span class="op">.</span><span class="fu">Members</span><span class="op">);</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-label="15"></a>    <span class="op">}</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-label="16"></a><span class="op">}</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-label="17"></a></span>
-<span id="cb15-18"><a href="#cb15-18" aria-label="18"></a><span class="dt">var</span> team1 <span class="op">=</span> <span class="kw">new</span> Team</span>
-<span id="cb15-19"><a href="#cb15-19" aria-label="19"></a><span class="op">{</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-label="20"></a>    Name <span class="op">=</span> <span class="st">"Dev"</span><span class="op">,</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-label="21"></a>    Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span> <span class="op">}</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-label="22"></a><span class="op">};</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-label="23"></a></span>
-<span id="cb15-24"><a href="#cb15-24" aria-label="24"></a><span class="dt">var</span> team2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Team</span><span class="op">(</span>team1<span class="op">);</span>  <span class="co">// 使用複製建構式來建立物件的副本</span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-label="25"></a>team2<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Add</span><span class="op">(</span><span class="st">"Charlie"</span><span class="op">);</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-label="26"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>team1<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Count</span><span class="op">);</span> <span class="co">// 輸出 2（team1 不受影響）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<p>如果要提供深層複製，必須明確決定哪些成員需要建立新實例。以下範例示範以<strong>複製建構式</strong>（copy constructor）實作深層複製：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="kw">class</span> Team</span>
+<span id="cb13-2"><a href="#cb13-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-label="3"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Empty</span><span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-label="4"></a>    <span class="kw">public</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> Members <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="kw">new</span><span class="op">();</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-label="5"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-label="6"></a>    <span class="kw">public</span> <span class="fu">Team</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-label="7"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-label="8"></a>    <span class="kw">public</span> <span class="fu">Team</span><span class="op">(</span>Team original<span class="op">)</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-label="9"></a>    <span class="op">{</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-label="10"></a>        <span class="co">// string 是 immutable，可安全直接複製參考。</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-label="11"></a>        Name <span class="op">=</span> original<span class="op">.</span><span class="fu">Name</span><span class="op">;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-label="12"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-label="13"></a>        <span class="co">// 建立新的 List，避免與原物件共用同一個 Members 集合。</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-label="14"></a>        Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;(</span>original<span class="op">.</span><span class="fu">Members</span><span class="op">);</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-label="15"></a>    <span class="op">}</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-label="16"></a><span class="op">}</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-label="17"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-label="18"></a><span class="dt">var</span> team1 <span class="op">=</span> <span class="kw">new</span> Team</span>
+<span id="cb13-19"><a href="#cb13-19" aria-label="19"></a><span class="op">{</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-label="20"></a>    Name <span class="op">=</span> <span class="st">"Dev"</span><span class="op">,</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-label="21"></a>    Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span> <span class="op">}</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-label="22"></a><span class="op">};</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-label="23"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-label="24"></a><span class="dt">var</span> team2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Team</span><span class="op">(</span>team1<span class="op">);</span>  <span class="co">// 使用複製建構式建立物件副本</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-label="25"></a>team2<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Add</span><span class="op">(</span><span class="st">"Charlie"</span><span class="op">);</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-label="26"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>team1<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Count</span><span class="op">);</span> <span class="co">// 輸出 2（team1 不受影響）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>其中的這行程式碼會建立新的 <code>List</code>，避免與原物件共用同一個 <code>Members</code> 集合：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a>Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;(</span>original<span class="op">.</span><span class="fu">Members</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>這裡由於元素是不可變的 <code>string</code>，故只需複製元素參考，不必另外複製字串物件。</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a>Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;(</span>original<span class="op">.</span><span class="fu">Members</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<p>這裡由於元素是不可變的 <code>string</code>，只需複製元素參考即可。</p>
 <p>在這個範例中：</p>
 <ul>
-<li><code>Name</code> 屬性直接沿用原本的 <code>string</code> 參考，但不會造成問題。為什麼？因為 <code>string</code> 雖然是參考型別，但它是<strong>不可變（immutable）</strong>的——雖然寫法上看起來字串是可修改的，但其實任何對字串的修改操作（如 <code>Replace</code>、<code>ToUpper</code>）都會產生一個<strong>新的</strong>字串物件。相對地，<code>Members</code> 是 <code>List&lt;string&gt;</code>，屬於可變（mutable）的集合，必須建立新實例才能避免共用同一份資料。</li>
-<li>複製建構式（copy constructor）特別適合需要明確控制複製邏輯的類別。雖然名稱不像 <code>ShallowCopy</code> 或 <code>DeepCopy</code> 那樣明確，但它的好處是強型別（輸入參數和回傳值都是），而且是現代 .NET 實作物件複製的常見作法。</li>
+<li><code>Name</code> 屬性直接沿用原本的 <code>string</code> 參考，不會造成問題。因為 <code>string</code> 是<strong>不可變（immutable）</strong>的——任何修改操作（如 <code>Replace</code>、<code>ToUpper</code>）都會產生<strong>新的</strong>字串物件。相對地，<code>Members</code> 是 <code>List&lt;string&gt;</code>（可變集合），必須建立新實例才能避免共用。</li>
+<li>複製建構式特別適合需要明確控制複製邏輯的類別，好處是具備強型別，是 .NET 中實現客製複製的標準做法。</li>
 </ul>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoDeepCopy">DemoDeepCopy</a></p>
 </blockquote>
-<p>請注意，<code>new List&lt;string&gt;(original.Members)</code> 這種寫法會建立一個新的串列容器。由於串列中的元素是不可變的 <code>string</code>，這樣就已足以達到此範例所需的隔離效果。如果串列包含的是可變的參考型別，例如 <code>List&lt;Person&gt;</code>，那麼 <code>new List&lt;Person&gt;(original.Members)</code> 其實只複製了串列容器本身，容器裡面的 <code>Person</code> 物件參考仍然指向原本的物件。在這種情況下，你必須逐一複製每個 <code>Person</code> 物件，才能達到真正的完全隔離。</p>
-<p>總之，記住這個原則：如果物件內有<strong>巢狀的、可變的（mutable）參考型別</strong>（例如 <code>Team</code> 內有 <code>Manager</code> 物件，<code>Manager</code> 內又有其他物件），就需要遞迴地為每一層建立新實例。實務上，可使用序列化/反序列化（例如 <code>System.Text.Json</code>）或其他第三方函式庫來自動處理深層複製。</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
 <p>有關「不可變」（immutable）的相關議題，詳見〈第 4 章：不可變設計〉。</p>
 </blockquote>
-<p>以下整理剛才介紹的幾種物件複製方法：</p>
+<p>總結物件複製的常見方式與取捨：</p>
 <ul>
-<li>實作 <code>ICloneable.Clone()</code>：不建議。缺點：語意不明確，不是強型別（回傳 <code>object</code>）。</li>
-<li>提供複製建構式：可明確控制複製邏輯，且具強型別，是普遍接受的實務做法。缺點是成員數量眾多時，程式碼較繁瑣。</li>
-<li><code>record</code> 型別搭配 <code>with</code>：很適合不可變資料與 non-destructive mutation，但它不是通用的深層複製機制。（第 4 章）</li>
-<li>序列化：最簡便，但效能可能較慢、需要注意私有成員是否遺漏。</li>
+<li><strong>複製建構式</strong>：強型別且邏輯明確，能精準控制深淺複製邊界；缺點是成員眾多時需維護樣板程式碼。</li>
+<li><strong><code>record</code> 搭配 <code>with</code></strong>：語法簡潔，極適合不可變資料的非破壞性修改，但本質為淺層複製（第 4 章）。</li>
+<li><strong>JSON 序列化/反序列化</strong>：透過 <code>System.Text.Json</code> 可自動處理整棵物件樹的複製，適合作為替代方案；但它受限於公開序列化契約、型別支援度與循環參考設定，且有額外效能開銷，並非萬能的通用深拷貝。</li>
+<li><strong><code>ICloneable.Clone()</code></strong>：非強型別且語義模糊，現代程式碼應避免使用。</li>
 </ul>
 <blockquote class="blockquote">
 <p><strong>Ask AI</strong></p>
-<p>我想知道在 .NET 中的這幾種複製物件的方法有何優缺點：ICloneable、Record (with)、複製建構式、序列化。請整理一張比較表。</p>
-<p>然後，請用 .NET 內建的 <code>System.Text.Json</code> 實作物件的深層複製。</p>
+<p>在 C# 中，如果一個類別內部包含巢狀的可變集合與物件，實作深層複製時「複製建構式」與「序列化（System.Text.Json）」各自適用的情境與限制是什麼？請舉例說明循環參考或私有成員在序列化時會遇到什麼問題。</p>
 </blockquote>
 </section>
 <section id="陣列的淺層複製與深層複製" class="level3">
 <h3 class="anchored" data-anchor-id="陣列的淺層複製與深層複製">陣列的淺層複製與深層複製</h3>
 <p>陣列複製的原理與物件相同：<code>Array.Clone()</code> 執行的是<strong>淺層複製</strong>。</p>
 <p>如果陣列中的元素型別本身<strong>不含可變的參考狀態</strong>，例如 <code>int</code> 或 <code>string</code>，那麼淺層複製通常已經足夠。下面這個範例複製的是 <code>int[]</code>：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="dt">int</span><span class="op">[]</span> original <span class="op">=</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-label="2"></a><span class="dt">int</span><span class="op">[]</span> copy <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">[])</span>original<span class="op">.</span><span class="fu">Clone</span><span class="op">();</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-label="3"></a>copy<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">999</span><span class="op">;</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// 輸出 1（不受影響）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="dt">int</span><span class="op">[]</span> original <span class="op">=</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a><span class="dt">int</span><span class="op">[]</span> copy <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">[])</span>original<span class="op">.</span><span class="fu">Clone</span><span class="op">();</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>copy<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">999</span><span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// 輸出 1（不受影響）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>不過要注意，這裡的前提是元素本身像 <code>int</code> 這樣直接就是值本體。如果陣列元素是某個 <code>struct</code>，而該 <code>struct</code> 內部又含有參考型別欄位，那麼 <code>Array.Clone()</code> 仍然只會淺層複製那些內部參考，不會自動幫你做到完全隔離。</p>
 <p>如果陣列元素是 reference type，則必須留意：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="dt">var</span> original <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[]</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-label="3"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"A"</span><span class="op">),</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-label="4"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"B"</span><span class="op">)</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-label="5"></a><span class="op">};</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-label="6"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-label="7"></a><span class="dt">var</span> copy <span class="op">=</span> <span class="op">(</span>StringBuilder<span class="op">[])</span>original<span class="op">.</span><span class="fu">Clone</span><span class="op">();</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-label="8"></a>copy<span class="op">[</span><span class="dv">0</span><span class="op">].</span><span class="fu">Append</span><span class="op">(</span><span class="st">"!"</span><span class="op">);</span> <span class="co">// 修改 copy 會影響 original！</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-label="9"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// 輸出 "A!"（受影響！）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="dt">var</span> original <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[]</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-label="3"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"A"</span><span class="op">),</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-label="4"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"B"</span><span class="op">)</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-label="5"></a><span class="op">};</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-label="6"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-label="7"></a><span class="dt">var</span> copy <span class="op">=</span> <span class="op">(</span>StringBuilder<span class="op">[])</span>original<span class="op">.</span><span class="fu">Clone</span><span class="op">();</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-label="8"></a>copy<span class="op">[</span><span class="dv">0</span><span class="op">].</span><span class="fu">Append</span><span class="op">(</span><span class="st">"!"</span><span class="op">);</span> <span class="co">// 修改 copy 會影響 original！</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-label="9"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// 輸出 "A!"（受影響！）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>輸出結果是 <code>A!</code>。<code>Array.Clone()</code> 雖然建立了一個新的陣列物件，但陣列內的元素仍然指向與 <code>original</code> 相同的 <code>StringBuilder</code> 物件，所以修改 <code>copy[0]</code> 的內容也會影響 <code>original[0]</code>。</p>
 <p>若要實現<strong>深層複製</strong>，必須逐一複製每個元素：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a><span class="dt">var</span> original <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[]</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-label="2"></a><span class="op">{</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-label="3"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"A"</span><span class="op">),</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-label="4"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"B"</span><span class="op">)</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-label="5"></a><span class="op">};</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-label="6"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-label="7"></a><span class="dt">var</span> deepCopy <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[</span>original<span class="op">.</span><span class="fu">Length</span><span class="op">];</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-label="8"></a><span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> original<span class="op">.</span><span class="fu">Length</span><span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-label="9"></a><span class="op">{</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-label="10"></a>    deepCopy<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span>original<span class="op">[</span>i<span class="op">].</span><span class="fu">ToString</span><span class="op">());</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-label="11"></a><span class="op">}</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-label="12"></a>deepCopy<span class="op">[</span><span class="dv">0</span><span class="op">].</span><span class="fu">Append</span><span class="op">(</span><span class="st">"!"</span><span class="op">);</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-label="13"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// 輸出 "A"（不受影響）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="dt">var</span> original <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[]</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-label="2"></a><span class="op">{</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-label="3"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"A"</span><span class="op">),</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-label="4"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"B"</span><span class="op">)</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-label="5"></a><span class="op">};</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-label="6"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-label="7"></a><span class="dt">var</span> deepCopy <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[</span>original<span class="op">.</span><span class="fu">Length</span><span class="op">];</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-label="8"></a><span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> original<span class="op">.</span><span class="fu">Length</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-label="9"></a><span class="op">{</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-label="10"></a>    deepCopy<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span>original<span class="op">[</span>i<span class="op">].</span><span class="fu">ToString</span><span class="op">());</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-label="11"></a><span class="op">}</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-label="12"></a>deepCopy<span class="op">[</span><span class="dv">0</span><span class="op">].</span><span class="fu">Append</span><span class="op">(</span><span class="st">"!"</span><span class="op">);</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-label="13"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// 輸出 "A"（不受影響）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這次輸出結果是 <code>A</code>，顯示 <code>deepCopy</code> 跟 <code>original</code> 是兩個不同的陣列。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoDeepCopyArray">DemoDeepCopyArray</a></p>
