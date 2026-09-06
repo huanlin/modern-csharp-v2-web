@@ -123,3 +123,9 @@ body {
 main.content > section:first-of-type > h2:nth-child(1) {
     margin-top: 2em;
 }
+
+/* ========== 首頁書籍封面圖邊框 ========== */
+.quarto-cover-image {
+    border: 1px solid #dee2e6;
+    border-radius: 2px;
+}

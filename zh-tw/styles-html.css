@@ -1,1 +1,7 @@
 @import url("../styles-html.css");
+
+/* 首頁書籍封面圖細邊框 */
+.quarto-cover-image {
+    border: 1px solid #dee2e6;
+    border-radius: 2px;
+}
