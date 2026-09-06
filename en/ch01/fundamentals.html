@@ -381,37 +381,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This section walks you through creating a minimal .NET project and observing how it compiles and runs. We’ll start with the command-line interface (CLI) so you can understand the .NET project structure and build pipeline.</p>
 <section id="required-tools" class="level3">
 <h3 class="anchored" data-anchor-id="required-tools">Required tools</h3>
-<p>Before you begin, install the following:</p>
-<ol type="1">
-<li><a href="https://dotnet.microsoft.com/download/dotnet/">.NET 10 SDK (or later)</a>: required for building .NET applications.</li>
-<li>A development tool (IDE/editor). Pick what you’re comfortable with:
-<ul>
-<li>Visual Studio 2026 Community: A full-featured IDE offering deep debugging, profiling, and visualization tools, well suited for large-scale and enterprise projects.</li>
-<li>Visual Studio Code: A cross-platform (Windows, macOS, Linux), lightweight, and highly extensible editor—perfect for fast editing and highly customized workflows.</li>
-<li>JetBrains Rider: A powerful cross-platform IDE (Windows, macOS, Linux); free for non-commercial use.</li>
-</ul></li>
-</ol>
+<p>Before you begin, install the <a href="https://dotnet.microsoft.com/download/dotnet/">.NET 11 SDK (or later)</a>. You can choose your preferred development tool: Visual Studio 2026 Community (a full-featured IDE), Visual Studio Code (lightweight and cross-platform), or JetBrains Rider.</p>
 </section>
 <section id="your-first-.net-project" class="level3">
 <h3 class="anchored" data-anchor-id="your-first-.net-project">Your first .NET project</h3>
-<p>Forget <code>File &gt; New Project</code> for a moment. Open a terminal (the commands below use Windows as an example) and follow these steps:</p>
-<p><strong>Step 1:</strong> Create a console app</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> new console <span class="at">--name</span> HelloCSharp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This creates a C# console project named <code>HelloCSharp</code> from the default template. You’ll get a <code>Program.cs</code> file with a default entry point that contains just one line of code (excluding comments):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// See https://aka.ms/new-console-template for more information</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Hello, World!"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Step 2:</strong> Enter the project directory</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> HelloCSharp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Step 3:</strong> Run the app</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> run</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>When you run <code>dotnet run</code>, the .NET SDK automatically restores packages, builds the project, and then executes it. Next, you should see:</p>
+<p>Open a terminal and run the following commands to create and run a Console application:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> new console <span class="at">--name</span> HelloCSharp</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> HelloCSharp</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> run</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The terminal will print:</p>
 <pre class="text"><code>Hello, World!</code></pre>
-<p>Although you only typed two .NET CLI commands here, <code>dotnet new</code> and <code>dotnet run</code> (<code>cd</code> doesn’t count), the overall workflow still involves three stages:</p>
+<p>The project directory contains two essential files:</p>
 <ul>
-<li><code>dotnet new</code>: Generates the project file (<code>.csproj</code>) and source file (<code>Program.cs</code>) from a template.</li>
-<li><code>dotnet build</code>: Compiles C# source into <strong>Intermediate Language (IL)</strong> and packages it into a <code>.dll</code> or <code>.exe</code>.</li>
-<li><code>dotnet run</code>: Starts the .NET runtime (Common Language Runtime, CLR) to execute the compiled program.</li>
+<li><code>HelloCSharp.csproj</code>: The project file defining target frameworks and dependencies.</li>
+<li><code>Program.cs</code>: The entry point, containing a single line of code by default:</li>
 </ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// See https://aka.ms/new-console-template for more information</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Hello, World!"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Modern C# projects enable <a href="https://learn.microsoft.com/dotnet/csharp/tutorials/top-level-statements">top-level statements</a> by default. The compiler automatically synthesizes a <code>Program</code> class and <code>Main</code> method wrapper, eliminating the need for boilerplate code.</p>
+<p>When you run <code>dotnet run</code>, the execution flow comprises three distinct stages behind the scenes:</p>
+<ol type="1">
+<li><code>dotnet new</code>: Generates the project file (<code>.csproj</code>) and source file (<code>Program.cs</code>) from a template.</li>
+<li><code>dotnet build</code>: Compiles C# source code into <strong>Intermediate Language (IL)</strong> and packages it into a <code>.dll</code> or <code>.exe</code>.</li>
+<li><code>dotnet run</code>: Launches the .NET Runtime (CLR) to execute the compiled code.</li>
+</ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/compilation-pipeline.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
@@ -419,14 +412,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <blockquote class="blockquote">
 <p><strong>What is IL (Intermediate Language)?</strong></p>
-<p>C# source code is usually not compiled directly into machine code for a specific CPU. Instead, it is first translated into IL (Intermediate Language). Because IL is independent of any particular CPU instruction set, the same compiled output can be handled by .NET runtimes on different platforms.</p>
-<p>In the most common JIT (Just-In-Time) execution model, the .NET runtime compiles IL into machine code for the current platform as the program runs and the code is needed. This chapter uses that basic model to explain how .NET programs execute.</p>
-<p>Modern .NET also supports <a href="https://learn.microsoft.com/dotnet/core/deploying/native-aot/">Native AOT</a>, which produces platform-specific native code ahead of time during publishing. That is a different deployment model and does not change the basic JIT model we need here.</p>
-</blockquote>
-<p>If you’d like to try writing and running the example using an IDE, see Microsoft’s tutorial: <a href="https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio">Create a .NET console application using Visual Studio</a>.</p>
-<blockquote class="blockquote">
-<p><strong>Note</strong></p>
-<p>Modern C# projects typically enable <a href="https://learn.microsoft.com/dotnet/csharp/tutorials/top-level-statements">top-level statements</a>. That’s why <code>Program.cs</code> no longer contains the older <code>class Program</code> / <code>static void Main</code> boilerplate—you just write <code>Console.WriteLine("Hello, World!");</code> directly.</p>
+<p>C# source code is usually not compiled directly into machine code for a specific CPU. Instead, it is first translated into IL (Intermediate Language). Because IL is independent of any particular CPU instruction set, the same compiled output can be executed by .NET runtimes across different platforms.</p>
+<p>Under the standard JIT (Just-In-Time) execution model, the .NET Runtime compiles IL into platform-specific machine code dynamically as needed during program execution. Modern .NET also supports <a href="https://learn.microsoft.com/dotnet/core/deploying/native-aot/">Native AOT</a>, which compiles directly to native code ahead of time during publishing—another deployment model that doesn’t change our foundational understanding of JIT.</p>
 </blockquote>
 </section>
 </section>
@@ -600,10 +587,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Think of it like photocopying a physical document. If you hand a copy to a coworker (assignment), and they write on their copy (mutating their variable), your original document remains unaltered.</p>
 <p>The following example demonstrates this value-type behavior: assignment copies the value itself.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> b <span class="op">=</span> a<span class="op">;</span>  <span class="co">// Copies 10 into b</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>     <span class="co">// Changing b does not affect a</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>a<span class="op">);</span> <span class="co">// Prints 10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> b <span class="op">=</span> a<span class="op">;</span>  <span class="co">// Copies 10 into b</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">99</span><span class="op">;</span>     <span class="co">// Changing b does not affect a</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>a<span class="op">);</span> <span class="co">// Prints 10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Line 3 changes <code>b</code>, but <code>a</code> remains unchanged because <code>int</code> is a value type.</p>
 <blockquote class="blockquote">
 <p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoValueTypes">DemoValueTypes</a></p>
@@ -634,10 +621,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>With reference types, assignment behaves differently. In the following example, <code>user2</code> receives a reference to the same object:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> user1 <span class="op">=</span> <span class="kw">new</span> User <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span> <span class="op">};</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> user2 <span class="op">=</span> user1<span class="op">;</span>   <span class="co">// Copies the reference; user1 and user2 point to the same object</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>user2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// Changing user2 affects user1</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>user1<span class="op">.</span><span class="fu">Name</span><span class="op">);</span> <span class="co">// Prints Bob</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> user1 <span class="op">=</span> <span class="kw">new</span> User <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span> <span class="op">};</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> user2 <span class="op">=</span> user1<span class="op">;</span>   <span class="co">// Copies the reference; user1 and user2 point to the same object</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>user2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// Changing user2 affects user1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>user1<span class="op">.</span><span class="fu">Name</span><span class="op">);</span> <span class="co">// Prints Bob</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Therefore, when you modify <code>Name</code> through <code>user2</code>, <code>user1</code> sees the modified state of that same object.</p>
 <blockquote class="blockquote">
 <p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoReferenceTypes">DemoReferenceTypes</a></p>
@@ -663,10 +650,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="arrays-of-value-type-elements" class="level4">
 <h4 class="anchored" data-anchor-id="arrays-of-value-type-elements">Arrays of value-type elements</h4>
 <p>Consider this example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="kw">new</span> <span class="dt">long</span><span class="op">[</span><span class="dv">3</span><span class="op">];</span> <span class="co">// Each long is 8 bytes</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>numbers<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">12345</span><span class="op">;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>numbers<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">54321</span><span class="op">;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>numbers<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99999</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="kw">new</span> <span class="dt">long</span><span class="op">[</span><span class="dv">3</span><span class="op">];</span> <span class="co">// Each long is 8 bytes</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>numbers<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">12345</span><span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>numbers<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">54321</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>numbers<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="dv">99999</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In the usual allocation model, the runtime obtains one <strong>contiguous</strong> block of memory for the array, and the three <code>long</code> values are stored directly within it. An array object like this is normally allocated on the managed heap. Concretely:</p>
 <ul>
 <li><strong>Array header</strong>: Includes metadata such as the array length.</li>
@@ -678,10 +665,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="arrays-of-reference-type-elements" class="level4">
 <h4 class="anchored" data-anchor-id="arrays-of-reference-type-elements">Arrays of reference-type elements</h4>
 <p>Next, consider an array whose element type is <code>StringBuilder</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>StringBuilder<span class="op">[]</span> builders <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[</span><span class="dv">3</span><span class="op">];</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>builders<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder1"</span><span class="op">);</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>builders<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder2"</span><span class="op">);</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>builders<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder3"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>StringBuilder<span class="op">[]</span> builders <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[</span><span class="dv">3</span><span class="op">];</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>builders<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder1"</span><span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>builders<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder2"</span><span class="op">);</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>builders<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"builder3"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In this scenario, the array stores <em>references</em>, not the actual string data:</p>
 <ul>
 <li><strong>Array header</strong>: Includes metadata such as length.</li>
@@ -721,8 +708,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Imagine picking an apple (a value type). Normally, you use it directly as a raw value. But if you now want to treat it as a general-purpose object stored in a warehouse (the heap), you must place it inside a physical <strong>box</strong> (boxing) and slap a tracking label on it. Procuring the box and packing the item introduces overhead.</p>
 <p>During boxing, the CLR allocates memory on the heap and copies the value-type data into it. This is necessary because <code>object</code> is a reference type that requires a heap address, whereas a value type like <code>int</code> has no heap address on its own. Boxing creates a heap-allocated wrapper so the value can participate in reference-type semantics.</p>
 <p>First, here is a minimal boxing example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="dv">123</span><span class="op">;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> o <span class="op">=</span> i<span class="op">;</span> <span class="co">// Boxing: wraps the int in a heap-allocated object</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="dv">123</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> o <span class="op">=</span> i<span class="op">;</span> <span class="co">// Boxing: wraps the int in a heap-allocated object</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Here, <code>o</code> is a reference that points to a newly created boxed <code>int</code> object on the heap.</p>
 </section>
 <section id="unboxing" class="level3">
@@ -730,7 +717,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Unboxing is the reverse process: converting an <code>object</code> back into a <strong>value type</strong>.</p>
 <p>Unboxing involves verifying that the object contains the expected value type, then copying the value from the heap back to the stack.</p>
 <p>When unboxing, you must explicitly specify the value type you want to retrieve:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> j <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>o<span class="op">;</span> <span class="co">// Unboxing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> j <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>o<span class="op">;</span> <span class="co">// Unboxing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If <code>o</code> does not actually contain an <code>int</code>, this line throws an exception at runtime.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -746,12 +733,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>GC pressure</strong>: Boxing creates extra heap objects, giving the garbage collector more work.</li>
 </ol>
 <p>Hidden boxing traps often occur when using older, non-generic collections (like <code>ArrayList</code>) or certain string formatting methods. Because <code>ArrayList</code> stores every element as <code>object</code>, adding a value type automatically triggers boxing. Here’s a common example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Trap: string.Format takes object parameters</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> s <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Format</span><span class="op">(</span><span class="st">"Score: {0}"</span><span class="op">,</span> x<span class="op">);</span> <span class="co">// x gets boxed!</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Modern approach: string interpolation (often optimized by the compiler)</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> s2 <span class="op">=</span> $<span class="st">"Score: {x}"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Trap: string.Format takes object parameters</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> s <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Format</span><span class="op">(</span><span class="st">"Score: {0}"</span><span class="op">,</span> x<span class="op">);</span> <span class="co">// x gets boxed!</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Modern approach: string interpolation (often optimized by the compiler)</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> s2 <span class="op">=</span> $<span class="st">"Score: {x}"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoBoxingUnboxing">DemoBoxingUnboxing</a></p>
 </blockquote>
@@ -776,128 +763,122 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="shallow-vs-deep-copy-for-objects" class="level3">
 <h3 class="anchored" data-anchor-id="shallow-vs-deep-copy-for-objects">Shallow vs deep copy for objects</h3>
 <p>A <strong>shallow copy</strong> copies only the top-level object itself. If that object contains reference-type fields, those fields will still point to the exact same inner objects:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Team</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Empty</span><span class="op">;</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> Members <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="kw">new</span><span class="op">();</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Uses object.MemberwiseClone() to copy members one by one (shallow copy)</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Team <span class="fu">ShallowCopy</span><span class="op">()</span> <span class="op">=&gt;</span> <span class="op">(</span>Team<span class="op">)</span><span class="fu">MemberwiseClone</span><span class="op">();</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> team1 <span class="op">=</span> <span class="kw">new</span> Team</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    Name <span class="op">=</span> <span class="st">"Dev"</span><span class="op">,</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span> <span class="op">}</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> team2 <span class="op">=</span> team1<span class="op">.</span><span class="fu">ShallowCopy</span><span class="op">();</span> <span class="co">// Shallow copy</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>team2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"QA"</span><span class="op">;</span>               <span class="co">// team2 has its own Name value</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>team2<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Add</span><span class="op">(</span><span class="st">"Charlie"</span><span class="op">);</span>    <span class="co">// But Members still points to the same List!</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>team1<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Count</span><span class="op">);</span> <span class="co">// Prints 3 (affected!)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Team</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Empty</span><span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> Members <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="kw">new</span><span class="op">();</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Uses object.MemberwiseClone() to copy members one by one (shallow copy)</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Team <span class="fu">ShallowCopy</span><span class="op">()</span> <span class="op">=&gt;</span> <span class="op">(</span>Team<span class="op">)</span><span class="fu">MemberwiseClone</span><span class="op">();</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> team1 <span class="op">=</span> <span class="kw">new</span> Team</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    Name <span class="op">=</span> <span class="st">"Dev"</span><span class="op">,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span> <span class="op">}</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> team2 <span class="op">=</span> team1<span class="op">.</span><span class="fu">ShallowCopy</span><span class="op">();</span> <span class="co">// Shallow copy</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>team2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"QA"</span><span class="op">;</span>               <span class="co">// team2 has its own Name value</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>team2<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Add</span><span class="op">(</span><span class="st">"Charlie"</span><span class="op">);</span>    <span class="co">// But Members still points to the same List!</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>team1<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Count</span><span class="op">);</span> <span class="co">// Prints 3 (affected!)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This demonstrates a classic shallow-copy bug: the internal <code>List</code> is not duplicated; only the reference to it is. As a result, adding an element to <code>team2.Members</code> inadvertently mutates <code>team1.Members</code>.</p>
 <blockquote class="blockquote">
 <p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoShallowCopy">DemoShallowCopy</a></p>
 </blockquote>
-<p>Early .NET versions introduced the <code>ICloneable</code> interface as the standard approach for object copying. However, its major flaw is semantic ambiguity: <code>Clone()</code> never clarifies whether it returns a shallow or a deep copy. When calling a third-party <code>Clone()</code> method, you have to dig through documentation to find out what it actually does.</p>
-<p>Because of this, even though <code>ICloneable</code> is not formally obsolete, it is usually a poor choice for a public cloning contract. In practice, if a type should expose copying behavior, it is better to use explicitly named methods such as <code>ShallowCopy()</code> or <code>DeepCopy()</code>, as shown earlier.</p>
+<p>Early .NET provided the <code>ICloneable</code> interface, but its <code>Clone()</code> method returns <code>object</code> (lacking strong typing) and carries ambiguous semantics—one cannot tell from the interface whether it performs a shallow or deep copy. In practice, avoid relying on it as a public contract; use explicitly named methods (like <code>ShallowCopy</code>) or strongly typed copy constructors instead.</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
-<p>Other ways to copy objects include a <strong>copy constructor</strong>, or using <code>record</code> types with the <code>with</code> expression for non-destructive mutation (see Chapter 4). Keep in mind that <code>with</code> is still a <strong>shallow copy</strong> by default; nested mutable reference-type members remain shared unless you copy them explicitly.</p>
+<p>Another common modern approach is using <code>record</code> types with the <code>with</code> expression (Chapter 4). Remember that <code>with</code> performs a <strong>shallow copy</strong> by default; if members contain mutable nested reference types, internal objects are still shared across copies.</p>
 </blockquote>
-<p>To provide a deep copy, you must explicitly decide which members need new instances. The following example uses a <strong>copy constructor</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Team</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> Members <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Team</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Team</span><span class="op">(</span>Team original<span class="op">)</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// A string reference can be reused safely.</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        Name <span class="op">=</span> original<span class="op">.</span><span class="fu">Name</span><span class="op">;</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Create a new List to avoid sharing the</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// same Members collection with the original object.</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>        Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;(</span>original<span class="op">.</span><span class="fu">Members</span><span class="op">);</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> team1 <span class="op">=</span> <span class="kw">new</span> Team</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    Name <span class="op">=</span> <span class="st">"Dev"</span><span class="op">,</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span> <span class="op">}</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> team2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Team</span><span class="op">(</span>team1<span class="op">);</span>  <span class="co">// Create a copy via the copy constructor</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>team2<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Add</span><span class="op">(</span><span class="st">"Charlie"</span><span class="op">);</span></span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>team1<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Count</span><span class="op">);</span> <span class="co">// Prints 2 (team1 unaffected)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The following line creates a new <code>List</code> so the copy does not share the same <code>Members</code> collection as the original:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;(</span>original<span class="op">.</span><span class="fu">Members</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Because the elements are immutable <code>string</code> instances, copying their references is sufficient; there is no need to duplicate the string objects themselves.</p>
+<p>If you need to provide a deep copy, you must explicitly decide which members require new instances. The following example demonstrates implementing deep copy with a <strong>copy constructor</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Team</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> Members <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Team</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Team</span><span class="op">(</span>Team original<span class="op">)</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// string is immutable, so copying its reference directly is completely safe.</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        Name <span class="op">=</span> original<span class="op">.</span><span class="fu">Name</span><span class="op">;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Create a new List to prevent sharing the Members collection with the original object.</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;(</span>original<span class="op">.</span><span class="fu">Members</span><span class="op">);</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> team1 <span class="op">=</span> <span class="kw">new</span> Team</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    Name <span class="op">=</span> <span class="st">"Dev"</span><span class="op">,</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> <span class="op">{</span> <span class="st">"Alice"</span><span class="op">,</span> <span class="st">"Bob"</span> <span class="op">}</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> team2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Team</span><span class="op">(</span>team1<span class="op">);</span>  <span class="co">// Create an object copy using the copy constructor</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>team2<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Add</span><span class="op">(</span><span class="st">"Charlie"</span><span class="op">);</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>team1<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Count</span><span class="op">);</span> <span class="co">// Prints 2 (team1 is unaffected)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The key line is:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;(</span>original<span class="op">.</span><span class="fu">Members</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Because the elements are immutable <code>string</code> instances, copying their references is sufficient.</p>
 <p>In this example:</p>
 <ul>
-<li>The <code>Name</code> property is copied by reference (a shallow copy), which is perfectly safe because <code>string</code> is <strong>immutable</strong>. Even though strings might <em>appear</em> mutable, operations like <code>Replace</code> and <code>ToUpper</code> actually allocate <strong>new</strong> string objects rather than modifying the original data.</li>
-<li><code>Members</code> is a <code>List&lt;string&gt;</code>, which is mutable. To avoid sharing the same list, you must create a new list instance.</li>
-<li>While not mandated by the language, copy constructors are a widely accepted practice. Their intent may seem less explicit than a method named <code>DeepCopy()</code>, but they offer strong typing and align well with modern .NET design. In fact, C# 9 <code>record</code> types inherently rely on compiler-generated copy constructors.</li>
+<li>The <code>Name</code> property reuses the original <code>string</code> reference without issue. Because <code>string</code> is <strong>immutable</strong>, any modification (such as <code>Replace</code> or <code>ToUpper</code>) always produces a <strong>new</strong> string instance. Conversely, <code>Members</code> is a <code>List&lt;string&gt;</code> (a mutable collection), which must be instantiated afresh to avoid shared state.</li>
+<li>Copy constructors are particularly well-suited when you need fine-grained control over copy logic. They provide strong typing and represent the standard approach for custom cloning in .NET.</li>
 </ul>
 <blockquote class="blockquote">
 <p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoDeepCopy">DemoDeepCopy</a></p>
 </blockquote>
-<p>Note that <code>new List&lt;string&gt;(original.Members)</code> creates a new list container. Because the elements are immutable <code>string</code> values, that alone is enough to achieve the isolation this example needs. If the list contained mutable reference-type elements instead, for example, <code>List&lt;Person&gt;</code>, then <code>new List&lt;Person&gt;(original.Members)</code> would copy only the container, while every <code>Person</code> reference inside would still point to the original objects. In that case, you’d need to copy each <code>Person</code> individually to achieve true isolation.</p>
-<p>As a general rule, if an object graph contains <strong>nested, mutable reference types</strong> (for example, a <code>Team</code> contains a <code>Manager</code>, which in turn references other objects), a true deep copy requires recursively creating new instances at every level. In practice, developers often use serialization and deserialization (e.g., via <code>System.Text.Json</code>) or third-party mapping libraries to automate complex deep copies.</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
-<p>For more on immutability, see “Chapter 4: Immutable design.”</p>
+<p>For in-depth discussion on immutability, see Chapter 4: Immutable Design.</p>
 </blockquote>
-<p>Here’s a summary of common object-copy approaches:</p>
+<p>Summary of common object copying approaches and their trade-offs:</p>
 <ul>
-<li><strong>Implement <code>ICloneable.Clone()</code></strong>: not obsolete, but usually not recommended as a public API. Downsides: ambiguous semantics and lack of strong typing (it returns <code>object</code>).</li>
-<li><strong>Provide a copy constructor</strong>: allows you to precisely control the copy logic and preserves strong typing. Downside: can become highly verbose for types with many members.</li>
-<li><strong><code>record</code> + <code>with</code> expression</strong>: offers clean, concise syntax and works well for immutable data and non-destructive mutation, but it is not a general-purpose deep-copy mechanism (see Chapter 4).</li>
-<li><strong>Serialization</strong>: the simplest workaround for deep copies, but usually much slower and typically ignores private members.</li>
+<li><strong>Copy constructor</strong>: Strongly typed with explicit logic, offering fine-grained control over shallow and deep copy boundaries; requires maintaining boilerplate when types have many members.</li>
+<li><strong><code>record</code> with <code>with</code></strong>: Clean and concise, ideal for non-destructive mutation of immutable data, but performs a shallow copy by nature (Chapter 4).</li>
+<li><strong>JSON serialization / deserialization</strong>: <code>System.Text.Json</code> can duplicate entire object graphs automatically, serving as a convenient fallback; however, it depends on public serialization contracts, type support, and circular-reference configurations, carrying extra performance overhead. It is not an unconditional universal deep copy.</li>
+<li><strong><code>ICloneable.Clone()</code></strong>: Weakly typed with ambiguous semantics; avoid in modern code.</li>
 </ul>
 <blockquote class="blockquote">
 <p><strong>Ask AI</strong></p>
-<p>I want to understand the pros and cons of these object-copy approaches in .NET: ICloneable, record (with), copy constructors, and serialization. Please summarize them in a comparison table.</p>
-<p>Then, implement deep copy using .NET’s built-in <code>System.Text.Json</code>.</p>
+<p>In C#, when a class contains nested mutable collections and objects, what are the respective use cases and limitations of using a “copy constructor” versus “serialization (System.Text.Json)” for deep copying? Please illustrate the issues encountered with circular references and private members during serialization.</p>
 </blockquote>
 </section>
 <section id="shallow-vs-deep-copy-for-arrays" class="level3">
 <h3 class="anchored" data-anchor-id="shallow-vs-deep-copy-for-arrays">Shallow vs deep copy for arrays</h3>
 <p>Array copying follows the same principle as object copying: <code>Array.Clone()</code> performs a <strong>shallow copy</strong>.</p>
 <p>If the array element type itself <strong>does not contain mutable reference state</strong>, such as <code>int</code> or <code>string</code>, a shallow copy is often enough. The following example copies an <code>int[]</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> original <span class="op">=</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> copy <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">[])</span>original<span class="op">.</span><span class="fu">Clone</span><span class="op">();</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>copy<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">999</span><span class="op">;</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// Prints 1 (unaffected)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> original <span class="op">=</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> copy <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">[])</span>original<span class="op">.</span><span class="fu">Clone</span><span class="op">();</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>copy<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">999</span><span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// Prints 1 (unaffected)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Be careful, though: this works because <code>int</code> is just the value itself. If the array element type is a <code>struct</code> that contains reference-type fields, <code>Array.Clone()</code> still performs only a shallow copy of those inner references, so it does not automatically give you full isolation.</p>
 <p>If the array elements are reference types, be careful:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> original <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[]</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"A"</span><span class="op">),</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"B"</span><span class="op">)</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> copy <span class="op">=</span> <span class="op">(</span>StringBuilder<span class="op">[])</span>original<span class="op">.</span><span class="fu">Clone</span><span class="op">();</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>copy<span class="op">[</span><span class="dv">0</span><span class="op">].</span><span class="fu">Append</span><span class="op">(</span><span class="st">"!"</span><span class="op">);</span> <span class="co">// Mutating copy also mutates original!</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// Prints "A!" (affected!)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> original <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[]</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"A"</span><span class="op">),</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"B"</span><span class="op">)</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> copy <span class="op">=</span> <span class="op">(</span>StringBuilder<span class="op">[])</span>original<span class="op">.</span><span class="fu">Clone</span><span class="op">();</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>copy<span class="op">[</span><span class="dv">0</span><span class="op">].</span><span class="fu">Append</span><span class="op">(</span><span class="st">"!"</span><span class="op">);</span> <span class="co">// Mutating copy also mutates original!</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// Prints "A!" (affected!)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The output is <code>A!</code>. Although <code>Array.Clone()</code> creates a new array object, the elements inside still point to the same <code>StringBuilder</code> objects as <code>original</code>, so mutating <code>copy[0]</code> also affects <code>original[0]</code>.</p>
 <p>To create a <strong>deep copy</strong>, you must copy each element individually:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> original <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[]</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"A"</span><span class="op">),</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"B"</span><span class="op">)</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> deepCopy <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[</span>original<span class="op">.</span><span class="fu">Length</span><span class="op">];</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> original<span class="op">.</span><span class="fu">Length</span><span class="op">;</span> i<span class="op">++)</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    deepCopy<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span>original<span class="op">[</span>i<span class="op">].</span><span class="fu">ToString</span><span class="op">());</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>deepCopy<span class="op">[</span><span class="dv">0</span><span class="op">].</span><span class="fu">Append</span><span class="op">(</span><span class="st">"!"</span><span class="op">);</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// Prints "A" (unaffected)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> original <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[]</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"A"</span><span class="op">),</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span><span class="st">"B"</span><span class="op">)</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> deepCopy <span class="op">=</span> <span class="kw">new</span> StringBuilder<span class="op">[</span>original<span class="op">.</span><span class="fu">Length</span><span class="op">];</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> original<span class="op">.</span><span class="fu">Length</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    deepCopy<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">StringBuilder</span><span class="op">(</span>original<span class="op">[</span>i<span class="op">].</span><span class="fu">ToString</span><span class="op">());</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>deepCopy<span class="op">[</span><span class="dv">0</span><span class="op">].</span><span class="fu">Append</span><span class="op">(</span><span class="st">"!"</span><span class="op">);</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// Prints "A" (unaffected)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This time the output is <code>A</code>, showing that <code>deepCopy</code> and <code>original</code> are two independent arrays.</p>
 <blockquote class="blockquote">
 <p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoDeepCopyArray">DemoDeepCopyArray</a></p>
