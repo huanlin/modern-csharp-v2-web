@@ -54,7 +54,7 @@
     "href": "ch00/about-book.html#tools-used-in-this-book",
     "title": "About this book",
     "section": "Tools used in this book",
-    "text": "Tools used in this book\nTo follow along with the hands-on exercises, you’ll need:\n\n.NET 10 SDK or later\nAn IDE or editor: Visual Studio 2026 (or VS Code, Rider, etc.)\n\nFor installation steps and tooling suggestions, see Section 1.2 of “Chapter 1: Fundamentals.”",
+    "text": "Tools used in this book\nTo follow along with the hands-on exercises, you’ll need:\n\n.NET 11 SDK or later\nAn IDE or editor: Visual Studio 2026 (or VS Code, Rider, etc.)\n\nFor installation steps and tooling suggestions, see Section 1.2 of “Chapter 1: Fundamentals.”",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>About this book</span>"
     ]
