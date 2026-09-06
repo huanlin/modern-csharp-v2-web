@@ -265,8 +265,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#sec-2-3" id="toc-sec-2-3" class="nav-link" data-scroll-target="#sec-2-3">2.3 集合運算式（Collection Expressions）</a>
   <ul class="collapse">
   <li><a href="#使用時機" id="toc-使用時機" class="nav-link" data-scroll-target="#使用時機">使用時機</a></li>
+  <li><a href="#集合運算式引數c-15" id="toc-集合運算式引數c-15" class="nav-link" data-scroll-target="#集合運算式引數c-15">集合運算式引數（C# 15）</a></li>
   <li><a href="#兩個常見限制" id="toc-兩個常見限制" class="nav-link" data-scroll-target="#兩個常見限制">兩個常見限制</a></li>
-  <li><a href="#集合運算式引數c-15預先配置容量與自訂比較器" id="toc-集合運算式引數c-15預先配置容量與自訂比較器" class="nav-link" data-scroll-target="#集合運算式引數c-15預先配置容量與自訂比較器">集合運算式引數（C# 15）：預先配置容量與自訂比較器</a></li>
   </ul></li>
   <li><a href="#sec-2-4" id="toc-sec-2-4" class="nav-link" data-scroll-target="#sec-2-4">2.4 物件初始設定式</a>
   <ul class="collapse">
@@ -328,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-06</p>
+      <p class="date-modified">2026-09-07</p>
     </div>
   </div>
     
@@ -589,43 +589,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 </section>
 </section>
+<section id="集合運算式引數c-15" class="level3">
+<h3 class="anchored" data-anchor-id="集合運算式引數c-15">集合運算式引數（C# 15）</h3>
+<p>前面的範例著重於指定集合元素。有時候，我們還需要控制集合的建立方式，例如指定初始容量（capacity），或提供自訂比較器。C# 15 的<strong>集合運算式引數</strong>讓這些需求也能寫在方括弧內。</p>
+<p>透過在集合方括弧最前端加上 <code>with(...)</code>，你可以指定建立集合時使用的引數：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. 指定 List 初始容量，避免 spread 展開時動態擴充陣列</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span><span class="op">[]</span> items <span class="op">=</span> <span class="op">[</span><span class="st">"alpha"</span><span class="op">,</span> <span class="st">"beta"</span><span class="op">,</span> <span class="st">"gamma"</span><span class="op">];</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> names <span class="op">=</span> <span class="op">[</span><span class="fu">with</span><span class="op">(</span>capacity<span class="op">:</span> items<span class="op">.</span><span class="fu">Length</span> <span class="op">*</span> <span class="dv">2</span><span class="op">),</span> <span class="op">..</span> items<span class="op">];</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. 指定 HashSet 比較器（如不分大小寫比對）</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>HashSet<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> tags <span class="op">=</span> <span class="op">[</span><span class="fu">with</span><span class="op">(</span>StringComparer<span class="op">.</span><span class="fu">OrdinalIgnoreCase</span><span class="op">),</span> <span class="st">"C#"</span><span class="op">,</span> <span class="st">"c#"</span><span class="op">,</span> <span class="st">"dotnet"</span><span class="op">];</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">// tags 內僅會保留單一 "C#" 元素，因為已指定不分大小寫比對</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<p>編譯器在處理帶有 <code>with(...)</code> 的集合運算式時，會優先挑選接收該參數的型別建構式完成實例化，隨後再依序填入後續元素。如此一來，集合運算式既能保有簡潔優雅的統一外觀，又兼顧了效能調校與邏輯客製化的彈性。</p>
+</section>
 <section id="兩個常見限制" class="level3">
 <h3 class="anchored" data-anchor-id="兩個常見限制">兩個常見限制</h3>
 <p>雖然集合運算式很強大，但有兩個常見限制：一個是無法自行推斷型別，另一個則和 <code>Dictionary</code> 有關。</p>
 <section id="不能靠-var-自行推斷型別" class="level4">
 <h4 class="anchored" data-anchor-id="不能靠-var-自行推斷型別">不能靠 <code>var</code> 自行推斷型別</h4>
 <p>下面這種寫法不能通過編譯：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> numbers <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span>  <span class="co">// ✗ 編譯失敗</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> numbers <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span>  <span class="co">// ✗ 編譯失敗</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>原因是編譯器不知道你要的是 <code>int[]</code>、<code>List&lt;int&gt;</code>、<code>Span&lt;int&gt;</code>，還是其他受支援的集合型別。你必須把目標型別寫出來：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span>     <span class="co">// OK</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>List<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span>  <span class="co">// OK</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span>     <span class="co">// OK</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>List<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span>  <span class="co">// OK</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這也再次說明了集合運算式是 <strong>target-typed</strong> 語法，而不是擁有固定自然型別的 literal。</p>
 </section>
 <section id="dictionary-初始化的限制" class="level4">
 <h4 class="anchored" data-anchor-id="dictionary-初始化的限制">Dictionary 初始化的限制</h4>
 <p>目前集合運算式主要針對「單一元素型別的序列」設計；對 <code>Dictionary&lt;TKey, TValue&gt;</code> 這種需要鍵值配對語意的型別，並沒有對應的鍵值項目語法。因此，如果你要建立<strong>帶初始內容</strong>的字典，通常仍要使用傳統的初始化寫法，例如：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> scores <span class="op">=</span> <span class="kw">new</span> Dictionary<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="st">"Alice"</span><span class="op">]</span> <span class="op">=</span> <span class="dv">95</span><span class="op">,</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="st">"Bob"</span><span class="op">]</span> <span class="op">=</span> <span class="dv">87</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> scores <span class="op">=</span> <span class="kw">new</span> Dictionary<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="st">"Alice"</span><span class="op">]</span> <span class="op">=</span> <span class="dv">95</span><span class="op">,</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="st">"Bob"</span><span class="op">]</span> <span class="op">=</span> <span class="dv">87</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>不過，如果你只是要表示<strong>空字典</strong>，則仍可寫成：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Dictionary<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> emptyScores <span class="op">=</span> <span class="op">[];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Dictionary<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> emptyScores <span class="op">=</span> <span class="op">[];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-</section>
-<section id="集合運算式引數c-15預先配置容量與自訂比較器" class="level3">
-<h3 class="anchored" data-anchor-id="集合運算式引數c-15預先配置容量與自訂比較器">集合運算式引數（C# 15）：預先配置容量與自訂比較器</h3>
-<p>在 C# 12 最初引入集合運算式時，開發者最常遇到的實務痛點是：<strong>無法向底層建構式傳遞引數</strong>。</p>
-<p>舉例來說，當我們使用展開運算子 <code>..</code> 合併多個陣列至 <code>List&lt;T&gt;</code> 時，若已知資料量很大，卻無法預先指定容量（capacity），<code>List&lt;T&gt;</code> 就會在元素不斷加入時觸發多次內部的陣列重新配置與記憶體拷貝；另外，建立 <code>HashSet&lt;T&gt;</code> 時，也無法在方括弧語法內指定字串大小寫不敏感的自訂比較器（<code>IEqualityComparer&lt;T&gt;</code>）。過去面對這些情況，開發者往往被迫退回傳統的 <code>new List&lt;T&gt;(capacity)</code> 或物件初始設定式。</p>
-<p>為了解決這個遺憾，C# 15 引入了<strong>集合運算式引數</strong>——首位 <code>with(...)</code> 語法。透過在集合方括弧最前端加上 <code>with(...)</code>，你可以將指定引數轉發給目標集合的建構式：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. 指定 List 初始容量，避免 spread 展開時動態擴充陣列</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span><span class="op">[]</span> items <span class="op">=</span> <span class="op">[</span><span class="st">"alpha"</span><span class="op">,</span> <span class="st">"beta"</span><span class="op">,</span> <span class="st">"gamma"</span><span class="op">];</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> names <span class="op">=</span> <span class="op">[</span><span class="fu">with</span><span class="op">(</span>capacity<span class="op">:</span> items<span class="op">.</span><span class="fu">Length</span> <span class="op">*</span> <span class="dv">2</span><span class="op">),</span> <span class="op">..</span> items<span class="op">];</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. 指定 HashSet 比較器（如不分大小寫比對）</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>HashSet<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> tags <span class="op">=</span> <span class="op">[</span><span class="fu">with</span><span class="op">(</span>StringComparer<span class="op">.</span><span class="fu">OrdinalIgnoreCase</span><span class="op">),</span> <span class="st">"C#"</span><span class="op">,</span> <span class="st">"c#"</span><span class="op">,</span> <span class="st">"dotnet"</span><span class="op">];</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">// tags 內僅會保留單一 "C#" 元素，因為已指定不分大小寫比對</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>編譯器在處理帶有 <code>with(...)</code> 的集合運算式時，會優先挑選接收該參數的型別建構式完成實例化，隨後再依序填入後續元素。如此一來，集合運算式既能保有簡潔優雅的統一外觀，又兼顧了效能調校與邏輯客製化的彈性。</p>
 </section>
 </section>
 <section id="sec-2-4" class="level2">

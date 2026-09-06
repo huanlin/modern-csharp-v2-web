@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "現代 C# 精要",
     "section": "",
-    "text": "《現代 C# 精要》（Modern C#: What You Need to Know）是《現代 C#》的第二版，書名的改變是為了反映本書的新定位。\n這裡免費公開本書部分章節的全文，試讀範圍比電子書銷售平台更廣，而且會不定期增加免費章節（例如配合 C# 新版本發布）。如欲閱讀全書，請購買正式版。\nTable of contents\n\n關於本書\n關於作者\n第 1 章：基礎 (免費)\n第 2 章：宣告與語法糖 (免費)\n第 3 章：空值安全 (免費)\n第 4 章：不可變設計 (免費)\n第 5 章：錯誤處理與資源管理 (免費)\n第 6 章：模式比對\n第 7 章：泛型 (免費)\n第 8 章：委派與 Lambda 運算式\n第 9 章：事件與發布／訂閱模式\n第 10 章：LINQ 與函數式程式設計\n第 11 章：擴充方法 (免費)\n第 12 章：非同步程式設計\n第 13 章：高效能記憶體操作\n\n作者作品頁 作者網站",
+    "text": "《現代 C# 精要》（Modern C#: What You Need to Know）是《現代 C#》的第二版，書名的改變是為了反映本書的新定位。\n這裡免費公開本書部分章節的全文，試讀範圍比電子書銷售平台更廣，而且會不定期增加免費章節（例如配合 C# 新版本發布）。如欲閱讀全書，請購買正式版。\nTable of contents\n\n關於本書\n關於作者\n第 1 章：基礎 (免費)\n第 2 章：宣告與語法糖 (免費)\n第 3 章：空值安全 (免費)\n第 4 章：不可變設計 (免費)\n第 5 章：錯誤處理與資源管理 (免費)\n第 6 章：模式比對\n第 7 章：泛型 (免費)\n第 8 章：委派與 Lambda 運算式\n第 9 章：事件與發布／訂閱模式\n第 10 章：LINQ 與函數式程式設計\n第 11 章：擴充方法 (免費)\n第 12 章：非同步程式設計\n第 13 章：高效能記憶體操作\n\n\n購買電子書（無 DRM）： Google Play 圖書 讀墨 樂天 Kobo\n作者網站",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>首頁</span>"
     ]
@@ -224,7 +224,7 @@
     "href": "ch02/declarations-and-sugars.html#sec-2-3",
     "title": "第 2 章：宣告與語法糖",
     "section": "2.3 集合運算式（Collection Expressions）",
-    "text": "2.3 集合運算式（Collection Expressions）\nC# 12 引入了集合運算式（Collection Expressions）之後，方括弧 [] 幾乎成了處理集合的首選語法。它不只是把程式碼寫得更短，更重要的是把陣列、List&lt;T&gt;、Span&lt;T&gt;、ReadOnlySpan&lt;T&gt; 這些常見集合的初始化方式統一起來，也讓編譯器更有空間做最佳化。\n先記住一個核心觀念：右邊的 [...] 只是元素序列的寫法；真正決定結果型別的，是左邊或使用情境提供的目標型別（target type）。\n例如，同樣寫成 [1, 2, 3]，在不同的目標型別脈絡下，可以表示 int[]、List&lt;int&gt;，也可以表示 Span&lt;int&gt;。\n\n使用時機\n本節整理集合運算式的幾個常見使用情境，包括：\n\n初始化集合時\n合併多個集合時\n傳遞參數給方法時\n需要空集合時\n寫 Span&lt;T&gt; 或 ReadOnlySpan&lt;T&gt; 的程式時\n\n\n初始化集合\n這是最直觀、也最常見的使用時機。過去初始化不同集合型別時，語法風格差很多；集合運算式把它們統一成同一種寫法。\n以前：\nint[] numbers = new int[] { 1, 2, 3 };\nList&lt;string&gt; strings = new List&lt;string&gt; { \"A\", \"B\", \"C\" };\n使用集合運算式後，可以改成同一種形式：\nint[] numbers = [1, 2, 3];\nList&lt;string&gt; strings = [\"A\", \"B\", \"C\"];\n你可以看到，使用集合運算式的時候，程式碼右邊的寫法相當一致。編譯器會依據左邊的目標型別決定要建立什麼集合。這也是集合運算式最大的價值之一：語法一致，但結果型別仍然保有型別安全與語意清楚的特性。\n\n\n\n\n\n\n\n合併多個集合\n如果你需要把多個集合拼成一個新的集合，集合運算式搭配 .. 展開（spread）語法很好用。它通常比 AddRange、Concat(...).ToArray() 或手動複製更直觀。\nint[] section1 = [1, 2];\nint[] section2 = [5, 6];\n\nint[] allLevels = [0, .. section1, 3, 4, .. section2, 7];\n// 結果: [0, 1, 2, 3, 4, 5, 6, 7]\n這裡的 .. section1 表示把 section1 內的元素逐一展開後放進新的集合運算式中。\n\nNote\n這裡的 .. 是集合運算式中的展開語法；它和第 6 章清單模式（list pattern）裡的 .. 長得一樣，但用途不同。前者是建立新集合時展開元素，後者是模式比對時匹配一段元素。\n\n\n\n傳遞參數給方法\n集合運算式不只出現在變數宣告，也很適合直接出現在方法呼叫處。只要方法參數型別明確，呼叫端通常就可以直接用 []。\nvoid PrintTags(ReadOnlySpan&lt;string&gt; tags)\n{\n    foreach (var tag in tags)\n        Console.WriteLine(tag);\n}\n\nPrintTags([\"C#\", \".NET\", \"Coding\"]);\n這種寫法讓呼叫端只描述「我要哪些元素」，不必暴露中間集合的建構細節。\n此外，從 C# 13／.NET 9 開始，params 參數不再侷限於陣列，而可以使用更多種集合，例如 IList&lt;T&gt;、Span&lt;T&gt;、ReadOnlySpan&lt;T&gt; 等等。因此，集合運算式也可以搭配 params 集合參數，讓呼叫端的寫法更有彈性：\nvoid PrintNumbers(params IList&lt;int&gt; numbers) // 需要 C# 13 / .NET 9+\n{\n    foreach (var n in numbers)\n        Console.WriteLine(n);\n}\n\n// 呼叫端用以下三種寫法都可以\nPrintNumbers(1, 2, 3);\nPrintNumbers([1, 2, 3]);\nPrintNumbers(new List&lt;int&gt; { 1, 2, 3 });\n\n\n需要空集合時\n空集合也是集合運算式很適合發揮的地方。和 new string[0]、new List&lt;int&gt;() 這些舊寫法相比，[] 更直接，也更容易閱讀。\nint[] emptyArray = [];\nList&lt;string&gt; tags = [];\nReadOnlySpan&lt;int&gt; values = [];\n當目標型別明確時，編譯器也可能為空集合選擇更有效率的實作方式；例如目標型別為 T[] 時，編譯器可能使用類似 Array.Empty&lt;T&gt;() 的共享空陣列，而不是每次都配置一個新的空陣列。\n\n\n寫 Span&lt;T&gt; 或 ReadOnlySpan&lt;T&gt; 的程式時\n集合運算式在 Span&lt;T&gt; 與 ReadOnlySpan&lt;T&gt; 的場景尤其常見。這類型別常用於剖析器（parser）、語彙分析器（tokenizer）、資料處理或其他重視效能的程式碼，而集合運算式讓它們的初始化寫法比 stackalloc 更一致、也更容易讀。\n例如：\nReadOnlySpan&lt;byte&gt; header = [0xDE, 0xAD, 0xBE, 0xEF];\n當目標型別是 Span&lt;T&gt; 或 ReadOnlySpan&lt;T&gt; 時，編譯器在資料量夠小且不需要逃逸出當前堆疊框架的前提下，可能採用堆疊配置，但這不保證一定等同於你手寫的 stackalloc。針對此議題，本書第 13 章還會從高效能記憶體操作的角度進一步說明。\n\n原始碼： DemoCollectionExpressions\n\n\n\n\n兩個常見限制\n雖然集合運算式很強大，但有兩個常見限制：一個是無法自行推斷型別，另一個則和 Dictionary 有關。\n\n不能靠 var 自行推斷型別\n下面這種寫法不能通過編譯：\nvar numbers = [1, 2, 3];  // ✗ 編譯失敗\n原因是編譯器不知道你要的是 int[]、List&lt;int&gt;、Span&lt;int&gt;，還是其他受支援的集合型別。你必須把目標型別寫出來：\nint[] numbers = [1, 2, 3];     // OK\nList&lt;int&gt; values = [1, 2, 3];  // OK\n這也再次說明了集合運算式是 target-typed 語法，而不是擁有固定自然型別的 literal。\n\n\nDictionary 初始化的限制\n目前集合運算式主要針對「單一元素型別的序列」設計；對 Dictionary&lt;TKey, TValue&gt; 這種需要鍵值配對語意的型別，並沒有對應的鍵值項目語法。因此，如果你要建立帶初始內容的字典，通常仍要使用傳統的初始化寫法，例如：\nvar scores = new Dictionary&lt;string, int&gt;\n{\n    [\"Alice\"] = 95,\n    [\"Bob\"] = 87\n};\n不過，如果你只是要表示空字典，則仍可寫成：\nDictionary&lt;string, int&gt; emptyScores = [];\n\n\n\n集合運算式引數（C# 15）：預先配置容量與自訂比較器\n在 C# 12 最初引入集合運算式時，開發者最常遇到的實務痛點是：無法向底層建構式傳遞引數。\n舉例來說，當我們使用展開運算子 .. 合併多個陣列至 List&lt;T&gt; 時，若已知資料量很大，卻無法預先指定容量（capacity），List&lt;T&gt; 就會在元素不斷加入時觸發多次內部的陣列重新配置與記憶體拷貝；另外，建立 HashSet&lt;T&gt; 時，也無法在方括弧語法內指定字串大小寫不敏感的自訂比較器（IEqualityComparer&lt;T&gt;）。過去面對這些情況，開發者往往被迫退回傳統的 new List&lt;T&gt;(capacity) 或物件初始設定式。\n為了解決這個遺憾，C# 15 引入了集合運算式引數——首位 with(...) 語法。透過在集合方括弧最前端加上 with(...)，你可以將指定引數轉發給目標集合的建構式：\n// 1. 指定 List 初始容量，避免 spread 展開時動態擴充陣列\nstring[] items = [\"alpha\", \"beta\", \"gamma\"];\nList&lt;string&gt; names = [with(capacity: items.Length * 2), .. items];\n\n// 2. 指定 HashSet 比較器（如不分大小寫比對）\nHashSet&lt;string&gt; tags = [with(StringComparer.OrdinalIgnoreCase), \"C#\", \"c#\", \"dotnet\"];\n// tags 內僅會保留單一 \"C#\" 元素，因為已指定不分大小寫比對\n編譯器在處理帶有 with(...) 的集合運算式時，會優先挑選接收該參數的型別建構式完成實例化，隨後再依序填入後續元素。如此一來，集合運算式既能保有簡潔優雅的統一外觀，又兼顧了效能調校與邏輯客製化的彈性。",
+    "text": "2.3 集合運算式（Collection Expressions）\nC# 12 引入了集合運算式（Collection Expressions）之後，方括弧 [] 幾乎成了處理集合的首選語法。它不只是把程式碼寫得更短，更重要的是把陣列、List&lt;T&gt;、Span&lt;T&gt;、ReadOnlySpan&lt;T&gt; 這些常見集合的初始化方式統一起來，也讓編譯器更有空間做最佳化。\n先記住一個核心觀念：右邊的 [...] 只是元素序列的寫法；真正決定結果型別的，是左邊或使用情境提供的目標型別（target type）。\n例如，同樣寫成 [1, 2, 3]，在不同的目標型別脈絡下，可以表示 int[]、List&lt;int&gt;，也可以表示 Span&lt;int&gt;。\n\n使用時機\n本節整理集合運算式的幾個常見使用情境，包括：\n\n初始化集合時\n合併多個集合時\n傳遞參數給方法時\n需要空集合時\n寫 Span&lt;T&gt; 或 ReadOnlySpan&lt;T&gt; 的程式時\n\n\n初始化集合\n這是最直觀、也最常見的使用時機。過去初始化不同集合型別時，語法風格差很多；集合運算式把它們統一成同一種寫法。\n以前：\nint[] numbers = new int[] { 1, 2, 3 };\nList&lt;string&gt; strings = new List&lt;string&gt; { \"A\", \"B\", \"C\" };\n使用集合運算式後，可以改成同一種形式：\nint[] numbers = [1, 2, 3];\nList&lt;string&gt; strings = [\"A\", \"B\", \"C\"];\n你可以看到，使用集合運算式的時候，程式碼右邊的寫法相當一致。編譯器會依據左邊的目標型別決定要建立什麼集合。這也是集合運算式最大的價值之一：語法一致，但結果型別仍然保有型別安全與語意清楚的特性。\n\n\n\n\n\n\n\n合併多個集合\n如果你需要把多個集合拼成一個新的集合，集合運算式搭配 .. 展開（spread）語法很好用。它通常比 AddRange、Concat(...).ToArray() 或手動複製更直觀。\nint[] section1 = [1, 2];\nint[] section2 = [5, 6];\n\nint[] allLevels = [0, .. section1, 3, 4, .. section2, 7];\n// 結果: [0, 1, 2, 3, 4, 5, 6, 7]\n這裡的 .. section1 表示把 section1 內的元素逐一展開後放進新的集合運算式中。\n\nNote\n這裡的 .. 是集合運算式中的展開語法；它和第 6 章清單模式（list pattern）裡的 .. 長得一樣，但用途不同。前者是建立新集合時展開元素，後者是模式比對時匹配一段元素。\n\n\n\n傳遞參數給方法\n集合運算式不只出現在變數宣告，也很適合直接出現在方法呼叫處。只要方法參數型別明確，呼叫端通常就可以直接用 []。\nvoid PrintTags(ReadOnlySpan&lt;string&gt; tags)\n{\n    foreach (var tag in tags)\n        Console.WriteLine(tag);\n}\n\nPrintTags([\"C#\", \".NET\", \"Coding\"]);\n這種寫法讓呼叫端只描述「我要哪些元素」，不必暴露中間集合的建構細節。\n此外，從 C# 13／.NET 9 開始，params 參數不再侷限於陣列，而可以使用更多種集合，例如 IList&lt;T&gt;、Span&lt;T&gt;、ReadOnlySpan&lt;T&gt; 等等。因此，集合運算式也可以搭配 params 集合參數，讓呼叫端的寫法更有彈性：\nvoid PrintNumbers(params IList&lt;int&gt; numbers) // 需要 C# 13 / .NET 9+\n{\n    foreach (var n in numbers)\n        Console.WriteLine(n);\n}\n\n// 呼叫端用以下三種寫法都可以\nPrintNumbers(1, 2, 3);\nPrintNumbers([1, 2, 3]);\nPrintNumbers(new List&lt;int&gt; { 1, 2, 3 });\n\n\n需要空集合時\n空集合也是集合運算式很適合發揮的地方。和 new string[0]、new List&lt;int&gt;() 這些舊寫法相比，[] 更直接，也更容易閱讀。\nint[] emptyArray = [];\nList&lt;string&gt; tags = [];\nReadOnlySpan&lt;int&gt; values = [];\n當目標型別明確時，編譯器也可能為空集合選擇更有效率的實作方式；例如目標型別為 T[] 時，編譯器可能使用類似 Array.Empty&lt;T&gt;() 的共享空陣列，而不是每次都配置一個新的空陣列。\n\n\n寫 Span&lt;T&gt; 或 ReadOnlySpan&lt;T&gt; 的程式時\n集合運算式在 Span&lt;T&gt; 與 ReadOnlySpan&lt;T&gt; 的場景尤其常見。這類型別常用於剖析器（parser）、語彙分析器（tokenizer）、資料處理或其他重視效能的程式碼，而集合運算式讓它們的初始化寫法比 stackalloc 更一致、也更容易讀。\n例如：\nReadOnlySpan&lt;byte&gt; header = [0xDE, 0xAD, 0xBE, 0xEF];\n當目標型別是 Span&lt;T&gt; 或 ReadOnlySpan&lt;T&gt; 時，編譯器在資料量夠小且不需要逃逸出當前堆疊框架的前提下，可能採用堆疊配置，但這不保證一定等同於你手寫的 stackalloc。針對此議題，本書第 13 章還會從高效能記憶體操作的角度進一步說明。\n\n原始碼： DemoCollectionExpressions\n\n\n\n\n集合運算式引數（C# 15）\n前面的範例著重於指定集合元素。有時候，我們還需要控制集合的建立方式，例如指定初始容量（capacity），或提供自訂比較器。C# 15 的集合運算式引數讓這些需求也能寫在方括弧內。\n透過在集合方括弧最前端加上 with(...)，你可以指定建立集合時使用的引數：\n// 1. 指定 List 初始容量，避免 spread 展開時動態擴充陣列\nstring[] items = [\"alpha\", \"beta\", \"gamma\"];\nList&lt;string&gt; names = [with(capacity: items.Length * 2), .. items];\n\n// 2. 指定 HashSet 比較器（如不分大小寫比對）\nHashSet&lt;string&gt; tags = [with(StringComparer.OrdinalIgnoreCase), \"C#\", \"c#\", \"dotnet\"];\n// tags 內僅會保留單一 \"C#\" 元素，因為已指定不分大小寫比對\n編譯器在處理帶有 with(...) 的集合運算式時，會優先挑選接收該參數的型別建構式完成實例化，隨後再依序填入後續元素。如此一來，集合運算式既能保有簡潔優雅的統一外觀，又兼顧了效能調校與邏輯客製化的彈性。\n\n\n兩個常見限制\n雖然集合運算式很強大，但有兩個常見限制：一個是無法自行推斷型別，另一個則和 Dictionary 有關。\n\n不能靠 var 自行推斷型別\n下面這種寫法不能通過編譯：\nvar numbers = [1, 2, 3];  // ✗ 編譯失敗\n原因是編譯器不知道你要的是 int[]、List&lt;int&gt;、Span&lt;int&gt;，還是其他受支援的集合型別。你必須把目標型別寫出來：\nint[] numbers = [1, 2, 3];     // OK\nList&lt;int&gt; values = [1, 2, 3];  // OK\n這也再次說明了集合運算式是 target-typed 語法，而不是擁有固定自然型別的 literal。\n\n\nDictionary 初始化的限制\n目前集合運算式主要針對「單一元素型別的序列」設計；對 Dictionary&lt;TKey, TValue&gt; 這種需要鍵值配對語意的型別，並沒有對應的鍵值項目語法。因此，如果你要建立帶初始內容的字典，通常仍要使用傳統的初始化寫法，例如：\nvar scores = new Dictionary&lt;string, int&gt;\n{\n    [\"Alice\"] = 95,\n    [\"Bob\"] = 87\n};\n不過，如果你只是要表示空字典，則仍可寫成：\nDictionary&lt;string, int&gt; emptyScores = [];",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>第 2 章：宣告與語法糖</span>"
     ]
@@ -584,7 +584,7 @@
     "href": "ch06/pattern-matching.html",
     "title": "第 6 章：模式比對",
     "section": "",
-    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n作者作品頁",
+    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n\n購買電子書（無 DRM）： Google Play 圖書 讀墨 樂天 Kobo",
     "crumbs": [
       "第 6 章：模式比對"
     ]
@@ -714,7 +714,7 @@
     "href": "ch08/delegates-and-lambda.html",
     "title": "第 8 章：委派與 Lambda 運算式",
     "section": "",
-    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n作者作品頁",
+    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n\n購買電子書（無 DRM）： Google Play 圖書 讀墨 樂天 Kobo",
     "crumbs": [
       "第 8 章：委派與 Lambda 運算式"
     ]
@@ -724,7 +724,7 @@
     "href": "ch09/events-and-pubsub.html",
     "title": "第 9 章：事件與發布／訂閱模式",
     "section": "",
-    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n作者作品頁",
+    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n\n購買電子書（無 DRM）： Google Play 圖書 讀墨 樂天 Kobo",
     "crumbs": [
       "第 9 章：事件與發布／訂閱模式"
     ]
@@ -734,7 +734,7 @@
     "href": "ch10/linq-and-functional.html",
     "title": "第 10 章：LINQ 與函數式程式設計",
     "section": "",
-    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n作者作品頁",
+    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n\n購買電子書（無 DRM）： Google Play 圖書 讀墨 樂天 Kobo",
     "crumbs": [
       "第 10 章：LINQ 與函數式程式設計"
     ]
@@ -844,7 +844,7 @@
     "href": "ch12/async-programming.html",
     "title": "第 12 章：非同步程式設計",
     "section": "",
-    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n作者作品頁",
+    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n\n購買電子書（無 DRM）： Google Play 圖書 讀墨 樂天 Kobo",
     "crumbs": [
       "第 12 章：非同步程式設計"
     ]
@@ -854,7 +854,7 @@
     "href": "ch13/high-performance-memory.html",
     "title": "第 13 章：高效能記憶體操作",
     "section": "",
-    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n作者作品頁",
+    "text": "本章屬於正式版內容，免費試讀版暫不公開全文。\n完整內容請參閱正式出版版本。\n\n購買電子書（無 DRM）： Google Play 圖書 讀墨 樂天 Kobo",
     "crumbs": [
       "第 13 章：高效能記憶體操作"
     ]
