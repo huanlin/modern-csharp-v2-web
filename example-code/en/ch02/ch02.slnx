@@ -13,4 +13,5 @@
   <Project Path="DemoObjectInit/DemoObjectInit.csproj" />
   <Project Path="DemoRawStringLiterals/DemoRawStringLiterals.csproj" />
   <Project Path="DemoStringInterpolation/DemoStringInterpolation.csproj" />
+  <Project Path="DemoLabeledJumps/DemoLabeledJumps.csproj" />
 </Solution>
