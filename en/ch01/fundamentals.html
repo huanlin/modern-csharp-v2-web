@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 1: Fundamentals – The C# You Need to Know (beta)</title>
+<title>Chapter 1: Fundamentals – Modern C#: What You Need to Know (beta)</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -140,9 +140,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">The C# You Need to Know (beta)</a> 
+      <a href="../">Modern C#: What You Need to Know (beta)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/huanlin/the-csharp-you-need-to-know" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/huanlin/modern-csharp-v2-web" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -288,7 +288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">Glossary</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -307,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 5, 2026</p>
+      <p class="date-modified">September 6, 2026</p>
     </div>
   </div>
     
@@ -606,7 +606,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>a<span class="op">);</span> <span class="co">// Prints 10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Line 3 changes <code>b</code>, but <code>a</code> remains unchanged because <code>int</code> is a value type.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch01/DemoValueTypes">DemoValueTypes</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoValueTypes">DemoValueTypes</a></p>
 </blockquote>
 </section>
 <section id="reference-types" class="level3">
@@ -640,7 +640,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-4"><a href="#cb8-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>user1<span class="op">.</span><span class="fu">Name</span><span class="op">);</span> <span class="co">// Prints Bob</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Therefore, when you modify <code>Name</code> through <code>user2</code>, <code>user1</code> sees the modified state of that same object.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch01/DemoReferenceTypes">DemoReferenceTypes</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoReferenceTypes">DemoReferenceTypes</a></p>
 </blockquote>
 </section>
 <section id="ask-ai-common-type-gotchas" class="level3">
@@ -753,7 +753,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-5"><a href="#cb13-5" aria-label="5"></a><span class="co">// Modern approach: string interpolation (often optimized by the compiler)</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-label="6"></a><span class="dt">string</span> s2 <span class="op">=</span> $<span class="st">"Score: {x}"</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch01/DemoBoxingUnboxing">DemoBoxingUnboxing</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoBoxingUnboxing">DemoBoxingUnboxing</a></p>
 </blockquote>
 <p>Whether string interpolation causes boxing depends heavily on your compiler version and the specific code. In modern C# and .NET, interpolating value types (like <code>int</code>) is highly optimized and typically avoids falling back to the boxing <code>string.Format(object, ...)</code> path, though you may still incur string allocations.</p>
 <p>If you have heavy string formatting on a performance-critical hot path, more reliable optimization approaches include:</p>
@@ -798,7 +798,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-20"><a href="#cb14-20" aria-label="20"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>team1<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Count</span><span class="op">);</span> <span class="co">// Prints 3 (affected!)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This demonstrates a classic shallow-copy bug: the internal <code>List</code> is not duplicated; only the reference to it is. As a result, adding an element to <code>team2.Members</code> inadvertently mutates <code>team1.Members</code>.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch01/DemoShallowCopy">DemoShallowCopy</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoShallowCopy">DemoShallowCopy</a></p>
 </blockquote>
 <p>Early .NET versions introduced the <code>ICloneable</code> interface as the standard approach for object copying. However, its major flaw is semantic ambiguity: <code>Clone()</code> never clarifies whether it returns a shallow or a deep copy. When calling a third-party <code>Clone()</code> method, you have to dig through documentation to find out what it actually does.</p>
 <p>Because of this, even though <code>ICloneable</code> is not formally obsolete, it is usually a poor choice for a public cloning contract. In practice, if a type should expose copying behavior, it is better to use explicitly named methods such as <code>ShallowCopy()</code> or <code>DeepCopy()</code>, as shown earlier.</p>
@@ -844,7 +844,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>While not mandated by the language, copy constructors are a widely accepted practice. Their intent may seem less explicit than a method named <code>DeepCopy()</code>, but they offer strong typing and align well with modern .NET design. In fact, C# 9 <code>record</code> types inherently rely on compiler-generated copy constructors.</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch01/DemoDeepCopy">DemoDeepCopy</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoDeepCopy">DemoDeepCopy</a></p>
 </blockquote>
 <p>Note that <code>new List&lt;string&gt;(original.Members)</code> creates a new list container. Because the elements are immutable <code>string</code> values, that alone is enough to achieve the isolation this example needs. If the list contained mutable reference-type elements instead, for example, <code>List&lt;Person&gt;</code>, then <code>new List&lt;Person&gt;(original.Members)</code> would copy only the container, while every <code>Person</code> reference inside would still point to the original objects. In that case, you’d need to copy each <code>Person</code> individually to achieve true isolation.</p>
 <p>As a general rule, if an object graph contains <strong>nested, mutable reference types</strong> (for example, a <code>Team</code> contains a <code>Manager</code>, which in turn references other objects), a true deep copy requires recursively creating new instances at every level. In practice, developers often use serialization and deserialization (e.g., via <code>System.Text.Json</code>) or third-party mapping libraries to automate complex deep copies.</p>
@@ -900,7 +900,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-13"><a href="#cb19-13" aria-label="13"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// Prints "A" (unaffected)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This time the output is <code>A</code>, showing that <code>deepCopy</code> and <code>original</code> are two independent arrays.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch01/DemoDeepCopyArray">DemoDeepCopyArray</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoDeepCopyArray">DemoDeepCopyArray</a></p>
 </blockquote>
 </section>
 </section>
@@ -1514,7 +1514,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "huanlin/the-csharp-you-need-to-know";
+    script.dataset.repo = "huanlin/modern-csharp-v2-web";
     script.dataset.repoId = "R_kgDOTcTL7Q";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOTcTL7c4DBpWN";
@@ -1547,4 +1547,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

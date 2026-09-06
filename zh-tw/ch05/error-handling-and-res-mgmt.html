@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>第 5 章：錯誤處理與資源管理 – The C# You Need to Know (beta)</title>
+<title>第 5 章：錯誤處理與資源管理 – 現代 C# 精要 (beta)</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -140,9 +140,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">The C# You Need to Know (beta)</a> 
+      <a href="../">現代 C# 精要 (beta)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/huanlin/the-csharp-you-need-to-know" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/huanlin/modern-csharp-v2-web" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -279,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#本章重點回顧" id="toc-本章重點回顧" class="nav-link" data-scroll-target="#本章重點回顧">本章重點回顧</a></li>
   <li><a href="#本章術語" id="toc-本章術語" class="nav-link" data-scroll-target="#本章術語">本章術語</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -298,7 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-05</p>
+      <p class="date-modified">2026-09-06</p>
     </div>
   </div>
     
@@ -475,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-11"><a href="#cb6-11" aria-label="11"></a>                <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentNullException</span><span class="op">(</span><span class="fu">nameof</span><span class="op">(</span>userInput<span class="op">));</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這些寫法的共同點是：例外不再只能出現在獨立的 <code>throw</code> 陳述式中，而是可以放進需要產生值的地方。對於「值不存在就不該繼續」的檢查，這能讓失敗條件貼近實際使用的位置。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch05/DemoThrowExpressions">DemoThrowExpressions</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch05/DemoThrowExpressions">DemoThrowExpressions</a></p>
 </blockquote>
 <p><br></p>
 <blockquote class="blockquote">
@@ -604,7 +604,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>即使在 <code>try</code> 區塊中的例外沒有被任何 <code>catch</code> 捕捉，<code>finally</code> 區塊仍然會執行，之後例外會繼續往外層拋出。這等於是在語言層級確保了釋放資源的動作一定會執行（除非在執行到 <code>finally</code> 區塊之前，應用程式就被強制中止）。</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch05/DemoExceptionHandling">DemoExceptionHandling</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch05/DemoExceptionHandling">DemoExceptionHandling</a></p>
 </blockquote>
 </section>
 <section id="finalizer終結器最後的防線" class="level3">
@@ -701,7 +701,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-7"><a href="#cb15-7" aria-label="7"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這段程式碼的重點在於：離開作用域時，編譯器會安排呼叫 <code>DisposeAsync</code>，而不是同步的 <code>Dispose</code>。如果你正在設計會進行非同步清理的型別，就應該實作 <code>IAsyncDisposable</code>，並讓使用者能透過 <code>await using</code> 釋放資源。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch05/DemoUsingStatements">DemoUsingStatements</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch05/DemoUsingStatements">DemoUsingStatements</a></p>
 </blockquote>
 <p>請特別注意：如果你在 <code>await using</code> 的外層又包了一層只實作 <code>IDisposable</code> 的包裝器（例如預設建構方式的 <code>StreamReader</code>），那個包裝器可能會先以同步方式關閉底層資源，因為它預設會連帶釋放自己包住的串流。</p>
 <p>若你真的想讓底層 <code>FileStream</code> 走 <code>DisposeAsync</code>，就要讓包裝器保持底層串流開啟（例如使用 <code>leaveOpen: true</code>），或者乾脆直接對底層資源使用 <code>await using</code>。</p>
@@ -750,7 +750,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-33"><a href="#cb16-33" aria-label="33"></a>    <span class="op">}</span></span>
 <span id="cb16-34"><a href="#cb16-34" aria-label="34"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch05/DemoDisposePattern">DemoDisposePattern</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch05/DemoDisposePattern">DemoDisposePattern</a></p>
 </blockquote>
 <p>這段程式碼看起來比前面的 <code>using</code> 範例長很多，因為它處理的是「型別本身如何被正確釋放」。讀這個模式時，可以先留意幾個關鍵點：</p>
 <ol type="1">
@@ -836,7 +836,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>性能計時和追蹤</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch05/DemoAnonymousDisposal">DemoAnonymousDisposal</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch05/DemoAnonymousDisposal">DemoAnonymousDisposal</a></p>
 </blockquote>
 </section>
 </section>
@@ -1530,7 +1530,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "huanlin/the-csharp-you-need-to-know";
+    script.dataset.repo = "huanlin/modern-csharp-v2-web";
     script.dataset.repoId = "R_kgDOTcTL7Q";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOTcTL7c4DBpWN";
@@ -1563,4 +1563,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>

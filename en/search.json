@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "The C# You Need to Know (beta)",
+    "title": "Modern C#: What You Need to Know (beta)",
     "section": "",
-    "text": "The C# You Need to Know is the second edition of Modern C#. The change in title reflects the book’s new direction.\nThis site provides the full text of selected chapters for free. It includes more material than the previews offered by ebook retailers, and additional chapters may be made available for free from time to time—for example, to coincide with new C# releases. To read the entire book, please purchase the full edition.\nTable of contents\n\nAbout this book\nAbout the author\nChapter 1: Fundamentals (Free)\nChapter 2: Declarations and syntactic sugar (Free)\nChapter 3: Null safety (Free)\nChapter 4: Immutable design (Free)\nChapter 5: Error handling and resource management (Free)\nChapter 6: Pattern matching\nChapter 7: Generics (Free)\nChapter 8: Delegates and lambda expressions\nChapter 9: Events and the publish-subscribe pattern\nChapter 10: LINQ and functional programming\nChapter 11: Extension methods (Free)\nChapter 12: Asynchronous programming\nChapter 13: High-performance memory operations\n\nAuthor’s works Author’s website",
+    "text": "Modern C#: What You Need to Know is the second edition of Modern C#. The change in title reflects the book’s new direction.\nThis site provides the full text of selected chapters for free. It includes more material than the previews offered by ebook retailers, and additional chapters may be made available for free from time to time—for example, to coincide with new C# releases. To read the entire book, please purchase the full edition.\nTable of contents\n\nAbout this book\nAbout the author\nChapter 1: Fundamentals (Free)\nChapter 2: Declarations and syntactic sugar (Free)\nChapter 3: Null safety (Free)\nChapter 4: Immutable design (Free)\nChapter 5: Error handling and resource management (Free)\nChapter 6: Pattern matching\nChapter 7: Generics (Free)\nChapter 8: Delegates and lambda expressions\nChapter 9: Events and the publish-subscribe pattern\nChapter 10: LINQ and functional programming\nChapter 11: Extension methods (Free)\nChapter 12: Asynchronous programming\nChapter 13: High-performance memory operations\n\nAuthor’s works Author’s website",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Home</span>"
     ]
@@ -64,7 +64,7 @@
     "href": "ch00/about-book.html#sample-code",
     "title": "About this book",
     "section": "Sample code",
-    "text": "Sample code\nThe sample code for this book is hosted on GitHub:\nhttps://github.com/huanlin/csharp-book-support",
+    "text": "Sample code\nThe sample code for this book is hosted on GitHub:\nhttps://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>About this book</span>"
     ]

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>第 11 章：擴充方法 – The C# You Need to Know (beta)</title>
+<title>第 11 章：擴充方法 – 現代 C# 精要 (beta)</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -140,9 +140,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">The C# You Need to Know (beta)</a> 
+      <a href="../">現代 C# 精要 (beta)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/huanlin/the-csharp-you-need-to-know" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/huanlin/modern-csharp-v2-web" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -298,7 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#本章重點回顧" id="toc-本章重點回顧" class="nav-link" data-scroll-target="#本章重點回顧">本章重點回顧</a></li>
   <li><a href="#本章術語" id="toc-本章術語" class="nav-link" data-scroll-target="#本章術語">本章術語</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -317,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-05</p>
+      <p class="date-modified">2026-09-06</p>
     </div>
   </div>
     
@@ -382,7 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoWhyExtension">DemoWhyExtension</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoWhyExtension">DemoWhyExtension</a></p>
 </blockquote>
 </section>
 </section>
@@ -581,7 +581,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>真正的效能關鍵仍在方法實作</strong>：擴充方法是否夠快，主要還是看你的演算法、配置記憶體的方式，以及是否重複列舉資料。</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoExtensionSyntax">DemoExtensionSyntax</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionSyntax">DemoExtensionSyntax</a></p>
 </blockquote>
 </section>
 </section>
@@ -632,7 +632,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-3"><a href="#cb19-3" aria-label="3"></a><span class="dt">string</span> reversed <span class="op">=</span> text<span class="op">.</span><span class="fu">Reverse</span><span class="op">();</span>   <span class="co">// 擴充方法</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>第 2 行的 <code>IsEmpty</code> 是擴充屬性，呼叫時不需要括號，就像存取一般屬性一樣。而 <code>Reverse()</code> 是擴充方法，需要括號。這是 C# 14 新語法的優勢：以前用傳統語法無法定義擴充屬性，只能寫成 <code>text.IsEmpty()</code>；現在可以更自然地用 <code>text.IsEmpty</code> 屬性語法。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoExtensionBlock">DemoExtensionBlock</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionBlock">DemoExtensionBlock</a></p>
 </blockquote>
 <p><code>extension</code> 區塊也可以搭配泛型與 <code>where</code> 約束。若要替可能含有 <code>null</code> 的序列加入過濾方法，可以這樣寫：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
@@ -699,7 +699,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-8"><a href="#cb23-8" aria-label="8"></a><span class="dt">var</span> merged <span class="op">=</span> list1 <span class="op">+</span> list2<span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這讓你可以為介面新增靜態方法。雖然 C# 11+ 已支援靜態抽象與靜態虛擬介面成員，但那需要修改介面定義；而擴充語法則可以在不修改原始型別的情況下達成類似效果。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoExtensionStatic">DemoExtensionStatic</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionStatic">DemoExtensionStatic</a></p>
 </blockquote>
 <p>下表整理了傳統擴充方法跟擴充成員的重點差異：</p>
 <table class="caption-top table">
@@ -772,7 +772,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-28"><a href="#cb24-28" aria-label="28"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"本月第一天：{today.FirstDayOfMonth:yyyy-MM-dd}"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡刻意將方法命名為 <code>ToSortableDateTimeString()</code>，因為 <code>s</code> 標準格式會輸出像 <code>2026-03-25T08:30:00</code> 這樣的可排序字串。它的外觀符合 ISO 8601 常見格式，但<strong>不會保留時區或 <code>DateTime.Kind</code> 資訊</strong>。如果你的需求是序列化後可 round-trip 還原，通常應優先考慮 <code>"O"</code>（round-trip）格式。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoExtensionMembers">DemoExtensionMembers</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionMembers">DemoExtensionMembers</a></p>
 </blockquote>
 <p><br></p>
 <blockquote class="blockquote">
@@ -843,7 +843,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb27-20"><a href="#cb27-20" aria-label="20"></a><span class="dt">bool</span> test1 <span class="op">=</span> <span class="st">"Perth"</span><span class="op">.</span><span class="fu">IsCapitalized</span><span class="op">();</span>  <span class="co">// 呼叫 StringHelper 的版本</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>StringHelper</code> 和 <code>ObjectHelper</code> 都有定義 <code>IsCapitalized</code> 擴充方法，但它們擴充的對象不一樣：一個是 <code>string</code>，一個是 <code>object</code>。由於 <code>object</code> 型別比較泛化，<code>string</code> 是更具體的型別，所以編譯器在替最後一行程式碼決定該使用哪個方法時，會選擇 <code>StringHelper</code> 的版本。你可以把它理解成「在多個可行候選中，優先挑選最貼近接收者真實型別的那一個」，這樣呼叫結果通常更直觀。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoExtensionConflicts">DemoExtensionConflicts</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionConflicts">DemoExtensionConflicts</a></p>
 </blockquote>
 <p>以下整理編譯器在碰到相同名稱的擴充方法時的選擇優先順序：</p>
 <ol type="1">
@@ -1012,7 +1012,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>這個模式在寫 LINQ 擴充方法時特別常見。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoLocalMethods">DemoLocalMethods</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoLocalMethods">DemoLocalMethods</a></p>
 </blockquote>
 </section>
 </section>
@@ -1049,7 +1049,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>這種寫法的好處是程式碼從上到下呈現完整流程：建立使用者 → log → 轉換為 DTO → log。如果用傳統寫法，通常會需要多個中間變數和多行程式碼。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoFluentAPI">DemoFluentAPI</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoFluentAPI">DemoFluentAPI</a></p>
 </blockquote>
 </section>
 <section id="擴充-linq" class="level3">
@@ -1110,7 +1110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb35-7"><a href="#cb35-7" aria-label="7"></a><span class="dt">var</span> sampled <span class="op">=</span> Enumerable<span class="op">.</span><span class="fu">Range</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">12</span><span class="op">)</span></span>
 <span id="cb35-8"><a href="#cb35-8" aria-label="8"></a>    <span class="op">.</span><span class="fu">TakeEvery</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span>                      <span class="co">// 1, 4, 7, 10</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoLinqExtensions">DemoLinqExtensions</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoLinqExtensions">DemoLinqExtensions</a></p>
 </blockquote>
 <p><strong>Note:</strong> .NET 6+ 已內建 <code>Chunk</code>，概念上與此處的 <code>Batch</code> 類似。如果你的需求只是把序列切成固定大小的區塊，通常可優先考慮直接使用 <code>System.Linq.Enumerable.Chunk</code>。不過兩者回傳型別並不完全相同：此處的 <code>Batch</code> 每一批回傳的是 <code>List&lt;T&gt;</code>，而 <code>Chunk</code> 回傳的是 <code>T[]</code>；在大多數情境下可直接替換，但若你仰賴子集合的具體型別或可變性，仍需留意差異。</p>
 </section>
@@ -1138,7 +1138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb36-18"><a href="#cb36-18" aria-label="18"></a><span class="co">// Hello 2</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這種寫法帶有一點技巧性，適合用在明確且小範圍的情境；若用得太廣，閱讀程式碼時就不容易預期哪些型別可以用於 <code>foreach</code>，以及迭代時會產生什麼結果。</p>
 <blockquote class="blockquote">
-<p><strong>範例程式：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoForeachDuckTyping">DemoForeachDuckTyping</a></p>
+<p><strong>範例程式：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoForeachDuckTyping">DemoForeachDuckTyping</a></p>
 </blockquote>
 </section>
 <section id="智慧參數驗證-callerargumentexpression" class="level3">
@@ -1165,7 +1165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb38-4"><a href="#cb38-4" aria-label="4"></a><span class="co">// 訊息包含參數名稱："不可為負數 (Parameter 'age')"</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>如果沒有這個 attribute，呼叫時通常得寫 <code>age.ThrowIfNegative(nameof(age))</code>；現在編譯器會自動幫你填入 <code>"age"</code>（即呼叫端的變數名稱或運算式字串）。這也是 .NET 6+ 許多標準 API（如 <code>ArgumentNullException.ThrowIfNull</code>）背後的實作原理。</p>
 <blockquote class="blockquote">
-<p><strong>範例程式：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch11/DemoCallerArgumentExpression">DemoCallerArgumentExpression</a></p>
+<p><strong>範例程式：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoCallerArgumentExpression">DemoCallerArgumentExpression</a></p>
 </blockquote>
 </section>
 <section id="ai-協作重構為擴充方法" class="level3">
@@ -1803,7 +1803,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "huanlin/the-csharp-you-need-to-know";
+    script.dataset.repo = "huanlin/modern-csharp-v2-web";
     script.dataset.repoId = "R_kgDOTcTL7Q";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOTcTL7c4DBpWN";
@@ -1836,4 +1836,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>

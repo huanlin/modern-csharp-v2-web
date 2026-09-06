@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>第 4 章：不可變設計 – The C# You Need to Know (beta)</title>
+<title>第 4 章：不可變設計 – 現代 C# 精要 (beta)</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -140,9 +140,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">The C# You Need to Know (beta)</a> 
+      <a href="../">現代 C# 精要 (beta)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/huanlin/the-csharp-you-need-to-know" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/huanlin/modern-csharp-v2-web" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -309,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#本章重點回顧" id="toc-本章重點回顧" class="nav-link" data-scroll-target="#本章重點回顧">本章重點回顧</a></li>
   <li><a href="#本章術語" id="toc-本章術語" class="nav-link" data-scroll-target="#本章術語">本章術語</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -328,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-05</p>
+      <p class="date-modified">2026-09-06</p>
     </div>
   </div>
     
@@ -501,7 +501,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-14"><a href="#cb7-14" aria-label="14"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"{list[0].X}, {list[0].Y}"</span><span class="op">);</span> <span class="co">// "10, 20"</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>對於陣列，直接對索引存取的元素呼叫方法是有效的，因為陣列的索引子在 C# 語言規格中是「可取址的變數」（但如果陣列被傳遞出去，這種副作用可能很危險）。可是在透過 <code>IList&lt;T&gt;</code> 介面來存取泛型串列的情況，索引子回傳的是 struct 的<strong>複本</strong>，所以 <code>Move</code> 方法修改的只是一個暫時的複本，原本在 list 中的資料並未被改變。這就是所謂的「靜默失敗」（silent failure），是最難除錯的一類問題。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoMutablePoint">DemoMutablePoint</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoMutablePoint">DemoMutablePoint</a></p>
 </blockquote>
 <p>還有一種情況可能也令人困惑：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="co">// ...（延續前面範例，省略重複的程式碼）</span></span>
@@ -544,7 +544,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-16"><a href="#cb10-16" aria-label="16"></a>    <span class="op">}</span></span>
 <span id="cb10-17"><a href="#cb10-17" aria-label="17"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoReadonlyStruct">DemoReadonlyStruct</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoReadonlyStruct">DemoReadonlyStruct</a></p>
 <p>相關微軟文件：<a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct">The <code>struct</code> type</a>、 <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/readonly">readonly (C# reference)</a></p>
 </blockquote>
 <p>到這裡，設計一個唯讀結構看起來相當直觀。</p>
@@ -588,7 +588,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>丟棄這個副本（因為 <code>PrintInfo</code> 是 <code>readonly</code>，不能保留修改）。</li>
 </ol>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoReadonlyMethod">DemoReadonlyMethod</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoReadonlyMethod">DemoReadonlyMethod</a></p>
 </blockquote>
 </section>
 <section id="補充readonly-欄位與-in-參數" class="level4">
@@ -640,7 +640,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-4"><a href="#cb13-4" aria-label="4"></a>    <span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>或者乾脆把整個 <code>Measurement</code> 宣告成 <code>readonly struct</code>，就能避免在此過程當中觸發編譯器的防禦性複製。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoDefensiveCopy">DemoDefensiveCopy</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoDefensiveCopy">DemoDefensiveCopy</a></p>
 <p><strong>延伸閱讀</strong></p>
 <p>微軟文件 Structure types (C# reference) 的 <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-instance-members">readonly instance members</a> 小節提到：在 <code>readonly</code> instance 成員中，如果呼叫了非 <code>readonly</code> 成員，編譯器會先建立結構的副本，再在副本上呼叫該成員，因此原始執行個體不會被修改。</p>
 <p>這段話說明了防禦性複製的核心機制，而 <code>readonly</code> 欄位與 <code>in</code> 參數則是同樣原理在其他唯讀脈絡中的表現。</p>
@@ -900,7 +900,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>record</code> 的值相等性並不是「遞迴式的深層比較」。如果某個成員本身是陣列、集合或其他參考型別，該成員仍會按照它自己的相等性規則來比較。例如兩個內容相同、但分別建立的陣列，預設仍可能被視為不同的值。</p>
 </blockquote>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoRecord">DemoRecord</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoRecord">DemoRecord</a></p>
 </blockquote>
 <p>對於以資料為核心的型別，record 的比較行為通常更符合需求：兩個實例是否相等，取決於其資料成員各自的相等性規則，而不是物件位址。</p>
 <p>這個特性讓 record 適合用於：</p>
@@ -1115,7 +1115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>不過要留意：<code>required</code> 保證的是「必須初始化」，不等於「一定不是 null」。若屬性型別是不可為 null 的參考型別，編譯器通常會透過 nullable reference types 提示警告；若要嚴格防止無效值，仍應搭配適當的驗證邏輯。</p>
 <p>這個組合（<code>required</code> + <code>init</code>）提供了很實用的折衷：既有初始化時的語言層級檢查，又保留物件初始設定式的便利性。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoInitAccessor">DemoInitAccessor</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoInitAccessor">DemoInitAccessor</a></p>
 </blockquote>
 </section>
 </section>
@@ -1212,7 +1212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb45-24"><a href="#cb45-24" aria-label="24"></a><span class="dt">var</span> alice <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span><span class="op">,</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span></span>
 <span id="cb45-25"><a href="#cb45-25" aria-label="25"></a><span class="dt">var</span> bob <span class="op">=</span> alice<span class="op">.</span><span class="fu">Copy</span><span class="op">(</span>name<span class="op">:</span> <span class="st">"Bob"</span><span class="op">);</span>  <span class="co">// 一般 class 要明確呼叫複製方法</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoWithExpression">DemoWithExpression</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoWithExpression">DemoWithExpression</a></p>
 </blockquote>
 </section>
 </section>
@@ -1314,7 +1314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb51-8"><a href="#cb51-8" aria-label="8"></a>    <span class="kw">protected</span> <span class="fu">Point</span><span class="op">(</span>Point other<span class="op">)</span> <span class="op">=&gt;</span> <span class="op">(</span>X<span class="op">,</span> Y<span class="op">)</span> <span class="op">=</span> other<span class="op">;</span></span>
 <span id="cb51-9"><a href="#cb51-9" aria-label="9"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoLazyEvaluation">DemoLazyEvaluation</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoLazyEvaluation">DemoLazyEvaluation</a></p>
 </blockquote>
 <p>這種方式的優點是可以使用主要建構式語法，程式碼更簡潔。缺點是每次使用 <code>with</code> 運算式建立新實例時，由於沒有複製 private 欄位，快取都會被重置（歸零）——即使修改的屬性與計算無關也是如此。</p>
 <blockquote class="blockquote">
@@ -1374,7 +1374,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>可預測性</strong>：函式不會有副作用，更容易理解和測試</li>
 </ol>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoOrderModel">DemoOrderModel</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoOrderModel">DemoOrderModel</a></p>
 </blockquote>
 <section id="ai-協作重構為不可變設計" class="level3">
 <h3 class="anchored" data-anchor-id="ai-協作重構為不可變設計">AI 協作：重構為不可變設計</h3>
@@ -1504,7 +1504,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>規則：</strong> 如果兩個物件被視為相等（<code>Equals</code> 回傳 true），它們的 <code>GetHashCode</code> 必須回傳相同的值。</p>
 <p>如果你違反了這個規則，你的物件在放入 <code>Dictionary</code> 後可能永遠「找不回來」，導致極難除錯的 Bug。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoEquality">DemoEquality</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoEquality">DemoEquality</a></p>
 </blockquote>
 </section>
 </section>
@@ -1568,7 +1568,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>所以，如果你的集合資料大多時候只是用來讀取，建議優先選擇 <code>ImmutableArray&lt;T&gt;</code>。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch04/DemoImmutableCollections">DemoImmutableCollections</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoImmutableCollections">DemoImmutableCollections</a></p>
 </blockquote>
 <p>除了 <code>System.Collections.Immutable</code> 提供的不可變集合外，如果你的情境是「建立一次後就只需讀取、完全不需要修改」，.NET 8+ 還提供了另一組更好的選擇。</p>
 </section>
@@ -2254,7 +2254,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "huanlin/the-csharp-you-need-to-know";
+    script.dataset.repo = "huanlin/modern-csharp-v2-web";
     script.dataset.repoId = "R_kgDOTcTL7Q";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOTcTL7c4DBpWN";
@@ -2287,4 +2287,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>

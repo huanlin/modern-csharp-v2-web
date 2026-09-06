@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>第 1 章：基礎 – The C# You Need to Know (beta)</title>
+<title>第 1 章：基礎 – 現代 C# 精要 (beta)</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -140,9 +140,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">The C# You Need to Know (beta)</a> 
+      <a href="../">現代 C# 精要 (beta)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/huanlin/the-csharp-you-need-to-know" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/huanlin/modern-csharp-v2-web" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -288,7 +288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#本章重點回顧" id="toc-本章重點回顧" class="nav-link" data-scroll-target="#本章重點回顧">本章重點回顧</a></li>
   <li><a href="#本章術語" id="toc-本章術語" class="nav-link" data-scroll-target="#本章術語">本章術語</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -307,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-05</p>
+      <p class="date-modified">2026-09-06</p>
     </div>
   </div>
     
@@ -607,7 +607,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>a<span class="op">);</span> <span class="co">// 輸出 10</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>第 3 行修改 <code>b</code> 的值並不會改變 <code>a</code> 的值，因為 <code>int</code> 是實值型別。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch01/DemoValueTypes">DemoValueTypes</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoValueTypes">DemoValueTypes</a></p>
 </blockquote>
 </section>
 <section id="參考型別reference-types" class="level3">
@@ -641,7 +641,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-4"><a href="#cb8-4" aria-label="4"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>user1<span class="op">.</span><span class="fu">Name</span><span class="op">);</span> <span class="co">// 輸出 Bob</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>因此，透過 <code>user2</code> 修改 <code>Name</code> 時，<code>user1</code> 看到的也是同一個物件被修改後的狀態。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch01/DemoReferenceTypes">DemoReferenceTypes</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoReferenceTypes">DemoReferenceTypes</a></p>
 </blockquote>
 </section>
 <section id="ask-ai那些容易搞混的型別" class="level3">
@@ -754,7 +754,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-5"><a href="#cb13-5" aria-label="5"></a><span class="co">// 現代解法：字串插補（通常編譯器會優化）</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-label="6"></a><span class="dt">string</span> s2 <span class="op">=</span> $<span class="st">"Score: {x}"</span><span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch01/DemoBoxingUnboxing">DemoBoxingUnboxing</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoBoxingUnboxing">DemoBoxingUnboxing</a></p>
 </blockquote>
 <p>要提醒的是，「字串插補是否會造成 boxing」取決於編譯器版本與具體寫法；在現代 C#/.NET 中，多數常見情境（例如插補 <code>int</code>）通常<strong>不會</strong>再退回到 <code>string.Format(object, ...)</code> 那種會 boxing 的路徑，但仍可能產生字串配置（allocation）。</p>
 <p>如果你遇到的是「大量格式化輸出」的熱點（hot path），且要求高效能的場景，更可靠的做法通常是：</p>
@@ -799,7 +799,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-20"><a href="#cb14-20" aria-label="20"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>team1<span class="op">.</span><span class="fu">Members</span><span class="op">.</span><span class="fu">Count</span><span class="op">);</span> <span class="co">// 輸出 3（受影響！）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>此範例展示了淺層複製可能造成的潛在 bug：內層的參考物件只是複製參考，因此對 <code>team2.Members</code> 串列加入新元素時，等同於改動 <code>team1.Members</code> 串列。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch01/DemoShallowCopy">DemoShallowCopy</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoShallowCopy">DemoShallowCopy</a></p>
 </blockquote>
 <p>.NET 早期版本提供了 <code>ICloneable</code> 介面作為複製物件的標準做法：當類別需要提供複製操作時，只要實作該介面的 <code>Clone()</code> 方法即可。但此設計有個明顯缺點：<code>Clone()</code> 方法本身的語意不明確，它沒有明確規定是「淺層複製」還是「深層複製」。於是，當你呼叫一個第三方程式庫的 <code>Clone()</code>，往往需要去查文件來確認它到底是執行淺層複製，還是複製了整個物件樹。</p>
 <p>因此，實務上通常不建議把 <code>ICloneable</code> 當成公開 API 的複製契約；如果物件要提供複製功能，較好的做法是在類別裡面定義名稱明確的方法，例如 <code>ShallowCopy</code> 或 <code>DeepCopy</code>，就如前面範例所展示的。</p>
@@ -843,7 +843,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>複製建構式（copy constructor）特別適合需要明確控制複製邏輯的類別。雖然名稱不像 <code>ShallowCopy</code> 或 <code>DeepCopy</code> 那樣明確，但它的好處是強型別（輸入參數和回傳值都是），而且是現代 .NET 實作物件複製的常見作法。</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch01/DemoDeepCopy">DemoDeepCopy</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoDeepCopy">DemoDeepCopy</a></p>
 </blockquote>
 <p>請注意，<code>new List&lt;string&gt;(original.Members)</code> 這種寫法會建立一個新的串列容器。由於串列中的元素是不可變的 <code>string</code>，這樣就已足以達到此範例所需的隔離效果。如果串列包含的是可變的參考型別，例如 <code>List&lt;Person&gt;</code>，那麼 <code>new List&lt;Person&gt;(original.Members)</code> 其實只複製了串列容器本身，容器裡面的 <code>Person</code> 物件參考仍然指向原本的物件。在這種情況下，你必須逐一複製每個 <code>Person</code> 物件，才能達到真正的完全隔離。</p>
 <p>總之，記住這個原則：如果物件內有<strong>巢狀的、可變的（mutable）參考型別</strong>（例如 <code>Team</code> 內有 <code>Manager</code> 物件，<code>Manager</code> 內又有其他物件），就需要遞迴地為每一層建立新實例。實務上，可使用序列化/反序列化（例如 <code>System.Text.Json</code>）或其他第三方函式庫來自動處理深層複製。</p>
@@ -900,7 +900,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-13"><a href="#cb19-13" aria-label="13"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>original<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// 輸出 "A"（不受影響）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這次輸出結果是 <code>A</code>，顯示 <code>deepCopy</code> 跟 <code>original</code> 是兩個不同的陣列。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch01/DemoDeepCopyArray">DemoDeepCopyArray</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoDeepCopyArray">DemoDeepCopyArray</a></p>
 </blockquote>
 </section>
 </section>
@@ -1529,7 +1529,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "huanlin/the-csharp-you-need-to-know";
+    script.dataset.repo = "huanlin/modern-csharp-v2-web";
     script.dataset.repoId = "R_kgDOTcTL7Q";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOTcTL7c4DBpWN";
@@ -1562,4 +1562,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>

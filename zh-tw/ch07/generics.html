@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>第 7 章：泛型 – The C# You Need to Know (beta)</title>
+<title>第 7 章：泛型 – 現代 C# 精要 (beta)</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -140,9 +140,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">The C# You Need to Know (beta)</a> 
+      <a href="../">現代 C# 精要 (beta)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/huanlin/the-csharp-you-need-to-know" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/huanlin/modern-csharp-v2-web" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -320,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#本章術語" id="toc-本章術語" class="nav-link" data-scroll-target="#本章術語">本章術語</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -339,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-05</p>
+      <p class="date-modified">2026-09-06</p>
     </div>
   </div>
     
@@ -447,7 +447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-11"><a href="#cb5-11" aria-label="11"></a><span class="dt">string</span> s <span class="op">=</span> strList<span class="op">[</span><span class="dv">1</span><span class="op">];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這樣一來，我們不再需要手動轉型，也不用另外撰寫 <code>IntList</code> 和 <code>StringList</code> 類別。而且，由於編譯時期就已經知道集合元素的型別，現代的程式編輯器（如 Visual Studio Code）的 IntelliSense 功能也能在存取集合元素時提示實際型別。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch07/DemoWhyGenerics">DemoWhyGenerics</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch07/DemoWhyGenerics">DemoWhyGenerics</a></p>
 </blockquote>
 </section>
 </section>
@@ -616,7 +616,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-12"><a href="#cb15-12" aria-label="12"></a><span class="fu">Zap</span><span class="op">(</span>names<span class="op">);</span>  <span class="co">// 全部變成 null</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>如果專案啟用了 Nullable Reference Types，像這樣把參考型別陣列元素設成 <code>null</code>，有時會搭配 <code>default!</code> 來明確表達「我知道這裡可能會是 null，而且這正是我想要的結果」。這裡的 <code>!</code> 只是在編譯時期抑制 nullable 警告，不會改變實際的值，也不會阻止 <code>null</code> 出現在陣列裡。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch07/DemoGenericClass">DemoGenericClass</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch07/DemoGenericClass">DemoGenericClass</a></p>
 <p>範例專案中的 <code>MyGenericList&lt;T&gt;</code> 已改用 <code>T[]</code> 陣列儲存資料，這是較接近實務的實作方式；本節前面的 <code>ArrayList</code> 版本則是為了凸顯泛型語法重點而刻意簡化。</p>
 </blockquote>
 </section>
@@ -641,7 +641,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>不過，這裡的限制不只是「型別參數必須完全閉合（fully constructed，例如 <code>string</code> 而不是開放的 <code>T</code>）」而已；它還必須符合 <code>typeof(...)</code> 可接受的型別限制。換言之，像 <code>dynamic</code>、<code>List&lt;string?&gt;</code> 這類無法直接穩定表示於 attribute 中繼資料的型別，仍然不能用作泛型 attribute 的型別引數。</p>
 <p>進一步來說，<code>dynamic</code> 在 CLR 層級等同 <code>object</code>，而 <code>string?</code> 的 nullable annotation 並非 CLR 型別系統的一部分，因此兩者都無法以你期待的方式穩定出現在 attribute 中繼資料裡。這套限制確保了泛型 attribute 的型別引數能在 CLR 中繼資料中被穩定表示。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch07/DemoGenericAttribute">DemoGenericAttribute</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch07/DemoGenericAttribute">DemoGenericAttribute</a></p>
 </blockquote>
 </section>
 </section>
@@ -807,7 +807,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>加上這個約束後，編譯器就會允許你傳入 <code>Span&lt;int&gt;</code> 等 <code>ref struct</code> 型別，同時它也會嚴格檢查方法內部對 <code>T</code> 的操作，確保不會違反 ref 安全規則（例如不能將 <code>T</code> 類型的變數作為欄位儲存在類別中）。這對於撰寫高效能的通用程式庫很有幫助。</p>
 <p>這些約束規則看起來零碎，但實際使用時，通常只是依照需求逐步加上去：需要呼叫某個介面成員，就加介面約束；需要建立實體，就加 <code>new()</code>；需要支援 <code>Span&lt;T&gt;</code> 這類型別，才考慮 <code>allows ref struct</code>。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch07/DemoConstraints">DemoConstraints</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch07/DemoConstraints">DemoConstraints</a></p>
 </blockquote>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -848,7 +848,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb31-16"><a href="#cb31-16" aria-label="16"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>泛型類別實作介面的規則，和一般類別相同：如果類別在宣告時指定要實作某個（或某些）介面，就必須提供介面規定的所有成員，包括方法、屬性、事件，否則無法通過編譯。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch07/DemoGenericInterfaces">DemoGenericInterfaces</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch07/DemoGenericInterfaces">DemoGenericInterfaces</a></p>
 </blockquote>
 </section>
 <section id="實作泛型介面的方式" class="level3">
@@ -917,7 +917,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb36-2"><a href="#cb36-2" aria-label="2"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"{pair.Key}: {pair.Value}"</span><span class="op">);</span>  <span class="co">// Age: 30</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡的重點是：泛型並不限於類別或介面，結構也可以用型別參數表達「一組值的型別會隨使用情境而變」。.NET 內建的 <code>KeyValuePair&lt;TKey, TValue&gt;</code> 常用於 <code>Dictionary&lt;TKey, TValue&gt;</code> 的巡訪，就是這類設計的代表。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch07/DemoGenericStructs">DemoGenericStructs</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch07/DemoGenericStructs">DemoGenericStructs</a></p>
 </blockquote>
 </section>
 <section id="typeof-與未綁定泛型型別" class="level3">
@@ -966,7 +966,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb40-18"><a href="#cb40-18" aria-label="18"></a><span class="co">// 相當於 new Repository&lt;Customer&gt;()</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這種技巧在框架設計和依賴注入容器（dependency injection container）中很常見。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch07/DemoUnboundGenericTypes">DemoUnboundGenericTypes</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch07/DemoUnboundGenericTypes">DemoUnboundGenericTypes</a></p>
 </blockquote>
 </section>
 </section>
@@ -1073,7 +1073,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb47-4"><a href="#cb47-4" aria-label="4"></a><span class="dt">var</span> strings <span class="op">=</span> numbers<span class="op">.</span><span class="fu">MapAll</span><span class="op">(</span>n <span class="op">=&gt;</span> $<span class="st">"項目 {n}"</span><span class="op">);</span></span>
 <span id="cb47-5"><a href="#cb47-5" aria-label="5"></a>strings<span class="op">.</span><span class="fu">PrintAll</span><span class="op">();</span>  <span class="co">// [項目 1, 項目 2, 項目 3]</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch07/DemoGenericMethods">DemoGenericMethods</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch07/DemoGenericMethods">DemoGenericMethods</a></p>
 </blockquote>
 <p>了解泛型在類別、介面、結構和方法上的用法之後，接著討論泛型型別之間的相容性：什麼時候看起來合理的指派，編譯器卻不讓你寫？</p>
 </section>
@@ -1251,7 +1251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb65-2"><a href="#cb65-2" aria-label="2"></a><span class="co">// IEnumerable&lt;object&gt; objects = ints;  // 錯誤！int 是實值型別</span></span>
 <span id="cb65-3"><a href="#cb65-3" aria-label="3"></a>IEnumerable<span class="op">&lt;</span><span class="dt">object</span><span class="op">&gt;</span> objects <span class="op">=</span> ints<span class="op">.</span><span class="fu">Cast</span><span class="op">&lt;</span><span class="dt">object</span><span class="op">&gt;();</span>  <span class="co">// 需要明確轉換</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch07/DemoCovariance">DemoCovariance</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch07/DemoCovariance">DemoCovariance</a></p>
 </blockquote>
 <p>記住一個重點：如果某個泛型型別同時接收 <code>T</code>、也回傳 <code>T</code>，通常就不能隨便讓它共變或逆變；只有方向很清楚的介面或委派，才適合使用 <code>out</code> 或 <code>in</code>。</p>
 </section>
@@ -2103,7 +2103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "huanlin/the-csharp-you-need-to-know";
+    script.dataset.repo = "huanlin/modern-csharp-v2-web";
     script.dataset.repoId = "R_kgDOTcTL7Q";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOTcTL7c4DBpWN";
@@ -2136,4 +2136,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>

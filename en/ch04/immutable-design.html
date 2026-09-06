@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 4: Immutable design – The C# You Need to Know (beta)</title>
+<title>Chapter 4: Immutable design – Modern C#: What You Need to Know (beta)</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -169,9 +169,9 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">The C# You Need to Know (beta)</a> 
+      <a href="../">Modern C#: What You Need to Know (beta)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/huanlin/the-csharp-you-need-to-know" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/huanlin/modern-csharp-v2-web" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -338,7 +338,7 @@ window.Quarto = {
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">Glossary</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -357,7 +357,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 5, 2026</p>
+      <p class="date-modified">September 6, 2026</p>
     </div>
   </div>
     
@@ -535,7 +535,7 @@ window.Quarto = {
 <span id="cb7-14"><a href="#cb7-14" aria-label="14"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"{list[0].X}, {list[0].Y}"</span><span class="op">);</span> <span class="co">// "10, 20"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>With arrays, calling a method on an indexed element can mutate the element because the array indexer returns a reference to the element itself. But when you access a generic list through the <code>IList&lt;T&gt;</code> interface, the indexer returns a <strong>temporary copy</strong> of the struct, so <code>Move</code> mutates that copy while the original element in the list remains unchanged. This is a classic “silent failure” that’s incredibly painful to debug.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoMutablePoint">DemoMutablePoint</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoMutablePoint">DemoMutablePoint</a></p>
 </blockquote>
 <p>Here’s another case that often surprises people:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="co">// ... (continuing the previous example)</span></span>
@@ -578,7 +578,7 @@ window.Quarto = {
 <span id="cb10-16"><a href="#cb10-16" aria-label="16"></a>    <span class="op">}</span></span>
 <span id="cb10-17"><a href="#cb10-17" aria-label="17"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoReadonlyStruct">DemoReadonlyStruct</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoReadonlyStruct">DemoReadonlyStruct</a></p>
 <p>Related Microsoft docs: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct">The <code>struct</code> type</a>, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/readonly">readonly (C# reference)</a></p>
 </blockquote>
 <p>At this point, designing a readonly struct looks straightforward.</p>
@@ -622,7 +622,7 @@ window.Quarto = {
 <li>Discard the copy (because <code>PrintInfo</code> is readonly).</li>
 </ol>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoReadonlyMethod">DemoReadonlyMethod</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoReadonlyMethod">DemoReadonlyMethod</a></p>
 </blockquote>
 </section>
 <section id="a-note-on-readonly-fields-and-in-parameters" class="level4">
@@ -674,7 +674,7 @@ window.Quarto = {
 <span id="cb13-4"><a href="#cb13-4" aria-label="4"></a>    <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>or if you declare the entire <code>Measurement</code> type as a <code>readonly struct</code>, then the compiler no longer needs to create a defensive copy in this case.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoDefensiveCopy">DemoDefensiveCopy</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoDefensiveCopy">DemoDefensiveCopy</a></p>
 <p><strong>Further reading</strong></p>
 <p>In Microsoft’s article <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-instance-members">readonly instance members</a> under <em>Structure types (C# reference)</em>, it says that when a <code>readonly</code> instance member calls a non-<code>readonly</code> member, the compiler creates a copy of the struct and calls the non-<code>readonly</code> member on that copy, so the original instance is not modified.</p>
 <p>That explains the core mechanism behind defensive copies. <code>readonly</code> fields and <code>in</code> parameters are the same principle applied in other readonly contexts.</p>
@@ -932,7 +932,7 @@ window.Quarto = {
 <p>Record value equality is not recursive deep equality. If a member is an array, collection, or another reference type, that member still follows its own equality rules. For example, two separately created arrays with identical elements may still compare as different values by default.</p>
 </blockquote>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoRecord">DemoRecord</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoRecord">DemoRecord</a></p>
 </blockquote>
 <p>For data-centric types, record equality often matches the requirement more closely: whether two instances are equal depends on the equality rules of their data members, not on object identity.</p>
 <p>That makes records a good fit for:</p>
@@ -1146,7 +1146,7 @@ window.Quarto = {
 <p>However, be careful: <code>required</code> guarantees “must be initialized,” not “must be non-null.” If the member type is a non-nullable reference type, the compiler will typically report nullable warnings; if you need to strictly reject invalid values, you should still add appropriate validation logic.</p>
 <p>Together, <code>required</code> + <code>init</code> gives you a practical balance: language-level checks during initialization, plus the convenience of object initializers.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoInitAccessor">DemoInitAccessor</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoInitAccessor">DemoInitAccessor</a></p>
 </blockquote>
 </section>
 </section>
@@ -1244,7 +1244,7 @@ window.Quarto = {
 <span id="cb45-24"><a href="#cb45-24" aria-label="24"></a><span class="dt">var</span> alice <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span><span class="op">,</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span></span>
 <span id="cb45-25"><a href="#cb45-25" aria-label="25"></a><span class="dt">var</span> bob <span class="op">=</span> alice<span class="op">.</span><span class="fu">Copy</span><span class="op">(</span>name<span class="op">:</span> <span class="st">"Bob"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoWithExpression">DemoWithExpression</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoWithExpression">DemoWithExpression</a></p>
 </blockquote>
 </section>
 </section>
@@ -1344,7 +1344,7 @@ window.Quarto = {
 <span id="cb51-7"><a href="#cb51-7" aria-label="7"></a>    <span class="kw">protected</span> <span class="fu">Point</span><span class="op">(</span>Point other<span class="op">)</span> <span class="op">=&gt;</span> <span class="op">(</span>X<span class="op">,</span> Y<span class="op">)</span> <span class="op">=</span> other<span class="op">;</span></span>
 <span id="cb51-8"><a href="#cb51-8" aria-label="8"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoLazyEvaluation">DemoLazyEvaluation</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoLazyEvaluation">DemoLazyEvaluation</a></p>
 </blockquote>
 <p>The upside is that you can keep primary-constructor syntax and the code stays concise. The downside is that every time you create a new instance via <code>with</code>, the private cache field is reset—even if the change has nothing to do with the computation.</p>
 <blockquote class="blockquote">
@@ -1404,7 +1404,7 @@ window.Quarto = {
 <li><strong>Predictability</strong>: functions have fewer side effects and are easier to test</li>
 </ol>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoOrderModel">DemoOrderModel</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoOrderModel">DemoOrderModel</a></p>
 </blockquote>
 <section id="ai-collaboration-refactor-toward-immutability" class="level3">
 <h3 class="anchored" data-anchor-id="ai-collaboration-refactor-toward-immutability">AI collaboration: refactor toward immutability</h3>
@@ -1533,7 +1533,7 @@ window.Quarto = {
 <p><strong>Rule:</strong> if two objects are considered equal (<code>Equals</code> returns true), they must return the same <code>GetHashCode</code> value.</p>
 <p>If you violate this rule, objects you put into a <code>Dictionary</code> may become impossible to retrieve, leading to very hard-to-debug issues.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoEquality">DemoEquality</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoEquality">DemoEquality</a></p>
 </blockquote>
 </section>
 </section>
@@ -1599,7 +1599,7 @@ window.Quarto = {
 </ul>
 <p>So if your collection is mostly read-only after construction, prefer <code>ImmutableArray&lt;T&gt;</code>.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch04/DemoImmutableCollections">DemoImmutableCollections</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoImmutableCollections">DemoImmutableCollections</a></p>
 </blockquote>
 <p>Beyond the immutable collections provided by <code>System.Collections.Immutable</code>, if your scenario is “build once, then only read—never modify,” .NET 8+ offers another set of even better choices.</p>
 </section>
@@ -2273,7 +2273,7 @@ window.Quarto = {
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "huanlin/the-csharp-you-need-to-know";
+    script.dataset.repo = "huanlin/modern-csharp-v2-web";
     script.dataset.repoId = "R_kgDOTcTL7Q";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOTcTL7c4DBpWN";
@@ -2306,4 +2306,4 @@ window.Quarto = {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

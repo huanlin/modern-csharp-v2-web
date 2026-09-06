@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="DemoDelegateSyntax/DemoDelegateSyntax.csproj" />
+  <Project Path="DemoDelegateMulticast/DemoDelegateMulticast.csproj" />
+  <Project Path="DemoDelegateVariance/DemoDelegateVariance.csproj" />
+  <Project Path="DemoActionFunc/DemoActionFunc.csproj" />
+  <Project Path="DemoLambda/DemoLambda.csproj" />
+  <Project Path="DemoLambdaAttributes/DemoLambdaAttributes.csproj" />
+  <Project Path="DemoClosure/DemoClosure.csproj" />
+</Solution>

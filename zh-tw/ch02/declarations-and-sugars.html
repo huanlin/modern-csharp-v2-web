@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>第 2 章：宣告與語法糖 – The C# You Need to Know (beta)</title>
+<title>第 2 章：宣告與語法糖 – 現代 C# 精要 (beta)</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -140,9 +140,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">The C# You Need to Know (beta)</a> 
+      <a href="../">現代 C# 精要 (beta)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/huanlin/the-csharp-you-need-to-know" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/huanlin/modern-csharp-v2-web" title="原始碼" class="quarto-navigation-tool px-1" aria-label="原始碼"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -307,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#本章重點回顧" id="toc-本章重點回顧" class="nav-link" data-scroll-target="#本章重點回顧">本章重點回顧</a></li>
   <li><a href="#本章術語" id="toc-本章術語" class="nav-link" data-scroll-target="#本章術語">本章術語</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -326,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-05</p>
+      <p class="date-modified">2026-09-06</p>
     </div>
   </div>
     
@@ -439,7 +439,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-4"><a href="#cb10-4" aria-label="4"></a><span class="co">// ✓ 明確</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-label="5"></a>Customer result <span class="op">=</span> <span class="fu">GetData</span><span class="op">();</span>  <span class="co">// 一眼就知道</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoVar">DemoVar</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoVar">DemoVar</a></p>
 </blockquote>
 </section>
 </section>
@@ -501,7 +501,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a><span class="dt">var</span> fullName <span class="op">=</span> <span class="fu">GetFullName</span><span class="op">(</span>obj<span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>以上兩個範例在這個特定情境下都能得到相同的結果，因為 <code>GetFullName</code> 的參數型別是 <code>dynamic</code>，執行時期只要能找到 <code>FirstName</code> 和 <code>LastName</code> 成員即可。不過，匿名型別和 <code>ExpandoObject</code> 的能力並不相同：匿名型別的成員在建立後就固定了，而 <code>ExpandoObject</code> 則可以在執行時期自由增刪成員。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoDynamic">DemoDynamic</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoDynamic">DemoDynamic</a></p>
 </blockquote>
 </section>
 <section id="dynamic-的陷阱與替代方案" class="level3">
@@ -601,7 +601,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource csharp number-lines code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a>ReadOnlySpan<span class="op">&lt;</span><span class="dt">byte</span><span class="op">&gt;</span> header <span class="op">=</span> <span class="op">[</span><span class="bn">0xDE</span><span class="op">,</span> <span class="bn">0xAD</span><span class="op">,</span> <span class="bn">0xBE</span><span class="op">,</span> <span class="bn">0xEF</span><span class="op">];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>當目標型別是 <code>Span&lt;T&gt;</code> 或 <code>ReadOnlySpan&lt;T&gt;</code> 時，編譯器在資料量夠小且不需要逃逸出當前堆疊框架的前提下，可能採用堆疊配置，但這不保證一定等同於你手寫的 <code>stackalloc</code>。針對此議題，本書第 13 章還會從高效能記憶體操作的角度進一步說明。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoCollectionExpressions">DemoCollectionExpressions</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoCollectionExpressions">DemoCollectionExpressions</a></p>
 </blockquote>
 </section>
 </section>
@@ -684,7 +684,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> s <span class="op">=</span> <span class="kw">new</span> <span class="fu">Student</span><span class="op">(</span><span class="st">"預設"</span><span class="op">)</span> <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span> <span class="op">};</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">// s.Name == "Alice"</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoObjectInit">DemoObjectInit</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoObjectInit">DemoObjectInit</a></p>
 </blockquote>
 </section>
 <section id="集合初始設定式" class="level3">
@@ -696,7 +696,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb31-4"><a href="#cb31-4" aria-label="4"></a>    <span class="kw">new</span> Student <span class="op">{</span> Name <span class="op">=</span> <span class="st">"黃濤"</span><span class="op">,</span> Birthday <span class="op">=</span> <span class="kw">new</span> <span class="fu">DateTime</span><span class="op">(</span><span class="dv">1991</span><span class="op">,</span> <span class="dv">6</span><span class="op">,</span> <span class="dv">17</span><span class="op">)</span> <span class="op">}</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-label="5"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoCollectionInit">DemoCollectionInit</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoCollectionInit">DemoCollectionInit</a></p>
 </blockquote>
 </section>
 <section id="索引初始設定式c-6" class="level3">
@@ -717,7 +717,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-13"><a href="#cb32-13" aria-label="13"></a><span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>注意：這兩種寫法在大多數情況下看起來差不多，但行為並不完全相同：舊式集合初始設定式（<code>{ key, value }</code>）在底層呼叫 <code>Add</code> 方法，若鍵已存在會拋出 <code>ArgumentException</code>；新式索引初始設定式（<code>[key] = value</code>）使用索引子，若鍵已存在則會靜默覆蓋。選擇哪一種寫法時，需留意這個差異。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoIndexInit">DemoIndexInit</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoIndexInit">DemoIndexInit</a></p>
 </blockquote>
 </section>
 <section id="物件初始設定式-vs.-選擇性參數" class="level3">
@@ -799,7 +799,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb37-11"><a href="#cb37-11" aria-label="11"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡，編譯器會在背後替 <code>Employee</code> 類別的 <code>ID</code> 和 <code>Name</code> 屬性產生兩個私有成員，這種由自動屬性產生的成員變數稱為<strong>背後欄位</strong>（backing field）。當類別需要定義大量屬性時，自動屬性能省去宣告私有成員的步驟。不過，如果你需要在 getter 或 setter 裡加入額外的取值或賦值邏輯，就還是得明確宣告私有成員。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoAutoPropBasic">DemoAutoPropBasic</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoAutoPropBasic">DemoAutoPropBasic</a></p>
 </blockquote>
 </section>
 <section id="何時使用自動屬性" class="level3">
@@ -900,7 +900,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb41-30"><a href="#cb41-30" aria-label="30"></a>   <span class="op">}</span></span>
 <span id="cb41-31"><a href="#cb41-31" aria-label="31"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoAutoPropField">DemoAutoPropField</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoAutoPropField">DemoAutoPropField</a></p>
 </blockquote>
 <p><strong>Note:</strong> 如果你的類別中已有一個名為 <code>field</code> 的成員（欄位、屬性、方法等），可以使用 <code>@field</code> 或 <code>this.field</code> 來區分。</p>
 </section>
@@ -921,7 +921,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb43-3"><a href="#cb43-3" aria-label="3"></a>實際型別: &lt;&gt;f__AnonymousType...</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>範例程式的最後一行是把匿名型別的實際型別名稱顯示出來。要注意的是，這個名稱屬於編譯器的內部實作細節，不同編譯器版本或不同程式內容下都可能略有差異；重點在於它是一個由編譯器產生的泛型類別，而不是你可以在原始碼中直接使用的型別名稱。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoAnonTypeBasic">DemoAnonTypeBasic</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoAnonTypeBasic">DemoAnonTypeBasic</a></p>
 </blockquote>
 <p><strong>問：</strong> 「既然從程式的執行結果已經知道實際型別，那我們能夠直接用這個型別名稱來宣告變數嗎？」</p>
 <p>不行，你如果嘗試把執行結果顯示的那個匿名型別名稱（<code>&lt;&gt;f__AnonymousType...</code>）直接拿來宣告變數，編譯器不會接受。</p>
@@ -992,7 +992,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb49-5"><a href="#cb49-5" aria-label="5"></a><span class="co">// 輸出: a2: A=1, B=99, C=3</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這在處理不可變資料（immutable data）時非常方便，你不需要為了修改一個屬性而重新抄寫所有屬性。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoAnonTypeMutation">DemoAnonTypeMutation</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoAnonTypeMutation">DemoAnonTypeMutation</a></p>
 </blockquote>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1027,7 +1027,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb50-7"><a href="#cb50-7" aria-label="7"></a><span class="co">// 字串插補寫法</span></span>
 <span id="cb50-8"><a href="#cb50-8" aria-label="8"></a><span class="dt">var</span> s2 <span class="op">=</span> $<span class="st">"Name: {name}, Age: {age}"</span><span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoStringInterpolation">DemoStringInterpolation</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoStringInterpolation">DemoStringInterpolation</a></p>
 </blockquote>
 <p><strong>Note:</strong> 在 C# 10（.NET 6）之後，字串插補透過引入「插補字串處理器」（<a href="https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler">DefaultInterpolatedStringHandler</a>），得到了顯著的效能改進。它不再總是直接轉換為 <code>string.Format</code> 或 <code>string.Concat</code>。在許多情況下，它的記憶體開銷更少，而且通常比 <code>string.Format</code> 和 <code>string.Concat</code> 更有效率。</p>
 <section id="格式化與對齊" class="level3">
@@ -1117,7 +1117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb57-6"><a href="#cb57-6" aria-label="6"></a>    <span class="op">}</span></span>
 <span id="cb57-7"><a href="#cb57-7" aria-label="7"></a>    <span class="st">""";</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoRawStringLiterals">DemoRawStringLiterals</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoRawStringLiterals">DemoRawStringLiterals</a></p>
 </blockquote>
 </section>
 </section>
@@ -1152,7 +1152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb59-8"><a href="#cb59-8" aria-label="8"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"緯度: {coords.Lat}, 經度: {coords.Lon}"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>比起使用 <code>out</code> 參數，這種寫法更直覺，也更容易閱讀。</p>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoTupleBasic">DemoTupleBasic</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoTupleBasic">DemoTupleBasic</a></p>
 </blockquote>
 <p><strong>問：</strong> 為什麼有些舊程式碼會用 <code>Tuple.Create("Bob", 23)</code>？那跟這裡的 <code>("Bob", 23)</code> 有什麼不同？</p>
 <p><strong>答：</strong> 舊的 <code>System.Tuple</code> 是<strong>類別</strong>（class），也就是參考型別（reference type），會造成額外的記憶體配置壓力。而新的語法背後使用的是 <code>System.ValueTuple</code>，它是<strong>結構</strong>（struct），也就是實值型別（value type），在大多數輕量級的使用場景下效能更好且對 GC 更友善。除非是為了相容舊 API，否則現代 C# 建議一律使用新語法。</p>
@@ -1221,7 +1221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb64-11"><a href="#cb64-11" aria-label="11"></a><span class="co">// 自動呼叫第二個 Deconstruct 方法</span></span>
 <span id="cb64-12"><a href="#cb64-12" aria-label="12"></a><span class="fu">var</span> <span class="op">(</span>fullName<span class="op">,</span> dob<span class="op">,</span> email<span class="op">)</span> <span class="op">=</span> person<span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-zh-tw/ch02/DemoTupleDeconstruction">DemoTupleDeconstruction</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoTupleDeconstruction">DemoTupleDeconstruction</a></p>
 </blockquote>
 <p><strong>設計準則</strong>：</p>
 <ul>
@@ -1885,7 +1885,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "huanlin/the-csharp-you-need-to-know";
+    script.dataset.repo = "huanlin/modern-csharp-v2-web";
     script.dataset.repoId = "R_kgDOTcTL7Q";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOTcTL7c4DBpWN";
@@ -1918,4 +1918,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>回報問題</a></li></ul></div></div></div></footer></body></html>

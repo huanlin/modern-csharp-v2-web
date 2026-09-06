@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 5: Error handling and resource management – The C# You Need to Know (beta)</title>
+<title>Chapter 5: Error handling and resource management – Modern C#: What You Need to Know (beta)</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -140,9 +140,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">The C# You Need to Know (beta)</a> 
+      <a href="../">Modern C#: What You Need to Know (beta)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/huanlin/the-csharp-you-need-to-know" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/huanlin/modern-csharp-v2-web" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -279,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">Glossary</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -298,7 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 5, 2026</p>
+      <p class="date-modified">September 6, 2026</p>
     </div>
   </div>
     
@@ -474,7 +474,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-11"><a href="#cb6-11" aria-label="11"></a>                <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentNullException</span><span class="op">(</span><span class="fu">nameof</span><span class="op">(</span>userInput<span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The common idea in these examples is that an exception no longer has to appear only as a standalone <code>throw</code> statement. It can live where a value is expected. For checks where “no value” means execution should not continue, this keeps the failure condition close to the value being used.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch05/DemoThrowExpressions">DemoThrowExpressions</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch05/DemoThrowExpressions">DemoThrowExpressions</a></p>
 </blockquote>
 <p><br></p>
 <blockquote class="blockquote">
@@ -603,7 +603,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Even if no <code>catch</code> handles the exception, the <code>finally</code> block still runs before the exception propagates up the call stack. This provides a language-level guarantee that your cleanup code runs, unless the process is forcibly terminated first.</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch05/DemoExceptionHandling">DemoExceptionHandling</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch05/DemoExceptionHandling">DemoExceptionHandling</a></p>
 </blockquote>
 </section>
 <section id="finalizer-the-last-line-of-defense" class="level3">
@@ -700,7 +700,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-7"><a href="#cb15-7" aria-label="7"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The key point in this code is that when execution leaves the scope, the compiler arranges to call <code>DisposeAsync</code> instead of the synchronous <code>Dispose</code>. If you are designing a type that performs asynchronous cleanup, implement <code>IAsyncDisposable</code> and let callers release it with <code>await using</code>.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch05/DemoUsingStatements">DemoUsingStatements</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch05/DemoUsingStatements">DemoUsingStatements</a></p>
 </blockquote>
 <p>Pay close attention to one detail: if you wrap an <code>await using</code> resource inside another wrapper that only implements <code>IDisposable</code> (for example, a <code>StreamReader</code> created with its default constructor), that wrapper may close the underlying resource synchronously first, because by default it also disposes the stream it wraps.</p>
 <p>If you truly want the underlying <code>FileStream</code> to go through <code>DisposeAsync</code>, keep the wrapper from closing the inner stream (for example, by using <code>leaveOpen: true</code>), or apply <code>await using</code> directly to the underlying resource.</p>
@@ -750,7 +750,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-33"><a href="#cb16-33" aria-label="33"></a>    <span class="op">}</span></span>
 <span id="cb16-34"><a href="#cb16-34" aria-label="34"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch05/DemoDisposePattern">DemoDisposePattern</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch05/DemoDisposePattern">DemoDisposePattern</a></p>
 </blockquote>
 <p>This code is much longer than the earlier <code>using</code> examples because it describes how the type itself cleans up correctly. As you read the pattern, focus on these points:</p>
 <ol type="1">
@@ -836,7 +836,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Timing and tracing scopes</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch05/DemoAnonymousDisposal">DemoAnonymousDisposal</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch05/DemoAnonymousDisposal">DemoAnonymousDisposal</a></p>
 </blockquote>
 </section>
 </section>
@@ -1514,7 +1514,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "huanlin/the-csharp-you-need-to-know";
+    script.dataset.repo = "huanlin/modern-csharp-v2-web";
     script.dataset.repoId = "R_kgDOTcTL7Q";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOTcTL7c4DBpWN";
@@ -1547,4 +1547,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

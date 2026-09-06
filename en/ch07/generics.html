@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 7: Generics – The C# You Need to Know (beta)</title>
+<title>Chapter 7: Generics – Modern C#: What You Need to Know (beta)</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -140,9 +140,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">The C# You Need to Know (beta)</a> 
+      <a href="../">Modern C#: What You Need to Know (beta)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/huanlin/the-csharp-you-need-to-know" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/huanlin/modern-csharp-v2-web" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -320,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">Glossary</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -339,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 5, 2026</p>
+      <p class="date-modified">September 6, 2026</p>
     </div>
   </div>
     
@@ -447,7 +447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-11"><a href="#cb5-11" aria-label="11"></a><span class="dt">string</span> s <span class="op">=</span> strList<span class="op">[</span><span class="dv">1</span><span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>No casts. No custom collection classes. And because the element type is known at compile time, tools like IntelliSense can provide the correct types while you code.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch07/DemoWhyGenerics">DemoWhyGenerics</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch07/DemoWhyGenerics">DemoWhyGenerics</a></p>
 </blockquote>
 </section>
 </section>
@@ -615,7 +615,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-12"><a href="#cb15-12" aria-label="12"></a><span class="fu">Zap</span><span class="op">(</span>names<span class="op">);</span>  <span class="co">// All become null</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If Nullable Reference Types are enabled, code like this sometimes uses <code>default!</code> to say, explicitly, “Yes, this may become null here, and that is intentional.” The <code>!</code> here only suppresses nullable warnings at compile time; it does not change the actual value or prevent <code>null</code> from appearing in the array.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch07/DemoGenericClass">DemoGenericClass</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch07/DemoGenericClass">DemoGenericClass</a></p>
 <p>In the sample project, <code>MyGenericList&lt;T&gt;</code> has already been rewritten to store data in a <code>T[]</code>, which is closer to a practical implementation. The earlier <code>ArrayList</code> version in this section is intentionally simplified to highlight the generic syntax.</p>
 </blockquote>
 </section>
@@ -640,7 +640,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The restriction is not just that the type argument must be fully constructed (for example, <code>string</code> rather than an open <code>T</code>). It must also satisfy the same limitations that apply to <code>typeof(...)</code> in attribute metadata. In other words, types such as <code>dynamic</code> and <code>List&lt;string?&gt;</code> still cannot be used as type arguments for generic attributes, because they cannot be represented there in a stable way.</p>
 <p>More precisely, <code>dynamic</code> is treated as <code>object</code> at the CLR level, and the nullable annotation in <code>string?</code> is not part of the CLR type system, so neither can appear in attribute metadata in the way you might expect. This restriction ensures that the type arguments of a generic attribute can be represented in CLR metadata in a stable, well-defined way.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch07/DemoGenericAttribute">DemoGenericAttribute</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch07/DemoGenericAttribute">DemoGenericAttribute</a></p>
 </blockquote>
 </section>
 </section>
@@ -794,7 +794,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>With this constraint, the compiler allows you to pass <code>Span&lt;int&gt;</code> and other <code>ref struct</code> types, while also strictly checking that operations inside the method do not violate ref safety rules (for example, you cannot store a variable of type <code>T</code> as a field in a class). This is very helpful for writing high-performance general-purpose libraries.</p>
 <p>These constraint rules can look scattered, but in practice you usually add them step by step: add an interface constraint when you need to call an interface member, add <code>new()</code> when you need to create an instance, and consider <code>allows ref struct</code> only when you need to support types such as <code>Span&lt;T&gt;</code>.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch07/DemoConstraints">DemoConstraints</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch07/DemoConstraints">DemoConstraints</a></p>
 </blockquote>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -835,7 +835,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb31-16"><a href="#cb31-16" aria-label="16"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The rule is the same as normal interfaces: implement all required members.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch07/DemoGenericInterfaces">DemoGenericInterfaces</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch07/DemoGenericInterfaces">DemoGenericInterfaces</a></p>
 </blockquote>
 </section>
 <section id="implementing-generic-interfaces" class="level3">
@@ -901,7 +901,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb36-2"><a href="#cb36-2" aria-label="2"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"{pair.Key}: {pair.Value}"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The key point here is that generics are not limited to classes and interfaces; structs can also use type parameters to express “the types of this pair of values vary by use case.” <code>KeyValuePair&lt;TKey, TValue&gt;</code>, commonly used when iterating dictionaries, is a representative example of this design.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch07/DemoGenericStructs">DemoGenericStructs</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch07/DemoGenericStructs">DemoGenericStructs</a></p>
 </blockquote>
 </section>
 <section id="typeof-and-unbound-generic-types" class="level3">
@@ -946,7 +946,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb40-15"><a href="#cb40-15" aria-label="15"></a><span class="co">// Equivalent to new Repository&lt;Customer&gt;()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This pattern is common in framework design and dependency injection containers.</p>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch07/DemoUnboundGenericTypes">DemoUnboundGenericTypes</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch07/DemoUnboundGenericTypes">DemoUnboundGenericTypes</a></p>
 </blockquote>
 </section>
 </section>
@@ -1051,7 +1051,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb47-4"><a href="#cb47-4" aria-label="4"></a><span class="dt">var</span> strings <span class="op">=</span> numbers<span class="op">.</span><span class="fu">MapAll</span><span class="op">(</span>n <span class="op">=&gt;</span> $<span class="st">"Item {n}"</span><span class="op">);</span></span>
 <span id="cb47-5"><a href="#cb47-5" aria-label="5"></a>strings<span class="op">.</span><span class="fu">PrintAll</span><span class="op">();</span>  <span class="co">// [Item 1, Item 2, Item 3]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch07/DemoGenericMethods">DemoGenericMethods</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch07/DemoGenericMethods">DemoGenericMethods</a></p>
 </blockquote>
 <p>After seeing how generics work on classes, interfaces, structs, and methods, let’s move on to type compatibility between generic types: when does an assignment that looks reasonable still get rejected by the compiler?</p>
 </section>
@@ -1230,7 +1230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb65-2"><a href="#cb65-2" aria-label="2"></a><span class="co">// IEnumerable&lt;object&gt; objects = ints;  // Error: int is a value type</span></span>
 <span id="cb65-3"><a href="#cb65-3" aria-label="3"></a>IEnumerable<span class="op">&lt;</span><span class="dt">object</span><span class="op">&gt;</span> objects <span class="op">=</span> ints<span class="op">.</span><span class="fu">Cast</span><span class="op">&lt;</span><span class="dt">object</span><span class="op">&gt;();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/csharp-book-support/tree/master/example-code-en/ch07/DemoCovariance">DemoCovariance</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch07/DemoCovariance">DemoCovariance</a></p>
 </blockquote>
 <p>Remember the key point: if a generic type both accepts <code>T</code> and returns <code>T</code>, you usually cannot freely make it covariant or contravariant. Only interfaces and delegates with a clear direction are good candidates for <code>out</code> or <code>in</code>.</p>
 </section>
@@ -2074,7 +2074,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "huanlin/the-csharp-you-need-to-know";
+    script.dataset.repo = "huanlin/modern-csharp-v2-web";
     script.dataset.repoId = "R_kgDOTcTL7Q";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOTcTL7c4DBpWN";
@@ -2107,4 +2107,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/the-csharp-you-need-to-know/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/huanlin/modern-csharp-v2-web/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
