@@ -51,17 +51,12 @@ h5 {
     font-size: 1.05em;
 }
 
-/* ========== 繁體中文正文對齊（只影響 HTML）========== */
-body:lang(zh-TW) p,
-body:lang(zh-Hant) p,
-body:lang(zh-TW) li,
-body:lang(zh-Hant) li,
-body:lang(zh-TW) blockquote,
-body:lang(zh-Hant) blockquote,
-body:lang(zh-TW) .blockquote,
-body:lang(zh-Hant) .blockquote,
-body:lang(zh-TW) .callout,
-body:lang(zh-Hant) .callout {
+/* ========== 正文對齊（只影響 HTML）========== */
+p,
+li,
+blockquote,
+.blockquote,
+.callout {
     text-align: start;
 }
 
