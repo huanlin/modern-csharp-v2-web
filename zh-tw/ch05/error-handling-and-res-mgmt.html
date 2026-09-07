@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a90b5042977bc76a464b14ca3180e4ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -298,7 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-06</p>
+      <p class="date-modified">2026-09-07</p>
     </div>
   </div>
     
@@ -371,7 +371,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 處理格式錯誤</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 建議：使用 TryParse（Try-Parse 模式）</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 建議：使用 TryParse（Try-Parse 模式）</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span><span class="dt">int</span><span class="op">.</span><span class="fu">TryParse</span><span class="op">(</span>input<span class="op">,</span> <span class="kw">out</span> <span class="dt">int</span> value<span class="op">))</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 成功</span></span>
@@ -437,10 +437,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Log</span><span class="op">(</span>ex<span class="op">);</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✗ 錯誤：這會重置堆疊追蹤（stack trace），讓除錯變得困難</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✘ 錯誤：這會重置堆疊追蹤（stack trace），讓除錯變得困難</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// throw ex;</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✓ 正確：保留原始堆疊追蹤</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✔ 正確：保留原始堆疊追蹤</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">throw</span><span class="op">;</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡有個容易踩到的小細節：<code>throw ex</code> 在語法上合法，卻會改變例外物件上的堆疊資訊。差異如下：</p>
@@ -473,11 +473,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">// 在 null 合併運算子中使用</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> result <span class="op">=</span> userInput <span class="op">??</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                <span class="kw">throw</span> <span class="kw">new</span> <span class="fu">ArgumentNullException</span><span class="op">(</span><span class="fu">nameof</span><span class="op">(</span>userInput<span class="op">));</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>這些寫法的共同點是：例外不再只能出現在獨立的 <code>throw</code> 陳述式中，而是可以放進需要產生值的地方。對於「值不存在就不該繼續」的檢查，這能讓失敗條件貼近實際使用的位置。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch05/DemoThrowExpressions">DemoThrowExpressions</a></p>
 </blockquote>
-<p><br></p>
+<p>這些寫法的共同點是：例外不再只能出現在獨立的 <code>throw</code> 陳述式中，而是可以放進需要產生值的地方。對於「值不存在就不該繼續」的檢查，這能讓失敗條件貼近實際使用的位置。</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
 <p><code>throw null;</code> 的執行結果確實會變成 <code>NullReferenceException</code>，但這種寫法晦澀且沒有實務價值，應避免在正式程式碼中使用。</p>
@@ -633,7 +632,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="資源管理" class="level2">
 <h2 class="anchored" data-anchor-id="資源管理">5.2 資源管理</h2>
 <p>在 .NET 中，記憶體由 <strong>垃圾回收器（GC）</strong> 自動管理，這就像公司裡有專門的清潔人員會定時幫你清掉桌上的垃圾（不再使用的物件）。</p>
-<p>但要注意的是，清潔人員通常沒有權限進入機房或開啟保險箱。同樣的，GC 只能回收記憶體中的受控物件（managed objects）；如果某個物件背後持有<strong>外部資源</strong>（例如檔案控制代碼、資料庫連線、socket、原生控制代碼），就必須透過 <code>Dispose</code> 明確釋放。因此，<code>IDisposable</code> 的重點不只是「非託管」三個字，而是讓這類需要及時釋放的資源能在適當時機被清理。</p>
+<p>但要注意的是，清潔人員通常沒有權限進入機房或開啟保險箱。同樣的，GC 只能回收記憶體中的託管物件（managed objects）；如果某個物件背後持有<strong>外部資源</strong>（例如檔案控制代碼、資料庫連線、socket、原生控制代碼），就必須透過 <code>Dispose</code> 明確釋放。因此，<code>IDisposable</code> 的重點不只是「非託管」三個字，而是讓這類需要及時釋放的資源能在適當時機被清理。</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/managed-vs-unmanaged.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
@@ -656,7 +655,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="使用-using-來釋放資源" class="level3">
 <h3 class="anchored" data-anchor-id="使用-using-來釋放資源">使用 <code>using</code> 來釋放資源</h3>
-<p>前面展示 finally 寫法的範例中，我們用 <code>reader.Dispose()</code> 來釋放檔案資源，這是 .NET 程式很常見的寫法。不只是檔案，其他像是網路連線、資料庫連線等等，也常以受控物件的形式包裝了外部資源。這些物件雖然本身受 GC 管理，但它們背後的外部資源通常需要更早、也更明確地釋放，因此仍應在適當時機呼叫 <code>Dispose</code>。</p>
+<p>前面展示 finally 寫法的範例中，我們用 <code>reader.Dispose()</code> 來釋放檔案資源，這是 .NET 程式很常見的寫法。不只是檔案，其他像是網路連線、資料庫連線等等，也常以託管物件的形式包裝了外部資源。這些物件雖然本身受 GC 管理，但它們背後的外部資源通常需要更早、也更明確地釋放，因此仍應在適當時機呼叫 <code>Dispose</code>。</p>
 <p>由於這種「try-finally-dispose」的標準範本需要超過 10 行程式碼，而且使用頻率很高，於是 C# 提供了更簡潔的語法：先有 <code>using</code> 陳述式，後來又加入更精簡的 <code>using</code> 宣告。</p>
 <p>先看較早出現、也是最容易理解的 <code>using</code> 陳述式。編譯器會自動將其轉換為 <code>try-finally</code> 區塊，確保即使發生例外，<code>Dispose</code> 方法也會被呼叫。</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 傳統寫法（巢狀區塊）</span></span>
@@ -1006,61 +1005,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </main> <!-- /main -->
 <script>
+
 (() => {
+
   const path = window.location.pathname;
+
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
+
   if (!match) {
+
     return;
+
   }
+
+
 
   const current = match[1];
+
   const target = current === "zh-tw" ? "en" : "zh-tw";
+
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
+
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
+
+
   const link = document.createElement("a");
+
   link.className = "language-switch";
+
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

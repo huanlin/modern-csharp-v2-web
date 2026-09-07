@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a90b5042977bc76a464b14ca3180e4ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -307,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 6, 2026</p>
+      <p class="date-modified">September 7, 2026</p>
     </div>
   </div>
     
@@ -369,9 +369,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The following code shows how C# blocks an implicit conversion that could lose information:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// The compiler prevents this unsafe operation.</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> pi <span class="op">=</span> <span class="fl">3.14159</span><span class="op">;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> rounded <span class="op">=</span> pi<span class="op">;</span>  <span class="co">// ✗ Compile-time error: cannot implicitly convert</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> rounded <span class="op">=</span> pi<span class="op">;</span>  <span class="co">// ✘ Compile-time error: cannot implicitly convert</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> rounded2 <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>pi<span class="op">;</span>  <span class="co">// ✓ Explicit cast; you're choosing to truncate</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> rounded2 <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>pi<span class="op">;</span>  <span class="co">// ✔ Explicit cast; you're choosing to truncate</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In this example, the compiler is not forbidding the conversion outright; it requires you to make the potential loss of information explicit. That design keeps risky operations from happening quietly in your code.</p>
 <p>In short: <strong>leverage the compiler to prevent bugs</strong>. Type safety, null safety, pattern matching, and record-based value equality all reduce surprises at runtime.</p>
 </section>
@@ -822,14 +822,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The key line is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;(</span>original<span class="op">.</span><span class="fu">Members</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Because the elements are immutable <code>string</code> instances, copying their references is sufficient.</p>
+<blockquote class="blockquote">
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoDeepCopy">DemoDeepCopy</a></p>
+</blockquote>
 <p>In this example:</p>
 <ul>
 <li>The <code>Name</code> property reuses the original <code>string</code> reference without issue. Because <code>string</code> is <strong>immutable</strong>, any modification (such as <code>Replace</code> or <code>ToUpper</code>) always produces a <strong>new</strong> string instance. Conversely, <code>Members</code> is a <code>List&lt;string&gt;</code> (a mutable collection), which must be instantiated afresh to avoid shared state.</li>
 <li>Copy constructors are particularly well-suited when you need fine-grained control over copy logic. They provide strong typing and represent the standard approach for custom cloning in .NET.</li>
 </ul>
-<blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch01/DemoDeepCopy">DemoDeepCopy</a></p>
-</blockquote>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
 <p>For in-depth discussion on immutability, see Chapter 4: Immutable Design.</p>
@@ -843,6 +843,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <blockquote class="blockquote">
 <p><strong>Ask AI</strong></p>
+<p>Use the following prompt to further compare the use cases and limitations of these two deep-copy approaches:</p>
 <p>In C#, when a class contains nested mutable collections and objects, what are the respective use cases and limitations of using a “copy constructor” versus “serialization (System.Text.Json)” for deep copying? Please illustrate the issues encountered with circular references and private members during serialization.</p>
 </blockquote>
 </section>
@@ -971,61 +972,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </main> <!-- /main -->
 <script>
+
 (() => {
+
   const path = window.location.pathname;
+
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
+
   if (!match) {
+
     return;
+
   }
+
+
 
   const current = match[1];
+
   const target = current === "zh-tw" ? "en" : "zh-tw";
+
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
+
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
+
+
   const link = document.createElement("a");
+
   link.className = "language-switch";
+
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

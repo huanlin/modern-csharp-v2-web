@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a90b5042977bc76a464b14ca3180e4ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -318,7 +318,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-06</p>
+      <p class="date-modified">2026-09-07</p>
     </div>
   </div>
     
@@ -437,8 +437,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Nullable → 一般型別：需要明確轉換</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">?</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> y <span class="op">=</span> x<span class="op">;</span>        <span class="co">// ✗ 編譯錯誤！</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> z <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>x<span class="op">;</span>   <span class="co">// ✓ 明確轉換，但若 x 為 null 會在執行時拋出例外</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> y <span class="op">=</span> x<span class="op">;</span>        <span class="co">// ✘ 編譯錯誤！</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> z <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>x<span class="op">;</span>   <span class="co">// ✔ 明確轉換，但若 x 為 null 會在執行時拋出例外</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>採用明確轉換（explicit conversion）的寫法時，等於是告訴編譯器：「我知道我在做什麼」。當然，你也需要對執行時期的錯誤負責。</p>
 </section>
 <section id="nullable-的運算行為" class="level3">
@@ -534,7 +534,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>先從 <code>?.</code> 的用法開始。以下範例直接呼叫 <code>obj.ToString()</code>：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ 典型的「沒有防範 null」的不良寫法</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ 典型的「沒有防範 null」的不良寫法</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> <span class="fu">Convert</span><span class="op">(</span><span class="dt">object</span> obj<span class="op">)</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> obj<span class="op">.</span><span class="fu">ToString</span><span class="op">();</span></span>
@@ -615,7 +615,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 也可以搭配 += 等複合指派</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>customer<span class="op">?.</span><span class="fu">Points</span> <span class="op">+=</span> <span class="dv">100</span><span class="op">;</span>  <span class="co">// 只有 customer 不是 null 時才加分</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ 以下會編譯錯誤：</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ 以下會編譯錯誤：</span></span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>counter<span class="op">?.</span><span class="fu">Value</span><span class="op">--;</span>         <span class="co">// 錯誤：遞增/遞減運算子不能搭配 ?. 使用</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>注意：</strong> C# 14 的 null 條件指派支援一般指派以及 <code>+=</code>、<code>-=</code> 等複合指派運算子，但 <code>++</code> 和 <code>--</code> 遞增／遞減運算子不能搭配 null 條件存取使用。這是 C# 14 對此語法所定義的限制。</p>
 <blockquote class="blockquote">
@@ -658,7 +658,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>對於宣告為「不可為 null」的變數，在目前的 nullability 契約與流程分析結果下，編譯器會將其視為可安全使用：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> name <span class="op">=</span> <span class="fu">GetUserName</span><span class="op">();</span>  <span class="co">// 編譯器假設 GetUserName() 不會回傳 null</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>name<span class="op">.</span><span class="fu">Length</span><span class="op">);</span>  <span class="co">// ✓ 對編譯器而言安全，無警告</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>name<span class="op">.</span><span class="fu">Length</span><span class="op">);</span>  <span class="co">// ✔ 對編譯器而言安全，無警告</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>請注意，這裡的「安全」是指<strong>編譯器在目前資訊下不會提出 null 警告</strong>，並不代表執行時期絕對不可能遇到 null。若外部 API、舊程式碼或第三方函式庫違反其宣告契約，執行時仍可能出錯。</p>
 </section>
 <section id="nullable-reference-type" class="level4">
@@ -670,7 +670,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>要消除警告，你必須先檢查：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>name <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✓ 安全，編譯器知道這裡 name 不是 null</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✔ 安全，編譯器知道這裡 name 不是 null</span></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>name<span class="op">.</span><span class="fu">Length</span><span class="op">);</span></span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
@@ -814,7 +814,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ask-ai-null-forgiving" class="level4">
 <h4 class="anchored" data-anchor-id="ask-ai-null-forgiving">Ask AI</h4>
-<p><strong>提示詞：</strong>「以下程式碼的 foreach 陳述式當中使用了 null-forgiving 運算子，是合理且恰當的嗎？為什麼？」</p>
+<p><strong>提示詞：</strong>「假設以下程式碼中的 <code>ThrowAsync</code> 每次都會回傳一個非同步工作，該工作最終會因拋出一般例外而失敗，不會被取消，也不會成功完成。在這個前提下，foreach 陳述式當中使用 null-forgiving 運算子，是合理且恰當的嗎？為什麼？如果工作也可能被取消，你的判斷會有什麼不同？」</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> allTasks <span class="op">=</span> Task<span class="op">.</span><span class="fu">WhenAll</span><span class="op">(</span><span class="fu">ThrowAsync</span><span class="op">(</span><span class="st">"Error A"</span><span class="op">),</span> <span class="fu">ThrowAsync</span><span class="op">(</span><span class="st">"Error B"</span><span class="op">));</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="kw">try</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
@@ -1041,7 +1041,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="盡早檢查減少-null-擴散" class="level3">
 <h3 class="anchored" data-anchor-id="盡早檢查減少-null-擴散">2. 盡早檢查，減少 null 擴散</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ null 一路傳遞</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ null 一路傳遞</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">ProcessOrder</span><span class="op">(</span>Order<span class="op">?</span> order<span class="op">)</span></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> items <span class="op">=</span> order<span class="op">?.</span><span class="fu">Items</span><span class="op">;</span>  <span class="co">// items 可能為 null</span></span>
@@ -1049,7 +1049,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...整個函式都在處理 null</span></span>
 <span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 提早離開（Guard Clause）</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 提早離開（Guard Clause）</span></span>
 <span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">ProcessOrder</span><span class="op">(</span>Order<span class="op">?</span> order<span class="op">)</span></span>
 <span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="op">(</span>order <span class="kw">is</span> <span class="kw">null</span><span class="op">)</span> <span class="kw">return</span><span class="op">;</span></span>
@@ -1186,61 +1186,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </main> <!-- /main -->
 <script>
+
 (() => {
+
   const path = window.location.pathname;
+
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
+
   if (!match) {
+
     return;
+
   }
+
+
 
   const current = match[1];
+
   const target = current === "zh-tw" ? "en" : "zh-tw";
+
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
+
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
+
+
   const link = document.createElement("a");
+
   link.className = "language-switch";
+
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a90b5042977bc76a464b14ca3180e4ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -401,9 +401,9 @@ window.Quarto = {
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> s2 <span class="op">=</span> s1<span class="op">.</span><span class="fu">Reverse</span><span class="op">().</span><span class="fu">Capitalize</span><span class="op">();</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>優勢：</strong></p>
 <ul>
-<li>✓ <strong>閱讀順序自然</strong>：從左到右，符合思維習慣</li>
-<li>✓ <strong>物件導向風格</strong>：看起來就像是 <code>String</code> 類別原本就有提供這些方法</li>
-<li>✓ <strong>流暢介面（Fluent API）</strong>：支援方法鏈（method chaining）</li>
+<li>✔ <strong>閱讀順序自然</strong>：從左到右，符合思維習慣</li>
+<li>✔ <strong>物件導向風格</strong>：看起來就像是 <code>String</code> 類別原本就有提供這些方法</li>
+<li>✔ <strong>流暢介面（Fluent API）</strong>：支援方法鏈（method chaining）</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -503,7 +503,7 @@ window.Quarto = {
 <p>擴充方法雖然強大，但如果使用不當，可能會造成程式碼維護上的困擾，甚至讓同事或未來的自己感到困惑。這一節整理幾個實務上常見的原則。</p>
 <section id="不要污染核心命名空間" class="level3">
 <h3 class="anchored" data-anchor-id="不要污染核心命名空間">1. 不要污染核心命名空間</h3>
-<p><strong>✗ 不建議：</strong></p>
+<p><strong>✘ 不建議：</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> System  <span class="co">// 污染了 System 命名空間！</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
@@ -511,7 +511,7 @@ window.Quarto = {
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>✓ 建議：</strong></p>
+<p><strong>✔ 建議：</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
@@ -536,7 +536,7 @@ window.Quarto = {
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> numbers<span class="op">.</span><span class="fu">Aggregate</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">(</span>acc<span class="op">,</span> n<span class="op">)</span> <span class="op">=&gt;</span> acc <span class="op">*</span> n<span class="op">);</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>✓ 優先擴充介面：</strong></p>
+<p><strong>✔ 優先擴充介面：</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="dt">int</span> <span class="fu">Product</span><span class="op">(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> numbers<span class="op">.</span><span class="fu">Aggregate</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">(</span>acc<span class="op">,</span> n<span class="op">)</span> <span class="op">=&gt;</span> acc <span class="op">*</span> n<span class="op">);</span></span>
@@ -552,7 +552,7 @@ window.Quarto = {
 <p>當擴充邏輯不依賴特定元素型別時，可以用泛型把適用範圍放大。以下範例讓任何 <code>IEnumerable&lt;T&gt;</code> 都能判斷是否為 <code>null</code> 或空序列：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✓ 泛型版本，適用於所有 IEnumerable&lt;T&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✔ 泛型版本，適用於所有 IEnumerable&lt;T&gt;</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> IsNullOrEmpty<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;?</span> source<span class="op">)</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> source <span class="op">==</span> <span class="kw">null</span> <span class="op">||</span> <span class="op">!</span>source<span class="op">.</span><span class="fu">Any</span><span class="op">();</span></span>
@@ -705,13 +705,13 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> stream <span class="op">=</span> <span class="fu">GetEventStream</span><span class="op">();</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> thirdEvent <span class="op">=</span> stream<span class="op">[</span><span class="dv">2</span><span class="op">];</span> <span class="co">// 直覺以索引子讀取第三筆事件</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>避坑指南：注意索引子的運算複雜度</strong></p>
-<p>原生陣列或 <code>List&lt;T&gt;</code> 的索引子通常具備 <span class="math inline">\(O(1)\)</span> 的常數存取時間。然而，當你為 <code>IEnumerable&lt;T&gt;</code> 等僅支援循序巡訪的序列定義擴充索引子時，底層的 <code>ElementAt</code> 必須從頭走訪，其運算複雜度為 <span class="math inline">\(O(n)\)</span>。</p>
-<p>因此，在設計擴充索引子時，務必在 XML 文件或命名約定中清楚揭示效能特性，避免呼叫端在密集迴圈中不經意頻繁使用 <code>stream[i]</code> 而引發 <span class="math inline">\(O(n^2)\)</span> 的效能災難。</p>
-</blockquote>
-<blockquote class="blockquote">
 <p><strong>原始碼:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionIndexer">DemoExtensionIndexer</a></p>
 </blockquote>
+<section id="避坑指南注意索引子的運算複雜度" class="level4">
+<h4 class="anchored" data-anchor-id="避坑指南注意索引子的運算複雜度">避坑指南：注意索引子的運算複雜度</h4>
+<p>原生陣列或 <code>List&lt;T&gt;</code> 的索引子通常具備 <span class="math inline">\(O(1)\)</span> 的常數存取時間。然而，當你為 <code>IEnumerable&lt;T&gt;</code> 等僅支援循序巡訪的序列定義擴充索引子時，底層的 <code>ElementAt</code> 必須從頭走訪，其運算複雜度為 <span class="math inline">\(O(n)\)</span>。</p>
+<p>因此，在設計擴充索引子時，務必在 XML 文件或命名約定中清楚揭示效能特性，避免呼叫端在密集迴圈中不經意頻繁使用 <code>stream[i]</code> 而引發 <span class="math inline">\(O(n^2)\)</span> 的效能災難。</p>
+</section>
 </section>
 <section id="擴充靜態成員" class="level3">
 <h3 class="anchored" data-anchor-id="擴充靜態成員">擴充靜態成員</h3>
@@ -831,11 +831,10 @@ window.Quarto = {
 <span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"今天是週末！"</span><span class="op">);</span></span>
 <span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"本月第一天：{today.FirstDayOfMonth:yyyy-MM-dd}"</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>這裡刻意將方法命名為 <code>ToSortableDateTimeString()</code>，因為 <code>s</code> 標準格式會輸出像 <code>2026-03-25T08:30:00</code> 這樣的可排序字串。它的外觀符合 ISO 8601 常見格式，但<strong>不會保留時區或 <code>DateTime.Kind</code> 資訊</strong>。如果你的需求是序列化後可 round-trip 還原，通常應優先考慮 <code>"O"</code>（round-trip）格式。</p>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionMembers">DemoExtensionMembers</a></p>
 </blockquote>
-<p><br></p>
+<p>這裡刻意將方法命名為 <code>ToSortableDateTimeString()</code>，因為 <code>s</code> 標準格式會輸出像 <code>2026-03-25T08:30:00</code> 這樣的可排序字串。它的外觀符合 ISO 8601 常見格式，但<strong>不會保留時區或 <code>DateTime.Kind</code> 資訊</strong>。如果你的需求是序列化後可 round-trip 還原，通常應優先考慮 <code>"O"</code>（round-trip）格式。</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
 <p>C# 14 的 <code>extension</code> 語法是對傳統擴充方法的補充，而非取代。傳統的 <code>this</code> 參數語法仍然有效，你可以根據需求選擇適合的方式。建議在需要擴充屬性或運算子時使用新語法。</p>
@@ -971,7 +970,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="區域函式在擴充方法中的應用">11.6 區域函式在擴充方法中的應用</h2>
 <p>區域函式（local function）與擴充方法雖然是不同維度的特性，但在實務開發中，撰寫自訂擴充方法（特別是 LINQ 類型的序列擴充）時，經常會搭配區域函式來解決架構上的痛點。</p>
 <blockquote class="blockquote">
-<p>區域函式的基礎語法、與 Lambda 的差異以及效能優勢（免配置委派與閉包物件），已在〈第 8 章：委派、Lambda 與事件〉8.3 節詳細說明。這裡我們專注於它在擴充方法與迭代器中的經典設計模式。</p>
+<p>區域函式的基礎語法、與 Lambda 的差異以及配置成本，已在〈第 8 章：委派與 Lambda 運算式〉8.3 節詳細說明。這裡我們專注於它在擴充方法與迭代器中的經典設計模式。</p>
 </blockquote>
 <section id="核心應用迭代器前置參數驗證分割" class="level3">
 <h3 class="anchored" data-anchor-id="核心應用迭代器前置參數驗證分割">核心應用：迭代器前置參數驗證分割</h3>
@@ -1134,7 +1133,7 @@ window.Quarto = {
 <span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="co">// Hello 2</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這種寫法帶有一點技巧性，適合用在明確且小範圍的情境；若用得太廣，閱讀程式碼時就不容易預期哪些型別可以用於 <code>foreach</code>，以及迭代時會產生什麼結果。</p>
 <blockquote class="blockquote">
-<p><strong>範例程式：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoForeachDuckTyping">DemoForeachDuckTyping</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoForeachDuckTyping">DemoForeachDuckTyping</a></p>
 </blockquote>
 </section>
 <section id="智慧參數驗證-callerargumentexpression" class="level3">
@@ -1161,7 +1160,7 @@ window.Quarto = {
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 訊息包含參數名稱："不可為負數 (Parameter 'age')"</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>如果沒有這個 attribute，呼叫時通常得寫 <code>age.ThrowIfNegative(nameof(age))</code>；現在編譯器會自動幫你填入 <code>"age"</code>（即呼叫端的變數名稱或運算式字串）。這也是 .NET 6+ 許多標準 API（如 <code>ArgumentNullException.ThrowIfNull</code>）背後的實作原理。</p>
 <blockquote class="blockquote">
-<p><strong>範例程式：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoCallerArgumentExpression">DemoCallerArgumentExpression</a></p>
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoCallerArgumentExpression">DemoCallerArgumentExpression</a></p>
 </blockquote>
 </section>
 <section id="ai-協作重構為擴充方法" class="level3">
@@ -1280,61 +1279,117 @@ window.Quarto = {
 
 </main> <!-- /main -->
 <script>
+
 (() => {
+
   const path = window.location.pathname;
+
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
+
   if (!match) {
+
     return;
+
   }
+
+
 
   const current = match[1];
+
   const target = current === "zh-tw" ? "en" : "zh-tw";
+
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
+
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
+
+
   const link = document.createElement("a");
+
   link.className = "language-switch";
+
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

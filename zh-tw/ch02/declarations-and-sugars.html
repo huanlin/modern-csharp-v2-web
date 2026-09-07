@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a90b5042977bc76a464b14ca3180e4ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -374,7 +374,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>只能用於區域變數</strong>：不能用於類別成員或一般方法的參數。</li>
 <li><strong>一次只能宣告一個變數</strong>：如以下範例的寫法，是不能通過編譯的。</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> i <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> j <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>  <span class="co">// ✗ 編譯失敗！</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> i <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> j <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>  <span class="co">// ✘ 編譯失敗！</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>雖然 <code>var</code> 不能用於一般方法的參數，但是可以用在 lambda 運算式的參數，像這樣：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Func<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> add <span class="op">=</span> <span class="op">(</span><span class="dt">var</span> x<span class="op">,</span> <span class="dt">var</span> y<span class="op">)</span> <span class="op">=&gt;</span> x <span class="op">+</span> y<span class="op">;</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這個語法主要在需要為 lambda 參數加上 attribute 時才有實際用途，例如 <code>([NotNull] var x, var y) =&gt; ...</code>。若只是一般情況，直接寫出參數型別通常會更清楚。</p>
@@ -385,33 +385,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="型別推斷的陷阱" class="level3">
 <h3 class="anchored" data-anchor-id="型別推斷的陷阱">型別推斷的陷阱</h3>
 <p>使用 <code>var</code> 時要特別注意陣列型別的推斷。編譯器會尋找所有元素都能隱含轉換的<strong>最佳共同型別</strong>：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 推斷為 int[]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 推斷為 int[]</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> numbers <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 推斷為 long[]（所有元素都能轉為 long）</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 推斷為 long[]（所有元素都能轉為 long）</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> mixed <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10000000000L</span> <span class="op">};</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 推斷為 double[]（int 可隱含轉為 double）</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 推斷為 double[]（int 可隱含轉為 double）</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> doubles <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="fl">2.5</span> <span class="op">};</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ 編譯錯誤：無法推斷共同型別</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ 編譯錯誤：無法推斷共同型別</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> invalid <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="st">"text"</span> <span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="最佳實務" class="level4">
 <h4 class="anchored" data-anchor-id="最佳實務">最佳實務</h4>
 <ol type="1">
 <li>對於陣列初始化，如果元素型別混用，而且你希望明確控制結果型別，建議把型別寫出來：</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 明確指定為 double[]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 明確指定為 double[]</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span><span class="op">[]</span> values <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="fl">2.5</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="2" type="1">
 <li>對於複雜的 LINQ 查詢結果，<code>var</code> 幾乎是必須的：</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 型別太長了，使用 var</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 型別太長了，使用 var</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> grouped <span class="op">=</span> students</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">GroupBy</span><span class="op">(</span>s <span class="op">=&gt;</span> s<span class="op">.</span><span class="fu">City</span><span class="op">)</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">Select</span><span class="op">(</span>g <span class="op">=&gt;</span> <span class="kw">new</span> <span class="op">{</span> City <span class="op">=</span> g<span class="op">.</span><span class="fu">Key</span><span class="op">,</span> Count <span class="op">=</span> g<span class="op">.</span><span class="fu">Count</span><span class="op">()</span> <span class="op">});</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ 型別冗長且無益</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ 型別冗長且無益</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">// （以下型別名稱僅為示意，因為匿名型別的名稱無法在原始碼中使用）</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>IEnumerable<span class="op">&lt;</span>AnonymousType<span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;&gt;</span> grouped <span class="op">=</span> <span class="op">...</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
@@ -419,7 +419,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="何時該用-var何時不該用" class="level3">
 <h3 class="anchored" data-anchor-id="何時該用-var何時不該用">何時該用 var？何時不該用？</h3>
 <section id="適合使用的場景" class="level4">
-<h4 class="anchored" data-anchor-id="適合使用的場景">✓ 適合使用的場景</h4>
+<h4 class="anchored" data-anchor-id="適合使用的場景">✔ 適合使用的場景</h4>
 <ol type="1">
 <li><strong>右側型別顯而易見</strong>：</li>
 </ol>
@@ -434,11 +434,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>從這些例子可以看出，隱含型別在 LINQ 查詢和匿名型別的場景中特別實用，能有效提高程式碼的可讀性與簡潔性。</p>
 </section>
 <section id="不建議使用的場景" class="level4">
-<h4 class="anchored" data-anchor-id="不建議使用的場景">✗ 不建議使用的場景</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ 不明確</span></span>
+<h4 class="anchored" data-anchor-id="不建議使用的場景">✘ 不建議使用的場景</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ 不明確</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> result <span class="op">=</span> <span class="fu">GetData</span><span class="op">();</span>  <span class="co">// result 是什麼型別？</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 明確</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 明確</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>Customer result <span class="op">=</span> <span class="fu">GetData</span><span class="op">();</span>  <span class="co">// 一眼就知道</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoVar">DemoVar</a></p>
@@ -608,7 +608,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="不能靠-var-自行推斷型別" class="level4">
 <h4 class="anchored" data-anchor-id="不能靠-var-自行推斷型別">不能靠 <code>var</code> 自行推斷型別</h4>
 <p>下面這種寫法不能通過編譯：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> numbers <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span>  <span class="co">// ✗ 編譯失敗</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> numbers <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span>  <span class="co">// ✘ 編譯失敗</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>原因是編譯器不知道你要的是 <code>int[]</code>、<code>List&lt;int&gt;</code>、<code>Span&lt;int&gt;</code>，還是其他受支援的集合型別。你必須把目標型別寫出來：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span>     <span class="co">// OK</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>List<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> values <span class="op">=</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">];</span>  <span class="co">// OK</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
@@ -825,7 +825,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>下面這個範例雖然可以編譯，但會產生 CS9266 警告，因為 getter 讀取的是編譯器產生的 <code>field</code>，setter 寫入的卻是手動宣告的 <code>_count</code>。兩者是完全不同的儲存位置，所以讀到的值永遠不是你寫進去的值：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Person</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✗ 混用 field 與手動欄位</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✘ 混用 field 與手動欄位</span></span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> _count<span class="op">;</span></span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Count</span>
 <span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
@@ -1251,6 +1251,9 @@ emp2.name = John</code></pre>
 <span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
 <span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoLabeledJumps">DemoLabeledJumps</a></p>
+</blockquote>
 <ol type="1">
 <li>當遇到障礙物時，<code>continue searchLoop;</code> 會直接使外層的 <code>r</code> 迴圈進入下一次迭代（<code>r++</code>），省去內層多餘的判斷。</li>
 <li>當尋獲目標時，<code>break searchLoop;</code> 能一舉跳離整個外層迴圈，既不需額外宣告 <code>found</code> 旗標，也沒有 <code>goto</code> 的非結構化跳躍隱患。</li>
@@ -1263,9 +1266,6 @@ emp2.name = John</code></pre>
 <li>跳躍目標必須是包含當前陳述式的<strong>外層封閉迴圈</strong>；你不能跳躍至同層、子層或毫無關聯的其他迴圈。</li>
 <li>若巢狀層級超過兩層，實務上通常更推薦將搜尋邏輯抽取成獨立函式並使用 <code>return</code> 提早結束，以維持函式職責的單純與可讀性。</li>
 </ul>
-</blockquote>
-<blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch02/DemoLabeledJumps">DemoLabeledJumps</a></p>
 </blockquote>
 </section>
 </section>
@@ -1398,7 +1398,7 @@ emp2.name = John</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Tuple</td>
-<td style="text-align: left;">元組</td>
+<td style="text-align: left;">值組；元組</td>
 <td style="text-align: left;">C# 7+ 引入的輕量級資料結構，常用於多值回傳</td>
 </tr>
 </tbody>
@@ -1409,61 +1409,117 @@ emp2.name = John</code></pre>
 
 </main> <!-- /main -->
 <script>
+
 (() => {
+
   const path = window.location.pathname;
+
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
+
   if (!match) {
+
     return;
+
   }
+
+
 
   const current = match[1];
+
   const target = current === "zh-tw" ? "en" : "zh-tw";
+
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
+
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
+
+
   const link = document.createElement("a");
+
   link.className = "language-switch";
+
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a90b5042977bc76a464b14ca3180e4ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -339,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-06</p>
+      <p class="date-modified">2026-09-07</p>
     </div>
   </div>
     
@@ -380,10 +380,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>泛型完美化解了這個兩難。藉由在型別名稱後方加上角括號 <code>&lt;T&gt;</code>，將型別決定權交給呼叫端：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>List<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;();</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>numbers<span class="op">.</span><span class="fu">Add</span><span class="op">(</span><span class="dv">100</span><span class="op">);</span>  <span class="co">// 直接儲存 int，零裝箱成本</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">// numbers.Add("Hello"); // ✓ 編譯期立即報錯，守住型別安全</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">// numbers.Add("Hello"); // ✔ 編譯期立即報錯，守住型別安全</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> num <span class="op">=</span> numbers<span class="op">[</span><span class="dv">0</span><span class="op">];</span> <span class="co">// 無需任何手動轉型</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
-<p>透過泛型集合： - <strong>編譯器把關安全</strong>：杜絕不相容型別的混入與執行時期轉型失敗。 - <strong>消除裝箱開銷</strong>：.NET CLR 會針對實值型別進行 JIT 特化（specialization），直接在記憶體中連續存放原生值。 - <strong>程式碼重用</strong>：單一 <code>List&lt;T&gt;</code> 即可滿足所有型別的串列需求。</p>
+<p>透過泛型集合：</p>
+<ul>
+<li><strong>編譯器把關安全</strong>：杜絕不相容型別的混入與執行時期轉型失敗。</li>
+<li><strong>消除裝箱開銷</strong>：.NET CLR 會針對實值型別進行 JIT 特化（specialization），直接在記憶體中連續存放原生值。</li>
+<li><strong>程式碼重用</strong>：單一 <code>List&lt;T&gt;</code> 即可滿足所有型別的串列需求。</li>
+</ul>
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch07/DemoWhyGenerics">DemoWhyGenerics</a></p>
 </blockquote>
@@ -752,7 +757,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">// 透過 INumber&lt;T&gt; 約束，T 可以是 int、double、decimal 等任意數值型別</span></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> T Add<span class="op">&lt;</span>T<span class="op">&gt;(</span>T left<span class="op">,</span> T right<span class="op">)</span> where T <span class="op">:</span> INumber<span class="op">&lt;</span>T<span class="op">&gt;</span></span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> left <span class="op">+</span> right<span class="op">;</span> <span class="co">// ✓ 編譯通過！INumber&lt;T&gt; 保證了 operator + 的存在</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> left <span class="op">+</span> right<span class="op">;</span> <span class="co">// ✔ 編譯通過！INumber&lt;T&gt; 保證了 operator + 的存在</span></span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Add</span><span class="op">(</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">));</span>       <span class="co">// 30</span></span>
@@ -1283,13 +1288,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>好的泛型設計能讓呼叫端程式碼簡潔清楚；設計不當的泛型則會讓型別參數與角括號（angle brackets）變得比實際邏輯還難讀。以下是幾個值得遵循的設計原則：</p>
 <section id="原則-1最小化型別參數" class="level4">
 <h4 class="anchored" data-anchor-id="原則-1最小化型別參數">原則 1：最小化型別參數</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb66"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ 不好：太多型別參數</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb66"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ 不好：太多型別參數</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Processor<span class="op">&lt;</span>TInput<span class="op">,</span> TOutput<span class="op">,</span> TConfig<span class="op">,</span> TLogger<span class="op">,</span> TValidator<span class="op">&gt;</span></span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
 <span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 較好：拆分責任</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 較好：拆分責任</span></span>
 <span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Processor<span class="op">&lt;</span>TInput<span class="op">,</span> TOutput<span class="op">&gt;</span></span>
 <span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="kw">readonly</span> IConfig _config<span class="op">;</span></span>
@@ -1300,16 +1305,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="原則-2使用有意義的名稱" class="level4">
 <h4 class="anchored" data-anchor-id="原則-2使用有意義的名稱">原則 2：使用有意義的名稱</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb67"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ 不好</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb67"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ 不好</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Map<span class="op">&lt;</span>T<span class="op">,</span> U<span class="op">&gt;</span> <span class="op">{</span> <span class="op">}</span></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 較好</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 較好</span></span>
 <span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Map<span class="op">&lt;</span>TKey<span class="op">,</span> TValue<span class="op">&gt;</span> <span class="op">{</span> <span class="op">}</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>單一型別參數用 <code>T</code> 很常見，但當型別參數有明確角色時，使用 <code>TKey</code>、<code>TValue</code> 這類名稱能讓 API 的意圖直接出現在簽章裡。</p>
 </section>
 <section id="原則-3適當使用約束" class="level4">
 <h4 class="anchored" data-anchor-id="原則-3適當使用約束">原則 3：適當使用約束</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ 太鬆：允許任何型別</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ 太鬆：允許任何型別</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Repository<span class="op">&lt;</span>T<span class="op">&gt;</span></span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Save</span><span class="op">(</span>T entity<span class="op">)</span></span>
@@ -1318,7 +1323,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 較好：使用約束</span></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 較好：使用約束</span></span>
 <span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Repository<span class="op">&lt;</span>T<span class="op">&gt;</span> where T <span class="op">:</span> IEntity</span>
 <span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Save</span><span class="op">(</span>T entity<span class="op">)</span></span>
@@ -1330,13 +1335,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="原則-4優先使用泛型介面" class="level4">
 <h4 class="anchored" data-anchor-id="原則-4優先使用泛型介面">原則 4：優先使用泛型介面</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✓ 好：依賴介面而非具體類別</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✔ 好：依賴介面而非具體類別</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> Process<span class="op">&lt;</span>T<span class="op">&gt;(</span>IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;</span> items<span class="op">)</span></span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 可接受任何實作 IEnumerable&lt;T&gt; 的集合</span></span>
 <span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ 較差：綁定具體類別</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ 較差：綁定具體類別</span></span>
 <span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> Process<span class="op">&lt;</span>T<span class="op">&gt;(</span>List<span class="op">&lt;</span>T<span class="op">&gt;</span> items<span class="op">)</span></span>
 <span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 只能傳入 List&lt;T&gt;</span></span>
@@ -1532,61 +1537,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </main> <!-- /main -->
 <script>
+
 (() => {
+
   const path = window.location.pathname;
+
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
+
   if (!match) {
+
     return;
+
   }
+
+
 
   const current = match[1];
+
   const target = current === "zh-tw" ? "en" : "zh-tw";
+
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
+
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
+
+
   const link = document.createElement("a");
+
   link.className = "language-switch";
+
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a90b5042977bc76a464b14ca3180e4ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -499,7 +499,7 @@ window.Quarto = {
 <section id="common-mistake-mutable-struct" class="level3">
 <h3 class="anchored" data-anchor-id="common-mistake-mutable-struct">Common mistake: mutable <code>struct</code></h3>
 <p>A common bad design is making a struct mutable. For example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ Not recommended: a mutable struct</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ Not recommended: a mutable struct</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">struct</span> MutablePoint</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> X<span class="op">;</span></span>
@@ -574,12 +574,11 @@ window.Quarto = {
 <p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoReadonlyStruct">DemoReadonlyStruct</a></p>
 <p>Related Microsoft docs: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct">The <code>struct</code> type</a>, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/readonly">readonly (C# reference)</a></p>
 </blockquote>
-<p>At this point, designing a readonly struct looks straightforward.</p>
+<p>At this point, designing a readonly struct looks straightforward. However, there’s still a hidden performance trap: if you don’t understand the compiler’s behavior, you can pay an extra cost without realizing it.</p>
 <blockquote class="blockquote">
 <p><strong>Reading suggestion</strong></p>
 <p>Having mastered the semantic differences between <code>struct</code> and <code>class</code>, the pitfalls of mutable structs, and <code>readonly struct</code>, you now have the core foundation for designing immutable types. The upcoming discussions on “defensive copies” and “<code>ref struct</code>” cover advanced low-level performance and memory mechanics. If your primary goal is designing immutable data objects, DTOs, or domain models, feel free to skip directly to <a href="#sec-4-3">4.3 record: simplifying data type definitions</a>. You can always return to these advanced performance topics when tuning high-throughput scenarios or learning how Span works.</p>
 </blockquote>
-<p>However, there’s still a hidden performance trap: if you don’t understand the compiler’s behavior, you can pay an extra cost without realizing it.</p>
 </section>
 <section id="defensive-copies-a-hidden-performance-trap" class="level3">
 <h3 class="anchored" data-anchor-id="defensive-copies-a-hidden-performance-trap">Defensive copies: a hidden performance trap</h3>
@@ -719,7 +718,7 @@ window.Quarto = {
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">readonly</span> <span class="dt">void</span> <span class="fu">PrintInfo</span><span class="op">()</span></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Point: ({X}, {Y})"</span><span class="op">);</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">LogState</span><span class="op">();</span>  <span class="co">// ✓ No defensive copy</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">LogState</span><span class="op">();</span>  <span class="co">// ✔ No defensive copy</span></span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Explicitly mark as readonly</span></span>
@@ -769,7 +768,7 @@ window.Quarto = {
 <p>The following example shows several convenient features of records:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. Properties with init accessors</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="kw">new</span> <span class="fu">Person</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">// person.Name = "Bob";  // ✗ Compile error: init-only</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">// person.Name = "Bob";  // ✘ Compile error: init-only</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. Meaningful ToString</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>person<span class="op">);</span></span>
@@ -850,18 +849,18 @@ window.Quarto = {
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> record <span class="kw">class</span> <span class="fu">PersonClass</span><span class="op">(</span><span class="dt">string</span> Name<span class="op">,</span> <span class="dt">int</span> Age<span class="op">);</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">PersonClass</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>p1<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✗ Compile error: init-only properties can't be changed after initialization</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>p1<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✘ Compile error: init-only properties can't be changed after initialization</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>With positional <code>record struct</code> syntax, primary-constructor parameters generate read-write properties by default, so they can be reassigned after construction:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> record <span class="kw">struct</span> <span class="fu">PersonStruct</span><span class="op">(</span><span class="dt">string</span> Name<span class="op">,</span> <span class="dt">int</span> Age<span class="op">);</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">PersonStruct</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>p2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✓ Mutable (which may not be what you want)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>p2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✔ Mutable (which may not be what you want)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you want to prevent those positional properties from being reassigned after initialization, use <code>readonly record struct</code>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Positional readonly record struct: init-only properties</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">readonly</span> record <span class="kw">struct</span> <span class="fu">PersonStruct</span><span class="op">(</span><span class="dt">string</span> Name<span class="op">,</span> <span class="dt">int</span> Age<span class="op">);</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p3 <span class="op">=</span> <span class="kw">new</span> <span class="fu">PersonStruct</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>p3<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✗ Compile error</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>p3<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✘ Compile error</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>readonly</code> prevents fields and properties from being reassigned. If a member refers to a mutable object, that object’s contents can still change.</p>
 <section id="when-should-you-use-record-class" class="level4">
 <h4 class="anchored" data-anchor-id="when-should-you-use-record-class">When should you use <code>record class</code>?</h4>
@@ -929,10 +928,10 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Inheritance</strong></td>
-<td style="text-align: left;">✓ Supports inheritance</td>
-<td style="text-align: left;">✗ No inheritance (can implement interfaces)</td>
-<td style="text-align: left;">✓ Supports inheritance</td>
-<td style="text-align: left;">✗ No inheritance (can implement interfaces)</td>
+<td style="text-align: left;">✔ Supports inheritance</td>
+<td style="text-align: left;">✘ No inheritance (can implement interfaces)</td>
+<td style="text-align: left;">✔ Supports inheritance</td>
+<td style="text-align: left;">✘ No inheritance (can implement interfaces)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Default equality</strong></td>
@@ -958,9 +957,9 @@ window.Quarto = {
 <tr class="even">
 <td style="text-align: left;"><strong><code>with</code> support</strong></td>
 <td style="text-align: left;">No (manual)</td>
-<td style="text-align: left;">✓ Yes (C# 10+)</td>
-<td style="text-align: left;">✓ Yes (generated)</td>
-<td style="text-align: left;">✓ Yes (generated)</td>
+<td style="text-align: left;">✔ Yes (C# 10+)</td>
+<td style="text-align: left;">✔ Yes (generated)</td>
+<td style="text-align: left;">✔ Yes (generated)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Deconstruction</strong></td>
@@ -1014,7 +1013,7 @@ window.Quarto = {
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span><span class="op">,</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span></span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co">// Any later mutation fails at compile time</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>person<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✗ Compile error: init-only</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>person<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✘ Compile error: init-only</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>init</code> combines two goals: preventing property reassignment and retaining object initializer syntax.</p>
 <p>You keep the flexibility of object initializers (set only what you need, in any order) while preventing those properties from being reassigned after initialization.</p>
 <p>However, <code>init</code> has a small gap: it cannot force callers to set certain properties. If a caller omits <code>Name</code>, the object is still created—just with default values. The <code>required</code> modifier introduced in C# 11 fills exactly this gap.</p>
@@ -1029,10 +1028,10 @@ window.Quarto = {
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Name is required</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span> <span class="op">};</span>  <span class="co">// ✓ OK</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span> <span class="op">};</span>  <span class="co">// ✔ OK</span></span>
 <span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">// Missing Name produces a compile error</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> invalid <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span>  <span class="co">// ✗ Compile error: Name is required</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> invalid <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span>  <span class="co">// ✘ Compile error: Name is required</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>required</code> ensures that callers must initialize those required members when creating the object, which helps prevent a “missing entirely” kind of half-initialized state (for example, creating a <code>Person</code> and forgetting to provide <code>Name</code> at all).</p>
 <p>However, be careful: <code>required</code> guarantees “must be initialized,” not “must be non-null.” If the member type is a non-nullable reference type, the compiler will typically report nullable warnings; if you need to strictly reject invalid values, you should still add appropriate validation logic.</p>
 <p>Together, <code>required</code> + <code>init</code> gives you a practical balance: language-level checks during initialization, plus the convenience of object initializers.</p>
@@ -1079,8 +1078,8 @@ window.Quarto = {
 <p><strong>Note: Shallow copy warning</strong></p>
 <p><code>with</code> copies the object itself. If a member references an external mutable object (such as an array or a standard <code>List</code>), both the old and new instances still point to the same collection, and modifying the collection’s contents will affect both.</p>
 </blockquote>
+<p><strong>Ask AI:</strong></p>
 <blockquote class="blockquote">
-<p><strong>Ask AI</strong></p>
 <p>In C#, when using <code>record</code> and the <code>with</code> expression, if a member contains a mutable reference type (such as <code>List&lt;T&gt;</code>), how can you achieve a deep copy? Please provide code examples.</p>
 </blockquote>
 </section>
@@ -1180,16 +1179,16 @@ window.Quarto = {
 <span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p2 <span class="op">=</span> p1 with <span class="op">{</span> Y <span class="op">=</span> <span class="dv">5</span> <span class="op">};</span></span>
 <span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>p2<span class="op">.</span><span class="fu">DistanceFromOrigin</span><span class="op">);</span>  <span class="co">// 5.83... (cache recomputed)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>Advanced tip: precise invalidation using init accessors</strong></p>
-<p>A drawback of the copy-constructor approach is that every <code>with</code> expression resets the cache, even when modifying properties unrelated to the calculation. For maximum precision, you can use the C# 14 <code>field</code> keyword to explicitly set <code>_distanceCache = null</code> inside the <code>init</code> accessors of relevant properties, invalidating the cache only when crucial members change.</p>
-</blockquote>
-<blockquote class="blockquote">
 <p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoLazyEvaluation">DemoLazyEvaluation</a></p>
 </blockquote>
+<section id="advanced-tip-precise-invalidation-using-init-accessors" class="level4">
+<h4 class="anchored" data-anchor-id="advanced-tip-precise-invalidation-using-init-accessors">Advanced tip: precise invalidation using init accessors</h4>
+<p>A drawback of the copy-constructor approach is that every <code>with</code> expression resets the cache, even when modifying properties unrelated to the calculation. For maximum precision, you can use the C# 14 <code>field</code> keyword to explicitly set <code>_distanceCache = null</code> inside the <code>init</code> accessors of relevant properties, invalidating the cache only when crucial members change.</p>
 <blockquote class="blockquote">
 <p><strong>Design principle</strong></p>
 <p>Lazy evaluation within immutable types is a safe and widely used optimization. While we technically “mutate” the <code>_distanceCache</code> field internally, this does not violate immutability because it has zero impact on the object’s logical state. This pattern is known as <strong>logical immutability</strong>.</p>
 </blockquote>
+</section>
 </section>
 </section>
 <section id="practical-application-an-immutable-domain-model" class="level2">
@@ -1272,6 +1271,9 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Assign member instances directly with natural syntax</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>PaymentMethod method1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Cash</span><span class="op">(</span><span class="dv">500</span>m<span class="op">);</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>PaymentMethod method2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">CreditCard</span><span class="op">(</span><span class="st">"4111-2222-3333-4444"</span><span class="op">,</span> <span class="dv">1200</span>m<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoUnionTypes">DemoUnionTypes</a></p>
+</blockquote>
 <section id="when-to-use-inheritance-when-to-use-union-types" class="level4">
 <h4 class="anchored" data-anchor-id="when-to-use-inheritance-when-to-use-union-types">When to use inheritance? When to use union types?</h4>
 <p>In immutable architectural design, deciding between class inheritance hierarchies and union types depends on the openness of your domain states:</p>
@@ -1297,9 +1299,6 @@ window.Quarto = {
 <li>Provide an API that works well with <code>with</code> expressions</li>
 <li>Explain the reasoning behind your design choices</li>
 </ol>
-</blockquote>
-<blockquote class="blockquote">
-<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch04/DemoUnionTypes">DemoUnionTypes</a></p>
 </blockquote>
 </section>
 </section>
@@ -1399,7 +1398,7 @@ window.Quarto = {
 <p>Another common option is <code>ImmutableArray&lt;T&gt;</code>. Internally it wraps an array, so it tends to have better memory usage and read performance than tree-based <code>ImmutableList&lt;T&gt;</code>.</p>
 <ul>
 <li><strong>ImmutableArray</strong>: Great read performance (<span class="math inline">\(O(1)\)</span>, contiguous memory), but each change copies the whole array (<span class="math inline">\(O(N)\)</span>). Best for “build once, read many.”</li>
-<li><strong>ImmutableList</strong>: Tree-based with structural sharing. Updates like <code>Add</code>/<code>Remove</code> are typically <span class="math inline">\(O(\log N)\)</span>, but “read cost” depends on what you mean (for example, enumeration is still <span class="math inline">\(O(N)\)</span>, while indexed access has the extra overhead of tree traversal). Better when you need frequent updates while keeping immutable semantics.</li>
+<li><strong>ImmutableList</strong>: Tree-based with structural sharing. <code>Add</code> and removal by index with <code>RemoveAt</code> take <span class="math inline">\(O(\log N)\)</span>. Removal by value with <code>Remove(value)</code> first searches for the element, so its worst-case cost is <span class="math inline">\(O(N)\)</span>, assuming each equality comparison takes <span class="math inline">\(O(1)\)</span>. Indexed access takes <span class="math inline">\(O(\log N)\)</span>, and full enumeration takes <span class="math inline">\(O(N)\)</span>. Better when you need frequent updates while keeping immutable semantics.</li>
 </ul>
 <p>So if your collection is mostly read-only after construction, prefer <code>ImmutableArray&lt;T&gt;</code>.</p>
 <blockquote class="blockquote">
@@ -1413,7 +1412,7 @@ window.Quarto = {
 <p>These types have different goals from the immutable collections above:</p>
 <ul>
 <li><code>ImmutableDictionary</code>: Supports non-destructive modifications (each mutation returns a new instance). Tree-based internally, so element insertion is relatively fast, but lookups are slower.</li>
-<li><code>FrozenDictionary</code>: Completely frozen after creation — <strong>no mutations whatsoever</strong>. Lookup performance is excellent (faster than a regular <code>Dictionary</code>), but construction has a higher upfront cost (slower to initialize). Best suited for “build once at startup, read many times” scenarios such as configuration lookup tables and keyword maps.</li>
+<li><code>FrozenDictionary</code>: Completely frozen after creation — <strong>no mutations whatsoever</strong>. It is optimized for frequent lookups but has a higher upfront construction cost. Measure its benefit over a regular <code>Dictionary</code> using your data and access patterns. It is suited for “build once at startup, read many times” scenarios such as configuration lookup tables and keyword maps.</li>
 </ul>
 <p><code>FrozenSet&lt;T&gt;</code> is the read-optimized counterpart to <code>ImmutableHashSet&lt;T&gt;</code>, similarly tuned for lookup performance.</p>
 <p>Example:</p>
@@ -1425,7 +1424,7 @@ window.Quarto = {
 <span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="st">"retries"</span><span class="op">]</span> <span class="op">=</span> <span class="st">"3"</span></span>
 <span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="op">}.</span><span class="fu">ToFrozenDictionary</span><span class="op">();</span></span>
 <span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Lookups are faster than a regular Dictionary, and the collection can never be modified</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Read a setting from a lookup table that stays unchanged after construction</span></span>
 <span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> value <span class="op">=</span> config<span class="op">[</span><span class="st">"timeout"</span><span class="op">];</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In summary, the right collection depends on your usage pattern: for frequent modifications with version history, use <code>ImmutableList</code> or <code>ImmutableDictionary</code>; for mostly-read data with occasional modifications, use <code>ImmutableArray</code>; for data that never changes after construction and demands the fastest lookups, use <code>FrozenDictionary</code> or <code>FrozenSet</code>.</p>
 </section>
@@ -1570,61 +1569,117 @@ window.Quarto = {
 
 </main> <!-- /main -->
 <script>
+
 (() => {
+
   const path = window.location.pathname;
+
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
+
   if (!match) {
+
     return;
+
   }
+
+
 
   const current = match[1];
+
   const target = current === "zh-tw" ? "en" : "zh-tw";
+
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
+
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
+
+
   const link = document.createElement("a");
+
   link.className = "language-switch";
+
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

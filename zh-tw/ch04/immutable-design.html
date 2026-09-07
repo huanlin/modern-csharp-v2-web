@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a90b5042977bc76a464b14ca3180e4ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -465,7 +465,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="常見錯誤可變的-struct" class="level3">
 <h3 class="anchored" data-anchor-id="常見錯誤可變的-struct">常見錯誤：可變的 struct</h3>
 <p>一種常見的不良設計是把結構設計成允許修改。例如底下的反面教材：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✗ 不建議這樣設計：可變的 struct</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✘ 不建議這樣設計：可變的 struct</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">struct</span> MutablePoint</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> X<span class="op">;</span></span>
@@ -540,12 +540,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoReadonlyStruct">DemoReadonlyStruct</a></p>
 <p>相關微軟文件：<a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct">The <code>struct</code> type</a>、 <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/readonly">readonly (C# reference)</a></p>
 </blockquote>
-<p>到這裡，設計一個唯讀結構看起來相當直觀。</p>
+<p>到這裡，設計一個唯讀結構看起來相當直觀。不過，這裡還有個隱藏的效能陷阱：如果不了解編譯器的行為，很容易在不知不覺中付出額外成本。</p>
 <blockquote class="blockquote">
 <p><strong>閱讀建議</strong></p>
 <p>掌握了上述 <code>struct</code> 與 <code>class</code> 的語意差異、可變結構陷阱以及 <code>readonly struct</code> 之後，你已經具備設計一般不可變資料型別的核心基礎。 接下來要討論的「防禦性複製」與「<code>ref struct</code>」，屬於進階的底層效能與記憶體機制。若你的主要目標是為業務邏輯、DTO 或領域模型建立不可變物件，可以直接跳讀 <a href="#sec-4-3">4.3 record：簡化資料型別的定義</a>；日後需要調校極致效能或深入理解 Span 時再回頭研讀即可。</p>
 </blockquote>
-<p>不過，這裡還有個隱藏的效能陷阱：如果不了解編譯器的行為，很容易在不知不覺中付出額外成本。</p>
 </section>
 <section id="防禦性複製隱藏的效能陷阱" class="level3">
 <h3 class="anchored" data-anchor-id="防禦性複製隱藏的效能陷阱">防禦性複製：隱藏的效能陷阱</h3>
@@ -685,7 +684,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">readonly</span> <span class="dt">void</span> <span class="fu">PrintInfo</span><span class="op">()</span></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Point: ({X}, {Y})"</span><span class="op">);</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">LogState</span><span class="op">();</span>  <span class="co">// ✓ 不再觸發防禦性複製</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">LogState</span><span class="op">();</span>  <span class="co">// ✔ 不再觸發防禦性複製</span></span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 明確標記為 readonly</span></span>
@@ -735,7 +734,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>以下範例展示了 record 的幾個方便功能：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. 具有 init 存取子的屬性</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="kw">new</span> <span class="fu">Person</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">// person.Name = "Bob";  // ✗ 編譯錯誤：init 屬性只能在初始化時設定</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">// person.Name = "Bob";  // ✘ 編譯錯誤：init 屬性只能在初始化時設定</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. ToString 輸出更有意義</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>person<span class="op">);</span></span>
@@ -817,18 +816,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> record <span class="kw">class</span> <span class="fu">PersonClass</span><span class="op">(</span><span class="dt">string</span> Name<span class="op">,</span> <span class="dt">int</span> Age<span class="op">);</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">PersonClass</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>p1<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✗ 編譯錯誤！init-only 屬性不能在初始化之後修改</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>p1<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✘ 編譯錯誤！init-only 屬性不能在初始化之後修改</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>使用位置式語法宣告 <code>record struct</code> 時，主要建構式參數預設會產生 read-write 屬性，因此可以在建立後重新指派：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> record <span class="kw">struct</span> <span class="fu">PersonStruct</span><span class="op">(</span><span class="dt">string</span> Name<span class="op">,</span> <span class="dt">int</span> Age<span class="op">);</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">PersonStruct</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>p2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✓ 可以修改！但可能不是你想要的</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>p2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✔ 可以修改！但可能不是你想要的</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>如果你希望限制這些位置式屬性在初始化後被重新指派，可以使用 <code>readonly record struct</code>：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">// readonly 位置式 record struct：屬性是 init-only</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">readonly</span> record <span class="kw">struct</span> <span class="fu">PersonStruct</span><span class="op">(</span><span class="dt">string</span> Name<span class="op">,</span> <span class="dt">int</span> Age<span class="op">);</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p3 <span class="op">=</span> <span class="kw">new</span> <span class="fu">PersonStruct</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>p3<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✗ 編譯錯誤！</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>p3<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✘ 編譯錯誤！</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>readonly</code> 限制的是欄位與屬性的重新指派。若成員參考的是可變物件，該物件的內容仍然可能被修改。</p>
 <section id="何時使用-record-class" class="level4">
 <h4 class="anchored" data-anchor-id="何時使用-record-class">何時使用 record class？</h4>
@@ -897,10 +896,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>繼承能力</strong></td>
-<td style="text-align: left;">✓ 支援繼承</td>
-<td style="text-align: left;">✗ 不支援繼承（可實作介面）</td>
-<td style="text-align: left;">✓ 支援繼承</td>
-<td style="text-align: left;">✗ 不支援繼承（可實作介面）</td>
+<td style="text-align: left;">✔ 支援繼承</td>
+<td style="text-align: left;">✘ 不支援繼承（可實作介面）</td>
+<td style="text-align: left;">✔ 支援繼承</td>
+<td style="text-align: left;">✘ 不支援繼承（可實作介面）</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>預設相等性</strong></td>
@@ -926,9 +925,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;"><strong>with 運算式</strong></td>
 <td style="text-align: left;">無，需手動實作</td>
-<td style="text-align: left;">✓ 支援（C# 10+）</td>
-<td style="text-align: left;">✓ 自動支援</td>
-<td style="text-align: left;">✓ 自動支援</td>
+<td style="text-align: left;">✔ 支援（C# 10+）</td>
+<td style="text-align: left;">✔ 自動支援</td>
+<td style="text-align: left;">✔ 自動支援</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>解構支援</strong></td>
@@ -982,7 +981,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span><span class="op">,</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span></span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co">// 嘗試之後修改會編譯錯誤</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>person<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✗ 編譯錯誤：init 屬性只能在初始化時設定</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>person<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Bob"</span><span class="op">;</span>  <span class="co">// ✘ 編譯錯誤：init 屬性只能在初始化時設定</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>init</code> 存取子兼顧了「限制屬性重新指派」與「使用物件初始設定式」兩項需求。</p>
 <p>這種寫法的好處是：保留了物件初始設定式的靈活性（可以只設定部分屬性、順序無關），同時防止這些屬性在初始化完成後被重新指派。</p>
 <p>不過，<code>init</code> 存取子有個小缺口：它無法強制呼叫端一定要設定某些屬性。如果呼叫端漏掉了 <code>Name</code>，物件仍然會被建立，只是屬性會是預設值。C# 11 引入的 <code>required</code> 修飾詞正好補上了這個缺口。</p>
@@ -997,10 +996,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co">// 必須提供 Name</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span> <span class="op">};</span>  <span class="co">// ✓ 正確</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> person <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span> <span class="op">};</span>  <span class="co">// ✔ 正確</span></span>
 <span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">// 不提供 Name 會編譯錯誤</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> invalid <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span>  <span class="co">// ✗ 編譯錯誤：Name 是必要的</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> invalid <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span>  <span class="co">// ✘ 編譯錯誤：Name 是必要的</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>required</code> 關鍵字確保了物件在建立時，呼叫端必須初始化那些必要成員，避免了「完全沒設定」的半初始化狀態（例如建立了 <code>Person</code> 卻完全沒提供 <code>Name</code>）。</p>
 <p>不過要留意：<code>required</code> 保證的是「必須初始化」，不等於「一定不是 null」。若屬性型別是不可為 null 的參考型別，編譯器通常會透過 nullable reference types 提示警告；若要嚴格防止無效值，仍應搭配適當的驗證邏輯。</p>
 <p>這個組合（<code>required</code> + <code>init</code>）提供了很實用的折衷：既有初始化時的語言層級檢查，又保留物件初始設定式的便利性。</p>
@@ -1046,8 +1045,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Note：淺層複製提醒</strong></p>
 <p><code>with</code> 複製的是物件本身。若成員參考的是外部可變物件（如陣列或一般 <code>List</code>），新舊實例仍會指向同一個集合，對集合內容的改動將互相影響。</p>
 </blockquote>
+<p><strong>Ask AI：</strong></p>
 <blockquote class="blockquote">
-<p><strong>Ask AI</strong></p>
 <p>請說明在 C# 中，使用 <code>record</code> 和 <code>with</code> 運算式時，如果成員包含可變參考型別（如 <code>List&lt;T&gt;</code>），該如何達成深層複製的效果？請提供程式範例。</p>
 </blockquote>
 </section>
@@ -1148,16 +1147,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p2 <span class="op">=</span> p1 with <span class="op">{</span> Y <span class="op">=</span> <span class="dv">5</span> <span class="op">};</span></span>
 <span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>p2<span class="op">.</span><span class="fu">DistanceFromOrigin</span><span class="op">);</span>  <span class="co">// 5.83...（快取重新計算）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>進階技巧：使用 init 存取子精確失效</strong></p>
-<p>上述複製建構式的缺點是每次 <code>with</code> 都會使快取重置（即使修改的屬性與該計算無關）。若追求極致精確，可搭配 C# 14 的 <code>field</code> 關鍵字，在相關屬性的 <code>init</code> 存取子中明確指派 <code>_distanceCache = null</code>，使快取僅在關鍵成員變更時才失效。</p>
-</blockquote>
-<blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoLazyEvaluation">DemoLazyEvaluation</a></p>
 </blockquote>
+<section id="進階技巧使用-init-存取子精確失效" class="level4">
+<h4 class="anchored" data-anchor-id="進階技巧使用-init-存取子精確失效">進階技巧：使用 init 存取子精確失效</h4>
+<p>上述複製建構式的缺點是每次 <code>with</code> 都會使快取重置（即使修改的屬性與該計算無關）。若追求極致精確，可搭配 C# 14 的 <code>field</code> 關鍵字，在相關屬性的 <code>init</code> 存取子中明確指派 <code>_distanceCache = null</code>，使快取僅在關鍵成員變更時才失效。</p>
 <blockquote class="blockquote">
 <p><strong>設計原則</strong></p>
 <p>在不可變型別中使用延遲求值是安全且常見的優化技巧。雖然技術上我們「修改」了 <code>_distanceCache</code> 欄位，但這不違反不可變性的原則，因為它不影響物件的邏輯狀態。這種模式稱為<strong>邏輯不可變性</strong>（logical immutability）。</p>
 </blockquote>
+</section>
 </section>
 </section>
 <section id="實戰應用不可變的領域模型" class="level2">
@@ -1240,6 +1239,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 直接指派成員實例，語法自然直觀</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>PaymentMethod method1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Cash</span><span class="op">(</span><span class="dv">500</span>m<span class="op">);</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>PaymentMethod method2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">CreditCard</span><span class="op">(</span><span class="st">"4111-2222-3333-4444"</span><span class="op">,</span> <span class="dv">1200</span>m<span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>原始碼:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoUnionTypes">DemoUnionTypes</a></p>
+</blockquote>
 <section id="何時使用繼承何時使用聯合型別" class="level4">
 <h4 class="anchored" data-anchor-id="何時使用繼承何時使用聯合型別">何時使用繼承？何時使用聯合型別？</h4>
 <p>在不可變架構設計中，選擇類別繼承階層還是聯合型別，取決於領域狀態的開放性：</p>
@@ -1265,9 +1267,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>提供 with 運算式友善的 API</li>
 <li>說明你的設計選擇理由</li>
 </ol>
-</blockquote>
-<blockquote class="blockquote">
-<p><strong>原始碼:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoUnionTypes">DemoUnionTypes</a></p>
 </blockquote>
 </section>
 </section>
@@ -1365,7 +1364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>同一套件中，另一個常見的選擇是 <code>ImmutableArray&lt;T&gt;</code>。它的內部實作只是包裝了一個簡單的陣列，因此在記憶體佔用和讀取效能上，<code>ImmutableArray&lt;T&gt;</code> 明顯優於採用樹狀結構的 <code>ImmutableList&lt;T&gt;</code>。</p>
 <ul>
 <li><strong>ImmutableArray</strong>：優異的讀取效能（O(1)，連續記憶體存取），但每次修改都需要複製整個陣列（O(N)）。適合「建立一次，讀取多次」的場景。</li>
-<li><strong>ImmutableList</strong>：採用樹狀結構並利用結構共享；像 <code>Add</code>/<code>Remove</code> 這類更新通常是 O(log N) 等級，但「讀取」的成本要看你指的是哪種操作（例如逐項列舉仍是 O(N)，而依索引存取則會有樹狀結構的額外成本）。適合需要頻繁修改集合內容、又希望維持不可變語意的場景。</li>
+<li><strong>ImmutableList</strong>：採用樹狀結構並利用結構共享。<code>Add</code> 與按索引刪除的 <code>RemoveAt</code> 為 O(log N)；按值刪除的 <code>Remove(value)</code> 則需要先搜尋元素，在單次相等比較為 O(1) 的前提下，最壞為 O(N)。依索引存取為 O(log N)，完整列舉為 O(N)。適合需要頻繁修改集合內容、又希望維持不可變語意的場景。</li>
 </ul>
 <p>所以，如果你的集合資料大多時候只是用來讀取，建議優先選擇 <code>ImmutableArray&lt;T&gt;</code>。</p>
 <blockquote class="blockquote">
@@ -1378,7 +1377,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>.NET 8 引入了 <code>System.Collections.Frozen</code> 命名空間，其中包含 <code>FrozenDictionary&lt;TKey, TValue&gt;</code> 和 <code>FrozenSet&lt;T&gt;</code>。這兩種型別與 <code>ImmutableDictionary</code>/<code>ImmutableHashSet</code> 的差異在於目標不同：</p>
 <ul>
 <li><code>ImmutableDictionary</code>：支援非破壞性修改（每次修改回傳新實例），底層採樹狀結構，新增元素較快，但查詢較慢。</li>
-<li><code>FrozenDictionary</code>：建立後完全凍結，<strong>不支援任何修改操作</strong>。查詢效能極佳（比一般 <code>Dictionary</code> 還快），但建構時需要較高的前期成本（初始化較慢）。適合「啟動時建立一次、之後大量讀取」的場景，例如組態查找表、關鍵字對應表等。</li>
+<li><code>FrozenDictionary</code>：建立後完全凍結，<strong>不支援任何修改操作</strong>。它針對大量查詢最佳化，但建構時需要較高的前期成本；相較於一般 <code>Dictionary</code> 的實際效益，應以資料與存取模式量測。適合「啟動時建立一次、之後大量讀取」的場景，例如組態查找表、關鍵字對應表等。</li>
 </ul>
 <p><code>FrozenSet&lt;T&gt;</code> 則是對應 <code>ImmutableHashSet&lt;T&gt;</code> 的高效唯讀版本，同樣針對查詢效能最佳化。</p>
 <p>範例：</p>
@@ -1390,7 +1389,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="st">"retries"</span><span class="op">]</span> <span class="op">=</span> <span class="st">"3"</span></span>
 <span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="op">}.</span><span class="fu">ToFrozenDictionary</span><span class="op">();</span></span>
 <span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co">// 查詢比一般 Dictionary 更快，且絕對不會被修改</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co">// 從建立後不再變更的查找表讀取設定值</span></span>
 <span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> value <span class="op">=</span> config<span class="op">[</span><span class="st">"timeout"</span><span class="op">];</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>總結來說，選擇哪種集合取決於你的使用模式：需要頻繁修改並保留歷史版本，用 <code>ImmutableList</code> 或 <code>ImmutableDictionary</code>；資料大多只讀、偶爾修改，用 <code>ImmutableArray</code>；建立後完全不再修改、追求極致查詢效能，用 <code>FrozenDictionary</code> 或 <code>FrozenSet</code>。</p>
 </section>
@@ -1552,61 +1551,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </main> <!-- /main -->
 <script>
+
 (() => {
+
   const path = window.location.pathname;
+
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
+
   if (!match) {
+
     return;
+
   }
+
+
 
   const current = match[1];
+
   const target = current === "zh-tw" ? "en" : "zh-tw";
+
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
+
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
+
+
   const link = document.createElement("a");
+
   link.className = "language-switch";
+
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

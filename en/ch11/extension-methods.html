@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a90b5042977bc76a464b14ca3180e4ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -403,9 +403,9 @@ window.Quarto = {
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> s2 <span class="op">=</span> s1<span class="op">.</span><span class="fu">Reverse</span><span class="op">().</span><span class="fu">Capitalize</span><span class="op">();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Advantages:</strong></p>
 <ul>
-<li>✓ <strong>Natural Reading Order</strong>: From left to right, matching how we naturally read.</li>
-<li>✓ <strong>Object-Oriented Style</strong>: Looks as though the <code>String</code> class originally provided these methods.</li>
-<li>✓ <strong>Fluent Interface (Fluent API)</strong>: Supports method chaining.</li>
+<li>✔ <strong>Natural Reading Order</strong>: From left to right, matching how we naturally read.</li>
+<li>✔ <strong>Object-Oriented Style</strong>: Looks as though the <code>String</code> class originally provided these methods.</li>
+<li>✔ <strong>Fluent Interface (Fluent API)</strong>: Supports method chaining.</li>
 </ul>
 <blockquote class="blockquote">
 <p><strong>Source Code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch11/DemoWhyExtension">DemoWhyExtension</a></p>
@@ -500,7 +500,7 @@ window.Quarto = {
 <p>Although extension methods are powerful, improper use can cause maintenance headaches and confuse colleagues or your future self. This section summarizes several practical guidelines.</p>
 <section id="do-not-pollute-core-namespaces" class="level3">
 <h3 class="anchored" data-anchor-id="do-not-pollute-core-namespaces">1. Do not pollute core namespaces</h3>
-<p><strong>✗ Not Recommended:</strong></p>
+<p><strong>✘ Not Recommended:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> System  <span class="co">// Polluted the System namespace!</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
@@ -508,7 +508,7 @@ window.Quarto = {
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">public</span> <span class="kw">static</span> <span class="dt">string</span> <span class="fu">Reverse</span><span class="op">(</span><span class="kw">this</span> <span class="dt">string</span> s<span class="op">)</span> <span class="op">{</span> <span class="op">...</span> <span class="op">}</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>✓ Recommended:</strong></p>
+<p><strong>✔ Recommended:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> MyCompany<span class="op">.</span><span class="fu">Extensions</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> StringExtensions</span>
@@ -533,7 +533,7 @@ window.Quarto = {
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> numbers<span class="op">.</span><span class="fu">Aggregate</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">(</span>acc<span class="op">,</span> n<span class="op">)</span> <span class="op">=&gt;</span> acc <span class="op">*</span> n<span class="op">);</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>✓ Prioritize extending interfaces:</strong></p>
+<p><strong>✔ Prioritize extending interfaces:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="dt">int</span> <span class="fu">Product</span><span class="op">(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> numbers<span class="op">)</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> numbers<span class="op">.</span><span class="fu">Aggregate</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">(</span>acc<span class="op">,</span> n<span class="op">)</span> <span class="op">=&gt;</span> acc <span class="op">*</span> n<span class="op">);</span></span>
@@ -549,7 +549,7 @@ window.Quarto = {
 <p>When the extension logic does not depend on a specific element type, generics let the same method apply more broadly. The following example lets any <code>IEnumerable&lt;T&gt;</code> report whether it is <code>null</code> or empty:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> EnumerableExtensions</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✓ Generic version, applicable to all IEnumerable&lt;T&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ✔ Generic version, applicable to all IEnumerable&lt;T&gt;</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">bool</span> IsNullOrEmpty<span class="op">&lt;</span>T<span class="op">&gt;(</span><span class="kw">this</span> IEnumerable<span class="op">&lt;</span>T<span class="op">&gt;?</span> source<span class="op">)</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> source <span class="op">==</span> <span class="kw">null</span> <span class="op">||</span> <span class="op">!</span>source<span class="op">.</span><span class="fu">Any</span><span class="op">();</span></span>
@@ -716,13 +716,13 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>IEnumerable<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> stream <span class="op">=</span> <span class="fu">GetEventStream</span><span class="op">();</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> thirdEvent <span class="op">=</span> stream<span class="op">[</span><span class="dv">2</span><span class="op">];</span> <span class="co">// Read the third event directly via indexer</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
-<p><strong>Pitfall guidance: watch computational complexity</strong></p>
-<p>Native arrays and <code>List&lt;T&gt;</code> indexers operate in <span class="math inline">\(O(1)\)</span> constant time. However, when defining extension indexers for forward-only sequences like <code>IEnumerable&lt;T&gt;</code>, the underlying <code>ElementAt</code> must traverse from the start, costing <span class="math inline">\(O(n)\)</span> time.</p>
-<p>Therefore, when designing extension indexers, clearly document the performance characteristics in XML doc comments or naming to prevent callers from inadvertently creating <span class="math inline">\(O(n^2)\)</span> bottlenecks by indexing <code>stream[i]</code> inside loops.</p>
-</blockquote>
-<blockquote class="blockquote">
 <p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch11/DemoExtensionIndexer">DemoExtensionIndexer</a></p>
 </blockquote>
+<section id="pitfall-guidance-watch-computational-complexity" class="level4">
+<h4 class="anchored" data-anchor-id="pitfall-guidance-watch-computational-complexity">Pitfall guidance: watch computational complexity</h4>
+<p>Native arrays and <code>List&lt;T&gt;</code> indexers operate in <span class="math inline">\(O(1)\)</span> constant time. However, when defining extension indexers for forward-only sequences like <code>IEnumerable&lt;T&gt;</code>, the underlying <code>ElementAt</code> must traverse from the start, costing <span class="math inline">\(O(n)\)</span> time.</p>
+<p>Therefore, when designing extension indexers, clearly document the performance characteristics in XML doc comments or naming to prevent callers from inadvertently creating <span class="math inline">\(O(n^2)\)</span> bottlenecks by indexing <code>stream[i]</code> inside loops.</p>
+</section>
 </section>
 <section id="extension-static-members" class="level3">
 <h3 class="anchored" data-anchor-id="extension-static-members">Extension static members</h3>
@@ -848,11 +848,10 @@ window.Quarto = {
 <span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"It's the weekend!"</span><span class="op">);</span></span>
 <span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"First day of the month: {today.FirstDayOfMonth:yyyy-MM-dd}"</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The method is intentionally named <code>ToSortableDateTimeString()</code> because the standard <code>"s"</code> format produces a sortable string such as <code>2026-03-25T08:30:00</code>. Its shape looks like a common ISO 8601 timestamp, but it <strong>does not preserve time zone information or the <code>DateTime.Kind</code> value</strong>. If you need a serialization format that round-trips more reliably, prefer the <code>"O"</code> format in most cases.</p>
 <blockquote class="blockquote">
 <p><strong>Source Code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch11/DemoExtensionMembers">DemoExtensionMembers</a></p>
 </blockquote>
-<p><br></p>
+<p>The method is intentionally named <code>ToSortableDateTimeString()</code> because the standard <code>"s"</code> format produces a sortable string such as <code>2026-03-25T08:30:00</code>. Its shape looks like a common ISO 8601 timestamp, but it <strong>does not preserve time zone information or the <code>DateTime.Kind</code> value</strong>. If you need a serialization format that round-trips more reliably, prefer the <code>"O"</code> format in most cases.</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
 <p>The <code>extension</code> syntax in C# 14 complements traditional extension methods rather than replacing them. The traditional <code>this</code> parameter syntax is still valid, and you can choose the approach that best fits your needs. It is recommended to use the new syntax when you need extension properties or operators.</p>
@@ -983,7 +982,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="application-of-local-functions-in-extension-methods">11.6 Application of local functions in extension methods</h2>
 <p>While local functions and extension methods are features serving different dimensions, in practical development, writing custom extension methods (especially LINQ-style sequence extensions) frequently leverages local functions to resolve architectural pain points.</p>
 <blockquote class="blockquote">
-<p>The basic syntax of local functions, their differences from lambdas, and their performance advantages (zero delegate and closure allocations) are detailed in Section 8.3 of Chapter 8: Delegates, Lambdas, and Events. Here, we focus on their classic design pattern in extension methods and iterators.</p>
+<p>The basic syntax of local functions, their differences from lambdas, and their allocation costs are detailed in Section 8.3 of Chapter 8: Delegates and lambda expressions. Here, we focus on their classic design pattern in extension methods and iterators.</p>
 </blockquote>
 <section id="core-application-iterator-parameter-validation-split" class="level3">
 <h3 class="anchored" data-anchor-id="core-application-iterator-parameter-validation-split">Core application: iterator parameter validation split</h3>
@@ -1143,7 +1142,7 @@ window.Quarto = {
 <span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="co">// Hello 2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This style is somewhat tricky, so it works best in clear and narrow scenarios. If used too broadly, it becomes difficult when reading code to predict which types can be used in <code>foreach</code> loops and what values each iteration will produce.</p>
 <blockquote class="blockquote">
-<p><strong>Example project:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch11/DemoForeachDuckTyping">DemoForeachDuckTyping</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch11/DemoForeachDuckTyping">DemoForeachDuckTyping</a></p>
 </blockquote>
 </section>
 <section id="smart-parameter-validation-callerargumentexpression" class="level3">
@@ -1173,7 +1172,7 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>age<span class="op">.</span><span class="fu">ThrowIfNegative</span><span class="op">(</span><span class="fu">nameof</span><span class="op">(</span>age<span class="op">))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Now the compiler automatically fills in <code>"age"</code> (the variable name or expression string from the call site). This is also the mechanism behind many standard .NET 6+ APIs such as <code>ArgumentNullException.ThrowIfNull</code>.</p>
 <blockquote class="blockquote">
-<p><strong>Example project:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch11/DemoCallerArgumentExpression">DemoCallerArgumentExpression</a></p>
+<p><strong>Source code:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/en/ch11/DemoCallerArgumentExpression">DemoCallerArgumentExpression</a></p>
 </blockquote>
 </section>
 <section id="ai-collaboration-refactor-to-extension-methods" class="level3">
@@ -1277,61 +1276,117 @@ window.Quarto = {
 
 </main> <!-- /main -->
 <script>
+
 (() => {
+
   const path = window.location.pathname;
+
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
+
   if (!match) {
+
     return;
+
   }
+
+
 
   const current = match[1];
+
   const target = current === "zh-tw" ? "en" : "zh-tw";
+
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
+
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
+
+
   const link = document.createElement("a");
+
   link.className = "language-switch";
+
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

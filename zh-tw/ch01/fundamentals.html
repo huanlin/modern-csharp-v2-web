@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a90b5042977bc76a464b14ca3180e4ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -370,9 +370,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>下面這段程式碼示範了 C# 如何阻止可能遺失資訊的隱含轉型：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 編譯器會阻止這種危險操作</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> pi <span class="op">=</span> <span class="fl">3.14159</span><span class="op">;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> rounded <span class="op">=</span> pi<span class="op">;</span>  <span class="co">// ✗ 編譯錯誤：無法隱含轉換</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> rounded <span class="op">=</span> pi<span class="op">;</span>  <span class="co">// ✘ 編譯錯誤：無法隱含轉換</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> rounded2 <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>pi<span class="op">;</span>  <span class="co">// ✓ 明確轉型，開發者知道會無條件捨去小數</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> rounded2 <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>pi<span class="op">;</span>  <span class="co">// ✔ 明確轉型，開發者知道會無條件捨去小數</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>在這個例子裡，編譯器不是禁止你轉型，而是要求你把「可能遺失資訊」這件事寫清楚。這種設計讓危險操作不會在程式碼裡悄悄發生。</p>
 <p>也就是說：<strong>讓編譯器幫你減少潛在 bugs</strong>。從型別安全、null 安全、pattern matching 到 record 的值相等性，每一項功能都在減少執行時期的意外。</p>
 </section>
@@ -707,7 +707,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="boxing裝箱">Boxing（裝箱）</h3>
 <p>所謂的 boxing（裝箱）就是把一個 <strong>value type</strong> 轉換為 <code>object</code>（reference type）的過程。</p>
 <p>就好像你買了一顆蘋果（value type），原本是直接以「蘋果本體」來使用；但如果現在要把它當成一件可統一管理的「物件」送進倉庫（heap），你就必須把它<strong>裝進一個箱子</strong>（boxing），並且貼上標籤。這個「找箱子」和「打包」的過程，就是額外的成本。</p>
-<p>Boxing 過程發生了什麼事：CLR 會在 heap 上配置一塊記憶體，把 value type 的值複製進去。這個步驟是必要的，因為 <code>object</code> 是參考型別，需要在 heap 上有一個位址；而 <code>int</code> 等值型別本身沒有 heap 位址，所以必須先把它包裝成一個 heap 上的物件。</p>
+<p>Boxing 過程發生了什麼事：CLR 會在 heap 上配置一塊記憶體，把 value type 的值複製進去。這個步驟是必要的，因為 <code>object</code> 是參考型別，需要在 heap 上有一個位址；而 <code>int</code> 等實值型別本身沒有 heap 位址，所以必須先把它包裝成一個 heap 上的物件。</p>
 <p>先看一個最簡單的裝箱範例：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="dv">123</span><span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> o <span class="op">=</span> i<span class="op">;</span> <span class="co">// Boxing：將 int 封裝進 heap 上的 object</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
@@ -733,7 +733,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>CPU 計算</strong>：複製資料與記憶體配置。</li>
 <li><strong>GC 壓力</strong>：Boxing 會產生額外的 heap 物件，增加垃圾回收的工作量。</li>
 </ol>
-<p>隱性 boxing 陷阱常見於舊式集合（如 <code>ArrayList</code>）或格式化字串。<code>ArrayList</code> 因為將所有元素存為 <code>object</code> 型別，所以加入值型別時都會自動觸發裝箱。以下是一個常見的例子：</p>
+<p>隱性 boxing 陷阱常見於舊式集合（如 <code>ArrayList</code>）或格式化字串。<code>ArrayList</code> 因為將所有元素存為 <code>object</code> 型別，所以加入實值型別時都會自動觸發裝箱。以下是一個常見的例子：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">// 陷阱：string.Format 接受 object 參數</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> s <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Format</span><span class="op">(</span><span class="st">"Score: {0}"</span><span class="op">,</span> x<span class="op">);</span> <span class="co">// x 被 boxing!</span></span>
@@ -823,14 +823,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>其中的這行程式碼會建立新的 <code>List</code>，避免與原物件共用同一個 <code>Members</code> 集合：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Members <span class="op">=</span> <span class="kw">new</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;(</span>original<span class="op">.</span><span class="fu">Members</span><span class="op">);</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
 <p>這裡由於元素是不可變的 <code>string</code>，只需複製元素參考即可。</p>
+<blockquote class="blockquote">
+<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoDeepCopy">DemoDeepCopy</a></p>
+</blockquote>
 <p>在這個範例中：</p>
 <ul>
 <li><code>Name</code> 屬性直接沿用原本的 <code>string</code> 參考，不會造成問題。因為 <code>string</code> 是<strong>不可變（immutable）</strong>的——任何修改操作（如 <code>Replace</code>、<code>ToUpper</code>）都會產生<strong>新的</strong>字串物件。相對地，<code>Members</code> 是 <code>List&lt;string&gt;</code>（可變集合），必須建立新實例才能避免共用。</li>
 <li>複製建構式特別適合需要明確控制複製邏輯的類別，好處是具備強型別，是 .NET 中實現客製複製的標準做法。</li>
 </ul>
-<blockquote class="blockquote">
-<p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch01/DemoDeepCopy">DemoDeepCopy</a></p>
-</blockquote>
 <blockquote class="blockquote">
 <p><strong>Note</strong></p>
 <p>有關「不可變」（immutable）的相關議題，詳見〈第 4 章：不可變設計〉。</p>
@@ -844,6 +844,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <blockquote class="blockquote">
 <p><strong>Ask AI</strong></p>
+<p>你可以用以下提示詞，進一步比較兩種深層複製方式的適用情境與限制：</p>
 <p>在 C# 中，如果一個類別內部包含巢狀的可變集合與物件，實作深層複製時「複製建構式」與「序列化（System.Text.Json）」各自適用的情境與限制是什麼？請舉例說明循環參考或私有成員在序列化時會遇到什麼問題。</p>
 </blockquote>
 </section>
@@ -988,61 +989,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </main> <!-- /main -->
 <script>
+
 (() => {
+
   const path = window.location.pathname;
+
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
+
   if (!match) {
+
     return;
+
   }
+
+
 
   const current = match[1];
+
   const target = current === "zh-tw" ? "en" : "zh-tw";
+
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
+
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
+
+
   const link = document.createElement("a");
+
   link.className = "language-switch";
+
   link.href = href;
+
   link.textContent = label;
+
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
+
+
   const githubLink = document.querySelector(
+
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
+
   );
+
   const generatedTools = githubLink?.parentElement;
 
+
+
   const tools = document.createElement("div");
+
   tools.className = "site-tools";
+
   tools.appendChild(link);
 
+
+
   if (githubLink) {
+
     githubLink.className = "github-repo-link";
+
     githubLink.target = "_blank";
+
     githubLink.rel = "noopener noreferrer";
+
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
+
     githubLink.setAttribute("aria-label", githubLink.title);
+
     tools.appendChild(githubLink);
+
     generatedTools?.remove();
+
   }
+
+
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
+
   if (sidebarHeader) {
+
     tools.classList.add("site-tools-sidebar");
+
     sidebarHeader.appendChild(tools);
+
     return;
+
   }
 
+
+
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
+
   const searchButton = header?.querySelector(".quarto-search-button");
+
   if (header && searchButton) {
+
     tools.classList.add("site-tools-header");
+
     header.insertBefore(tools, searchButton);
+
   } else {
+
     tools.classList.add("site-tools-fallback");
+
     document.body.appendChild(tools);
+
   }
+
 })();
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
