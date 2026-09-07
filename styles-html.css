@@ -34,7 +34,13 @@ body {
     margin-right: auto;
 }
 
-/* ========== 引言區塊垂直對齊（只影響 HTML）========== */
+/* ========== 引言區塊版面（只影響 HTML）========== */
+/* 讓邊框與內容一起避開浮動元素，例如首頁的書籍封面。 */
+blockquote,
+.blockquote {
+    display: flow-root;
+}
+
 /* Bootstrap 已清除最後一個子元素的下邊距；同步清除第一個子元素的上邊距。 */
 blockquote > :first-child,
 .blockquote > :first-child {
