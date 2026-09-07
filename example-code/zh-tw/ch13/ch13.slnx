@@ -5,4 +5,5 @@
   <Project Path="DemoMemory/DemoMemory.csproj" />
   <Project Path="DemoArrayPool/DemoArrayPool.csproj" />
   <Project Path="DemoStackAlloc/DemoStackAlloc.csproj" />
+  <Project Path="DemoMemorySafety/DemoMemorySafety.csproj" />
 </Solution>

@@ -9,4 +9,5 @@
   <Project Path="DemoTuplePattern/DemoTuplePattern.csproj" />
   <Project Path="DemoListPattern/DemoListPattern.csproj" />
   <Project Path="DemoAirlinePricing/DemoAirlinePricing.csproj" />
+  <Project Path="DemoExhaustiveTypes/DemoExhaustiveTypes.csproj" />
 </Solution>

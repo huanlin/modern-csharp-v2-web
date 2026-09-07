@@ -47,6 +47,17 @@ PrintSection("7. No type inference with var");
 // var inferred = [1, 2, 3];  // ✗ Won't compile: collection expressions do not have a fixed natural type
 Console.WriteLine("See the comment above: a collection expression cannot be used directly with var.");
 
+PrintSection("8. Collection expression arguments (C# 15)");
+string[] items = ["alpha", "beta", "gamma"];
+List<string> names = [with(capacity: items.Length * 2), .. items];
+HashSet<string> caseInsensitiveTags =
+    [with(StringComparer.OrdinalIgnoreCase), "C#", "c#", "dotnet"];
+
+Console.WriteLine("names = [" + string.Join(", ", names) + "]");
+Console.WriteLine("names.Capacity = " + names.Capacity);
+Console.WriteLine("caseInsensitiveTags = [" + string.Join(", ", caseInsensitiveTags) + "]");
+Console.WriteLine("caseInsensitiveTags.Count = " + caseInsensitiveTags.Count);
+
 static void PrintSection(string title)
 {
     Console.WriteLine();

@@ -10,4 +10,5 @@
   <Project Path="DemoOrderModel/DemoOrderModel.csproj" />
   <Project Path="DemoEquality/DemoEquality.csproj" />
   <Project Path="DemoImmutableCollections/DemoImmutableCollections.csproj" />
+  <Project Path="DemoUnionTypes/DemoUnionTypes.csproj" />
 </Solution>

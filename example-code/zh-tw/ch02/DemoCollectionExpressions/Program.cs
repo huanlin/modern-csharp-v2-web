@@ -47,6 +47,17 @@ PrintSection("7. 無法靠 var 推斷型別");
 // var inferred = [1, 2, 3];  // ✗ 編譯失敗：collection expression 沒有固定自然型別
 Console.WriteLine("請參考上方註解：collection expression 不能直接搭配 var。");
 
+PrintSection("8. 集合運算式引數（C# 15）");
+string[] items = ["alpha", "beta", "gamma"];
+List<string> names = [with(capacity: items.Length * 2), .. items];
+HashSet<string> caseInsensitiveTags =
+    [with(StringComparer.OrdinalIgnoreCase), "C#", "c#", "dotnet"];
+
+Console.WriteLine("names = [" + string.Join(", ", names) + "]");
+Console.WriteLine("names.Capacity = " + names.Capacity);
+Console.WriteLine("caseInsensitiveTags = [" + string.Join(", ", caseInsensitiveTags) + "]");
+Console.WriteLine("caseInsensitiveTags.Count = " + caseInsensitiveTags.Count);
+
 static void PrintSection(string title)
 {
     Console.WriteLine();

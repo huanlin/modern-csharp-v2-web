@@ -47,6 +47,17 @@ PrintSection("7. var による型推論はできない");
 // var inferred = [1, 2, 3];  // ✗ コンパイル エラー: コレクション式には固定の自然型がない
 Console.WriteLine("上のコメントを参照してください。コレクション式は var と直接組み合わせられません。");
 
+PrintSection("8. コレクション式の引数（C# 15）");
+string[] items = ["alpha", "beta", "gamma"];
+List<string> names = [with(capacity: items.Length * 2), .. items];
+HashSet<string> caseInsensitiveTags =
+    [with(StringComparer.OrdinalIgnoreCase), "C#", "c#", "dotnet"];
+
+Console.WriteLine("names = [" + string.Join(", ", names) + "]");
+Console.WriteLine("names.Capacity = " + names.Capacity);
+Console.WriteLine("caseInsensitiveTags = [" + string.Join(", ", caseInsensitiveTags) + "]");
+Console.WriteLine("caseInsensitiveTags.Count = " + caseInsensitiveTags.Count);
+
 static void PrintSection(string title)
 {
     Console.WriteLine();

@@ -10,4 +10,5 @@
   <Project Path="DemoCallerArgumentExpression/DemoCallerArgumentExpression.csproj" />
   <Project Path="DemoExtensionBlock/DemoExtensionBlock.csproj" />
   <Project Path="DemoExtensionStatic/DemoExtensionStatic.csproj" />
+  <Project Path="DemoExtensionIndexer/DemoExtensionIndexer.csproj" />
 </Solution>

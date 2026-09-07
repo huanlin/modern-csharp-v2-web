@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW" xml:lang="zh-TW"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -79,10 +76,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-aacfcb05ce84cd84b371cb3846182f6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a2bc442e6c5d4a2cbb61d730af68223a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -112,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -346,7 +343,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-06</p>
+      <p class="date-modified">2026-09-07</p>
     </div>
   </div>
     
@@ -708,6 +705,9 @@ window.Quarto = {
 <p><strong>避坑指南：注意索引子的運算複雜度</strong></p>
 <p>原生陣列或 <code>List&lt;T&gt;</code> 的索引子通常具備 <span class="math inline">\(O(1)\)</span> 的常數存取時間。然而，當你為 <code>IEnumerable&lt;T&gt;</code> 等僅支援循序巡訪的序列定義擴充索引子時，底層的 <code>ElementAt</code> 必須從頭走訪，其運算複雜度為 <span class="math inline">\(O(n)\)</span>。</p>
 <p>因此，在設計擴充索引子時，務必在 XML 文件或命名約定中清楚揭示效能特性，避免呼叫端在密集迴圈中不經意頻繁使用 <code>stream[i]</code> 而引發 <span class="math inline">\(O(n^2)\)</span> 的效能災難。</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>原始碼:</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch11/DemoExtensionIndexer">DemoExtensionIndexer</a></p>
 </blockquote>
 </section>
 <section id="擴充靜態成員" class="level3">
@@ -1277,117 +1277,61 @@ window.Quarto = {
 
 </main> <!-- /main -->
 <script>
-
 (() => {
-
   const path = window.location.pathname;
-
   const match = path.match(/\/(zh-tw|en)(\/|$)/);
-
   if (!match) {
-
     return;
-
   }
-
-
 
   const current = match[1];
-
   const target = current === "zh-tw" ? "en" : "zh-tw";
-
   const label = current === "zh-tw" ? "🌐 English" : "🌐 繁體中文";
-
   const href = path.replace(`/${current}`, `/${target}`) + window.location.search + window.location.hash;
 
-
-
   const link = document.createElement("a");
-
   link.className = "language-switch";
-
   link.href = href;
-
   link.textContent = label;
-
   link.setAttribute("aria-label", current === "zh-tw" ? "Switch to English" : "切換至繁體中文");
 
-
-
   const githubLink = document.querySelector(
-
     "#quarto-sidebar .sidebar-tools-main a.quarto-navigation-tool[href*='github.com']"
-
   );
-
   const generatedTools = githubLink?.parentElement;
 
-
-
   const tools = document.createElement("div");
-
   tools.className = "site-tools";
-
   tools.appendChild(link);
 
-
-
   if (githubLink) {
-
     githubLink.className = "github-repo-link";
-
     githubLink.target = "_blank";
-
     githubLink.rel = "noopener noreferrer";
-
     githubLink.title = current === "zh-tw" ? "查看 GitHub repository" : "View the GitHub repository";
-
     githubLink.setAttribute("aria-label", githubLink.title);
-
     tools.appendChild(githubLink);
-
     generatedTools?.remove();
-
   }
-
-
 
   const sidebarHeader = document.querySelector("#quarto-sidebar .sidebar-header");
-
   if (sidebarHeader) {
-
     tools.classList.add("site-tools-sidebar");
-
     sidebarHeader.appendChild(tools);
-
     return;
-
   }
-
-
 
   const header = document.querySelector(".quarto-secondary-nav .container-fluid");
-
   const searchButton = header?.querySelector(".quarto-search-button");
-
   if (header && searchButton) {
-
     tools.classList.add("site-tools-header");
-
     header.insertBefore(tools, searchButton);
-
   } else {
-
     tools.classList.add("site-tools-fallback");
-
     document.body.appendChild(tools);
-
   }
-
 })();
-
 </script>
-
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
