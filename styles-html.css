@@ -34,6 +34,13 @@ body {
     margin-right: auto;
 }
 
+/* ========== 引言區塊垂直對齊（只影響 HTML）========== */
+/* Bootstrap 已清除最後一個子元素的下邊距；同步清除第一個子元素的上邊距。 */
+blockquote > :first-child,
+.blockquote > :first-child {
+    margin-top: 0;
+}
+
 /* ========== Sidebar 導覽項目間距與對齊（只影響 HTML）========== */
 .sidebar-navigation .sidebar-item a {
     padding-top: 0.2em;
@@ -124,8 +131,13 @@ main.content > section:first-of-type > h2:nth-child(1) {
     margin-top: 2em;
 }
 
-/* ========== 首頁書籍封面圖邊框 ========== */
+/* ========== 首頁書籍封面圖 ========== */
 .quarto-cover-image {
+    display: block;
+    width: calc(100% - 2rem);
+    max-width: calc(100% - 2rem);
+    margin-left: auto;
+    margin-right: auto;
     border: 1px solid #dee2e6;
     border-radius: 2px;
 }
