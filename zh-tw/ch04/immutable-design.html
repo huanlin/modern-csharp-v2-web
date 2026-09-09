@@ -287,7 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#實戰應用不可變的領域模型" id="toc-實戰應用不可變的領域模型" class="nav-link" data-scroll-target="#實戰應用不可變的領域模型">4.7 實戰應用：不可變的領域模型</a>
   <ul class="collapse">
-  <li><a href="#封閉狀態建模聯合型別union-typesc-15" id="toc-封閉狀態建模聯合型別union-typesc-15" class="nav-link" data-scroll-target="#封閉狀態建模聯合型別union-typesc-15">封閉狀態建模：聯合型別（Union Types，C# 15）</a></li>
+  <li><a href="#封閉狀態建模union-typesc-15" id="toc-封閉狀態建模union-typesc-15" class="nav-link" data-scroll-target="#封閉狀態建模union-typesc-15">封閉狀態建模：Union Types（C# 15）</a></li>
   <li><a href="#ai-協作重構為不可變設計" id="toc-ai-協作重構為不可變設計" class="nav-link" data-scroll-target="#ai-協作重構為不可變設計">AI 協作：重構為不可變設計</a></li>
   </ul></li>
   <li><a href="#手動實作值相等的代價" id="toc-手動實作值相等的代價" class="nav-link" data-scroll-target="#手動實作值相等的代價">4.8 手動實作值相等的代價</a></li>
@@ -321,7 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">修改於</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-07</p>
+      <p class="date-modified">2026-09-08</p>
     </div>
   </div>
     
@@ -1212,8 +1212,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><strong>原始碼：</strong> <a href="https://github.com/huanlin/modern-csharp-v2-web/tree/main/example-code/zh-tw/ch04/DemoOrderModel">DemoOrderModel</a></p>
 </blockquote>
-<section id="封閉狀態建模聯合型別union-typesc-15" class="level3">
-<h3 class="anchored" data-anchor-id="封閉狀態建模聯合型別union-typesc-15">封閉狀態建模：聯合型別（Union Types，C# 15）</h3>
+<section id="封閉狀態建模union-typesc-15" class="level3">
+<h3 class="anchored" data-anchor-id="封閉狀態建模union-typesc-15">封閉狀態建模：Union Types（C# 15）</h3>
 <p>前面介紹的 <code>Order</code> 與 <code>OrderItem</code> 都是由多個屬性同時組合而成的資料模型，在型別理論中稱為<strong>積型別（product types）</strong>——它的狀態空間是「屬性 A 的可能值 × 屬性 B 的可能值」。</p>
 <p>但在實務領域建模中，我們常遇到另一種完全對立的需求：<strong>封閉的互斥狀態</strong>。這在型別理論中被稱為<strong>和型別（sum types）</strong>或<strong>判別聯合（discriminated unions）</strong>——它的狀態空間是「狀態 A 的可能值 ＋ 狀態 B 的可能值」，且任一時刻<strong>只能是其中一種</strong>。</p>
 <p>舉例來說，訂單的付款方式只可能是「現金」、「信用卡」或「銀行轉帳」，且每種方式攜帶的資訊完全不同：</p>
