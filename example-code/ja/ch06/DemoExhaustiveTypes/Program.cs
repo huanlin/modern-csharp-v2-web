@@ -1,35 +1,52 @@
-Console.WriteLine("=== C# 15 の網羅的な型パターン ===");
+OrderState[] states =
+[
+    new Pending(),
+    new Paid(new DateTime(2026, 9, 1)),
+    new Shipped("JP123456789"),
+    new Cancelled("支払い期限切れ")
+];
 
-GateState[] states = [new Closed(), new Open(35)];
-foreach (GateState state in states)
+foreach (OrderState state in states)
 {
-    Console.WriteLine(DescribeState(state));
+    Console.WriteLine(GetStatusText(state));
 }
 
-Pet[] pets = [new Cat("ミロ"), new Dog("ポチ"), new Bird("キウイ")];
-foreach (Pet pet in pets)
+PaymentMethod[] paymentMethods =
+[
+    new Cash(),
+    new CreditCard(),
+    new BankTransfer()
+];
+
+foreach (PaymentMethod payment in paymentMethods)
 {
-    Console.WriteLine(DescribePet(pet));
+    Console.WriteLine($"手数料: {CalculateFee(payment)}");
 }
 
-static string DescribeState(GateState state) => state switch
+static string GetStatusText(OrderState state) => state switch
 {
-    Closed => "ゲート: 閉じています",
-    Open(var percent) => "ゲート: " + percent + "% 開いています"
+    Pending => "支払い待ち",
+    Paid paid => $"{paid.PaidAt:yyyy-MM-dd} に支払い済み",
+    Shipped shipped => $"発送済み、追跡番号: {shipped.TrackingNumber}",
+    Cancelled cancelled => $"注文をキャンセルしました（理由: {cancelled.Reason}）"
 };
 
-static string DescribePet(Pet pet) => pet switch
+static decimal CalculateFee(PaymentMethod payment) => payment switch
 {
-    Cat cat => "猫: " + cat.Name,
-    Dog dog => "犬: " + dog.Name,
-    Bird bird => "鳥: " + bird.Name
+    Cash => 0m,
+    CreditCard => 15m,
+    BankTransfer => 10m
 };
 
-public closed record class GateState;
-public record class Closed : GateState;
-public record class Open(float Percent) : GateState;
+public closed record class OrderState;
 
-public record class Cat(string Name);
-public record class Dog(string Name);
-public record class Bird(string Name);
-public union Pet(Cat, Dog, Bird);
+public sealed record class Pending : OrderState;
+public sealed record class Paid(DateTime PaidAt) : OrderState;
+public sealed record class Shipped(string TrackingNumber) : OrderState;
+public sealed record class Cancelled(string Reason) : OrderState;
+
+public record class Cash;
+public record class CreditCard;
+public record class BankTransfer;
+
+public union PaymentMethod(Cash, CreditCard, BankTransfer);

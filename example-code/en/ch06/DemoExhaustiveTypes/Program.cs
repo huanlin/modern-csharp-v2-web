@@ -1,35 +1,52 @@
-Console.WriteLine("=== C# 15 exhaustive type patterns ===");
+OrderState[] states =
+[
+    new Pending(),
+    new Paid(new DateTime(2026, 9, 1)),
+    new Shipped("US123456789"),
+    new Cancelled("Payment overdue")
+];
 
-GateState[] states = [new Closed(), new Open(35)];
-foreach (GateState state in states)
+foreach (OrderState state in states)
 {
-    Console.WriteLine(DescribeState(state));
+    Console.WriteLine(GetStatusText(state));
 }
 
-Pet[] pets = [new Cat("Milo"), new Dog("Rex"), new Bird("Kiwi")];
-foreach (Pet pet in pets)
+PaymentMethod[] paymentMethods =
+[
+    new Cash(),
+    new CreditCard(),
+    new BankTransfer()
+];
+
+foreach (PaymentMethod payment in paymentMethods)
 {
-    Console.WriteLine(DescribePet(pet));
+    Console.WriteLine($"Fee: {CalculateFee(payment)}");
 }
 
-static string DescribeState(GateState state) => state switch
+static string GetStatusText(OrderState state) => state switch
 {
-    Closed => "Gate: closed",
-    Open(var percent) => "Gate: " + percent + "% open"
+    Pending => "Pending payment",
+    Paid paid => $"Paid on {paid.PaidAt:yyyy-MM-dd}",
+    Shipped shipped => $"Shipped, tracking number: {shipped.TrackingNumber}",
+    Cancelled cancelled => $"Order cancelled (reason: {cancelled.Reason})"
 };
 
-static string DescribePet(Pet pet) => pet switch
+static decimal CalculateFee(PaymentMethod payment) => payment switch
 {
-    Cat cat => "Cat: " + cat.Name,
-    Dog dog => "Dog: " + dog.Name,
-    Bird bird => "Bird: " + bird.Name
+    Cash => 0m,
+    CreditCard => 15m,
+    BankTransfer => 10m
 };
 
-public closed record class GateState;
-public record class Closed : GateState;
-public record class Open(float Percent) : GateState;
+public closed record class OrderState;
 
-public record class Cat(string Name);
-public record class Dog(string Name);
-public record class Bird(string Name);
-public union Pet(Cat, Dog, Bird);
+public sealed record class Pending : OrderState;
+public sealed record class Paid(DateTime PaidAt) : OrderState;
+public sealed record class Shipped(string TrackingNumber) : OrderState;
+public sealed record class Cancelled(string Reason) : OrderState;
+
+public record class Cash;
+public record class CreditCard;
+public record class BankTransfer;
+
+public union PaymentMethod(Cash, CreditCard, BankTransfer);
