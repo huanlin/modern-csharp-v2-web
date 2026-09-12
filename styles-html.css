@@ -169,3 +169,42 @@ main.content > section:first-of-type > h2:nth-child(1) {
     border: 1px solid #dee2e6;
     border-radius: 2px;
 }
+
+/* ========== 書籍標題 metadata（只影響 HTML）========== */
+#title-block-header .quarto-title-meta > div {
+    display: flex;
+    align-items: baseline;
+}
+
+#title-block-header .quarto-title-meta-heading {
+    flex-shrink: 0;
+    margin: 0;
+    font-size: 0.9em;
+    text-transform: none;
+}
+
+#title-block-header .quarto-title-meta-heading::after {
+    content: ":";
+    margin-right: 0.35em;
+}
+
+#title-block-header:lang(zh) .quarto-title-meta-heading::after {
+    content: "：";
+    margin-right: 0;
+}
+
+#title-block-header .quarto-title-meta-contents {
+    font-size: 0.9em;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+#title-block-header .quarto-title-meta-contents p {
+    margin: 0;
+}
+
+/* ========== 首頁全書目錄（只影響 HTML）========== */
+.home-book-toc ul {
+    list-style: none;
+    padding-left: 0;
+}
