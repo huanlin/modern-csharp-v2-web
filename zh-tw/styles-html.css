@@ -6,6 +6,11 @@
     border-radius: 2px;
 }
 
+#title-block-header .quarto-title-meta > div {
+  display: flex;
+  align-items: baseline;
+}
+
 #title-block-header .quarto-title-meta-heading {
   flex-shrink: 0;
   margin: 0;
