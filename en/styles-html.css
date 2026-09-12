@@ -5,3 +5,35 @@
     border: 1px solid #dee2e6;
     border-radius: 2px;
 }
+
+#title-block-header .quarto-title-meta-heading {
+  flex-shrink: 0;
+  margin: 0;
+  font-size: inherit;
+  text-transform: none;
+}
+
+#title-block-header .quarto-title-meta-heading::after {
+  content: ":";
+  margin-right: .35em;
+}
+
+#title-block-header:lang(zh) .quarto-title-meta-heading::after {
+  content: "：";
+  margin-right: 0;
+}
+
+#title-block-header .quarto-title-meta-contents {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#title-block-header .quarto-title-meta-contents p {
+  margin: 0;
+}
+
+/* Home-page book contents: keep list layout without bullet markers. */
+.home-book-toc ul {
+  list-style: none;
+  padding-left: 0;
+}
